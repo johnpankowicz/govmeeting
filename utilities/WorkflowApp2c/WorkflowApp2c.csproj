@@ -22,7 +22,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Utilities\TestLibrary\TestLibrary.csproj" />
+    <ProjectReference Include="..\TestLibrary\TestLibrary.csproj" />
   </ItemGroup>
 
 
