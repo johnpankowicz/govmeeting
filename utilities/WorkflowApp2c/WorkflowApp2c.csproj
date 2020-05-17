@@ -21,9 +21,4 @@
   </ItemGroup>
 
 
-  <ItemGroup>
-    <ProjectReference Include="..\TestLibrary\TestLibrary.csproj" />
-  </ItemGroup>
-
-
 </Project>
