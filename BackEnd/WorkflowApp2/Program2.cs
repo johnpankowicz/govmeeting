@@ -1,6 +1,7 @@
 ﻿using System;
-//using GM.Utilities;
-using TestLibrary;
+using GM.Utilities;
+//using TestLibrary;
+using Google.Cloud.Storage.V1;
 
 namespace WorkflowApp2
 {
@@ -14,7 +15,7 @@ namespace WorkflowApp2
             string credentialsFilePath = @"C:\GOVMEETING\SECRETS\TranscribeAudio.json";
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", credentialsFilePath);
 
-            //StorageClient storageClient = StorageClient.Create();
+            StorageClient storageClient = StorageClient.Create();
         }
     }
 }
