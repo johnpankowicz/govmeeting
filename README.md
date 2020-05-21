@@ -86,6 +86,10 @@ _______
 * Install <a href="https://nodejs.org/en/download/"> Node.js. </a>
 * Install <a href="https://dotnet.microsoft.com/download"> .Net Core SDK. </a>
 * Clone or download the project from <a href="https://github.com/govmeeting/govmeeting"> Github. </a> Preferably fork the project and clone your fork. 
+* Check installation:
+  * cd FrontEnd/ClientApp
+  * npm install; npm start
+  * [ Open a browser to "localhost:4200" ]
 
 _____
 
@@ -133,7 +137,7 @@ By default, ClientApp will call stub services instead of calling the WebApp API.
   * npm start
 * In the debug panel, set launch configuration "WebApp & ClientApp"
 * Press F5 (debug) or Ctrl-F5 (run without debugging)
-  * Chrome browser will open and after a delay, ClientApp will appear on localhost:5000.
+  * Chrome browser will open. Ignore temporary message "Site can't be reached" and wait for ClientApp to display.
 
 ### Notes
 
