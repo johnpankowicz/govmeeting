@@ -10,3 +10,5 @@ function Main
 }
 
 Main @args
+
+# dotnet publish --configuration release C:\GOVMEETING\_SOURCECODE\BackEnd\WebApp\WebApp.csproj

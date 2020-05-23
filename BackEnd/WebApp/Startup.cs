@@ -68,8 +68,6 @@ namespace GM.WebApp
             logger.Info("Add ApplicationDbContext");
 
             services.AddTransient<dBOperations>();
-            // We will be able to access ApplicationDbContext in a controller with:
-            //    public MyController(ApplicationDbContext context) { ... }
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
@@ -80,7 +78,6 @@ namespace GM.WebApp
 
             logger.Info("Add Add Authentication");
 
-            //ConfigureAuthenticationServices(services);
             ConfigureAuthenticationServices(services, logger);
 
             logger.Info("Add MVC");
@@ -126,6 +123,8 @@ namespace GM.WebApp
             IOptions<AppSettings> config
             )
         {
+            logger.Info("2 + 2 is " + dbInitializer.GetFour());
+
             logger.Info("Environment is " + env.EnvironmentName);
             logger.Info("WebRootPath is " + env.WebRootPath);
 
@@ -148,6 +147,21 @@ namespace GM.WebApp
 
             // Add a PhysicalFileProvider for the DATAFILES folder. Until we have a way to serve video files to 
             // videogular via the API, we need to allow these to be accessed as static files.
+            if (config == null)
+            {
+                logger.Info("config is null");
+            } else
+            {
+                logger.Info("config is not null");
+            }
+            if (config.Value == null)
+            {
+                logger.Info("config.Value is null");
+            } else
+            {
+                string configstring = config.ToString();
+                logger.Info("Value is " + configstring);
+            }
             string datafilesPath = config.Value.DatafilesPath;
             if (!Directory.Exists(datafilesPath))
             {
@@ -222,7 +236,8 @@ namespace GM.WebApp
 
         private void AddApplicationServices(IServiceCollection services, NLog.Logger logger, bool UseDatabaseStubs)
         {
-            // database repositories
+            logger.Info("Add database repositories");
+
             if (UseDatabaseStubs)
             {
                 services.AddSingleton<IGovBodyRepository, GovBodyRepository_Stub>();
@@ -234,19 +249,27 @@ namespace GM.WebApp
                 services.AddSingleton<IMeetingRepository, MeetingRepository>();
             }
 
-            // file data repositories
+            logger.Info("Add file data repositories");
+
             services.AddSingleton<IViewMeetingRepository, ViewMeetingRepository>();
             services.AddSingleton<IAddtagsRepository, AddtagsRepository>();
             services.AddSingleton<IFixasrRepository, FixasrRepository>();
 
-            logger.Info("Add Application services");
+            logger.Info("Add email and sms");
 
-            // application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
-            services.AddTransient<IDbInitializer, DbInitializer>();
+            logger.Info("Add DbInitializer");
+
+            //services.AddTransient<IDbInitializer, DbInitializer>();
+            services.AddTransient<IDbInitializer, DbInitializer_Stub>();
+
+            logger.Info("Add MeetingFolder");
+
             services.AddTransient<MeetingFolder>();
+
+            logger.Info("Add ValidateReCaptchaAttribute");
 
             services.AddScoped<ValidateReCaptchaAttribute>();
         }
