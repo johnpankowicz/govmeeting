@@ -8,27 +8,39 @@
 # https://stackoverflow.com/questions/61858404/could-not-load-file-or-assembly-errors-each-time-i-need-to-remove-re-add-th
 # The problem came and went by just removing the project from VS and re-adding it.
 # Another weird problem emerged of a library working in one app but not another.
-# It is difficult to get responses to problems about Visual Studio on stackoverflow.
-# But questions about Visual Studio Code appear to get a better response. 
+# Problems like these are easier to solve when using the command line to build projects.
 
-# =====================================================================
-# The following was useful in solving a package conflict in WorkflowApp
-# We create a new WorkflowApp called WorkflowApp2 and we:
-#   install the same references as the original
-#   install the same packages as the orginal except for GoogleCloud_Lib.
-#   copy the source files from the original
-# We create a new GoogleCLoud_Lib called GoogleCLoud2_Lib and we:
-#   install a subset of the original packages.
-# We add GoogleCLoud2_Lib as a reference to WorkflowApp2.
 
-# We analyse the solution file "govmeeting.sln" and write two summaries:
-#   summary of all projects with their references and packages.
-#   summary of unique packages. 
-
-function Main {
+function Main
+{
 
     Set-Location C:/GOVMEETING/_SOURCECODE
     Get-Location | Write-Host
+
+    ### Choose what to run by un-commenting one of these lines. ###
+    #CreateWorkflowApp2
+    #CreateSolutionSummaries
+
+    ### Some miscellaneous commands ###
+    # AddPackage $googleCloudLibProject "Google.Cloud.Translation.V2" "2.0.0"
+    # BuildProject $googleCloudLibProject
+    # dotnet remove "BackEnd\Online\GoogleCloud_Lib2\GoogleCloud_Lib2.csproj"  package "Google.Cloud.Translation.V2"
+    # dotnet remove Backend\WorkflowApp3\WorkflowApp3.csproj package "Google.Cloud.Storage.V1"
+    # AddReference $workflowAppProject "BackEnd\ProcessMeetings\ProcessRecording_Lib\ProcessRecording_Lib.csproj"
+    # AddPackage $workflowAppProject "Google.Cloud.Storage.V1" "2.1.0"
+    # BuildProject $workflowAppProject
+}
+
+function CreateWorkflowApp2
+{
+    # The following was useful in solving a package conflict in WorkflowApp
+    # We create a new WorkflowApp called WorkflowApp2 and we:
+    #   install the same references as the original
+    #   install the same packages as the orginal except for GoogleCloud_Lib.
+    #   copy the source files from the original
+    # We create a new GoogleCLoud_Lib called GoogleCLoud2_Lib and we:
+    #   install a subset of the original packages.
+    # We add GoogleCLoud2_Lib as a reference to WorkflowApp2.
 
     $workflowAppProject = "BackEnd\WorkflowApp3\WorkflowApp3.csproj"
     $oldProjectFolder = "BackEnd/WorkflowApp2"
@@ -40,20 +52,19 @@ function Main {
     CreateWorkflowAppProject $workflowAppProject $oldProjectFolder
     CreateGoogleCloudLibProject $googleCloudLibProject
     AddReference $workflowAppProject $googleCloudLibProject
+}
+
+function CreateSolutionSummaries
+{
+    # In the following, we analyse the solution file "govmeeting.sln" and write two summaries:
+    #   summary of all projects with their references and packages.
+    #   summary of unique packages. 
 
     Write-SolutionSummary $solutionSummary
     AnalyseSolutionSummary $solutionSummary $uniquePackages
-
-    # Some temporary commands
-    # AddPackage $googleCloudLibProject "Google.Cloud.Translation.V2" "2.0.0"
-    # BuildProject $googleCloudLibProject
-    # dotnet remove "BackEnd\Online\GoogleCloud_Lib2\GoogleCloud_Lib2.csproj"  package "Google.Cloud.Translation.V2"
-    # dotnet remove Backend\WorkflowApp3\WorkflowApp3.csproj package "Google.Cloud.Storage.V1"
-    # AddReference $workflowAppProject "BackEnd\ProcessMeetings\ProcessRecording_Lib\ProcessRecording_Lib.csproj"
-    # AddPackage $workflowAppProject "Google.Cloud.Storage.V1" "2.1.0"
-    # BuildProject $workflowAppProject
-
 }
+
+
 
 function CreateGoogleCloudLibProject($projectFile)
 {
@@ -90,7 +101,7 @@ function BuildProject($projectFile) {
 function ConvertToNet20($projectFile)
 {
     $content = get-content $projectFile
-    $content = $content -replace 'netcoreapp3.1','netcoreapp2.0'
+    $content = $content -replace 'netcoreapp3.1','netcoreapp2.2'
     $content | set-content $projectFile
 }
 
