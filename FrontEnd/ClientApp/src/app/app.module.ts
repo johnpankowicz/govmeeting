@@ -76,8 +76,10 @@ import { OfficialsComponent } from './officials/officials.component';
 import { loadConfiguration } from './configuration/loadConfiguration';
 import { WorkareaComponent } from './workarea/workarea.component';
 
+import { NgrxChatModule } from './ngrx-chat/ngrx-chat.module';
+
 let isAspServerRunning = false;
-let isBeta = false;
+let isBeta = true;
 
 @NgModule({
   imports: [
@@ -109,8 +111,9 @@ let isBeta = false;
     TestingModule,
     SidenavMenuModule,
     VirtualMeetingModule,
-    HeaderModule
+    HeaderModule,
     // AmchartsModule,
+    NgrxChatModule
   ],
   declarations: [
     AppComponent,
@@ -130,7 +133,7 @@ let isBeta = false;
     WorkitemsComponent,
     IssuesComponent,
     OfficialsComponent,
-    WorkareaComponent
+    WorkareaComponent,
     // CalendarComponent,
 
   ],
@@ -183,7 +186,7 @@ let isBeta = false;
     MessagingService,
     DataFactoryService,
     DataFakeService,
-    UserSettingsService
+    UserSettingsService,
   ],
   bootstrap: [AppComponent]
 })

@@ -88,6 +88,13 @@
       <gm-workarea></gm-workarea>
     </gm-large-card>
 
+    <gm-large-card  *ngIf="isBeta"
+      icon="fas fa-comments"
+      iconcolor="icon-color-green"
+      title={{chatTitle}}>
+      <gm-ngrx-chat></gm-ngrx-chat>
+    </gm-large-card>
+
     <!-- <gm-large-card  *ngIf="!isCounty"
       icon="fas fa-edit"
       iconcolor="icon-color-green"
