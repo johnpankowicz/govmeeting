@@ -35,8 +35,10 @@ export class SidenavMenuComponent implements OnInit {
     private navService: NavService,
     public router: Router,
     private userSettingsService: UserSettingsService,
-    private appData: AppData // private dialog: MatDialog // This is for an experiment, opening a dialog box.
-  ) {
+    private appData: AppData
+  ) // This is for an experiment, opening a dialog box.
+  // private dialog: MatDialog
+  {
     this.navigationItems = appData.isBeta ? NavigationItemsBeta : NavigationItems;
     this.menuTreeArray = new MenuTreeArray();
     this.menuTreeArray.assignPositions(this.navigationItems);
