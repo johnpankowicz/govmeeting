@@ -8,8 +8,9 @@ namespace GM.DatabaseModel
 {
     public enum WorkStatus {
         Receiving, Received,
-        Processing, Processed,
+        //Processing, Processed,
         Transcribing, Transcribed,
+        Editing, Edited,
         Proofreading, Proofread,
         Tagging, Tagged,
         Viewing, Viewed,

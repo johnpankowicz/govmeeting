@@ -62,12 +62,12 @@ namespace GM.DatabaseRepositories
             return m.Id;
         }
 
-        // The LongName is the SourcFilename without the extension, prefaced with the meetingId;
+        // The LongName is the SourceFilename without the extension + "_" +  meetingId;
         public string GetLongName(long meetingId)
         {
             Meeting m = Get(meetingId);
             int i = m.SourceFilename.IndexOf(".") - 1;
-            return m.Id.ToString() + "_" + m.SourceFilename.Substring(0, i);
+            return m.SourceFilename.Substring(0, i) + "_" + m.Id.ToString();
         }
 
         // These are sample meetings for testing. When WebApp is started, test data for these meetings is

@@ -37,7 +37,6 @@ namespace GM.ProcessRecording
         {
             /////// Copy video to meeting folder  /////////
 
-            FileInfo infile = new FileInfo(videoFile);
             string videofileCopy = meetingFolder + "\\" + "01-Video.mp4";
 
             if (!config.IsDevelopment)
@@ -81,7 +80,7 @@ namespace GM.ProcessRecording
             string outputJsonFile = meetingFolder + "\\" + "03-Transcribed.json";
             File.WriteAllText(outputJsonFile, stringValue);
 
-            /////// Reformat the JSON transcript to match what the fixasr routine will use.
+            ///// Reformat the JSON transcript to match what the fixasr routine will use.
 
             ModifyTranscriptJson_1 convert = new ModifyTranscriptJson_1();
             outputJsonFile = meetingFolder + "\\" + "04-ToFix.json";
@@ -89,11 +88,11 @@ namespace GM.ProcessRecording
             stringValue = JsonConvert.SerializeObject(fixasr, Formatting.Indented);
             File.WriteAllText(outputJsonFile, stringValue);
 
-            /////// Split the video, audio and transcript into multiple work segments
+            ///// Split the video, audio and transcript into multiple work segments
 
-            //SplitIntoWorkSegments split = new SplitIntoWorkSegments();
-            //split.Split(meetingFolder, videofileCopy, outputJsonFile, config.FixasrSegmentSize,
-            //    config.FixasrSegmentOverlap);
+            SplitIntoWorkSegments split = new SplitIntoWorkSegments();
+            split.Split(meetingFolder, videofileCopy, outputJsonFile, config.FixasrSegmentSize,
+                config.FixasrSegmentOverlap);
         }
 
 

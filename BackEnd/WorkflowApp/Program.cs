@@ -143,7 +143,7 @@ namespace GM.Workflow
             services.AddSingleton<IGovLocationRepository, GovLocationRepository_Stub>();
 
             services.AddTransient<WF_RetrieveOnlineFiles>();
-            services.AddTransient<WF_ProcessReceivedFiles>();
+            //services.AddTransient<WF_ProcessReceivedFiles>();
             services.AddTransient<WF_ProcessRecordings>();
             services.AddTransient<WF_ProcessTranscripts>();
             services.AddTransient<WF_ProcessTagged>();

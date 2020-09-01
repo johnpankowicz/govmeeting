@@ -18,22 +18,16 @@ namespace GM.Workflow
     {
         readonly AppSettings config;
 
-        //AddtagsRepository addtagsRepository;
-        //FixasrRepository fixasrRepository;
         readonly IGovBodyRepository govBodyRepository;
         readonly IMeetingRepository meetingRepository;
 
         public WF_ProcessTagged(
             IOptions<AppSettings> _config,
-            //AddtagsRepository _addtagsRepository,
-            //FixasrRepository _fixasrRepository,
             IGovBodyRepository _govBodyRepository,
             IMeetingRepository _meetingRepository
             )
         {
             config = _config.Value;
-            //addtagsRepository = _addtagsRepository;
-            //fixasrRepository = _fixasrRepository;
             meetingRepository = _meetingRepository;
             govBodyRepository = _govBodyRepository;
         }
@@ -75,10 +69,6 @@ namespace GM.Workflow
 
         private void CheckIfTaggingCompleted(Meeting meeting)
         {
-            // Get the work folder path
-            //MeetingFolder meetingFolder = new MeetingFolder(govBodyRepository, meeting);
-            //string workFolderPath = config.DatafilesPath + "\\PROCESSING\\" + meetingFolder.path;
-
             string workfolder = meetingRepository.GetLongName(meeting.Id);
             string workFolderPath = config.DatafilesPath + "\\PROCESSING\\" + workfolder;
 

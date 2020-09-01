@@ -8,7 +8,7 @@ namespace GM.DatabaseRepositories
 {
     public class MeetingRepository : IMeetingRepository
     {
-        DBOperations dBOps;
+        readonly DBOperations dBOps;
 
         public MeetingRepository(DBOperations _dBOps)
         {

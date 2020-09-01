@@ -12,17 +12,22 @@ namespace GM.Workflow
     {
         // TODO - IMPLEMENT THIS CLASS
 
-        /* RetrieveOnlineFiles will:
-         * Read the meeting schedules for all government bodies in the database.
-         * 1. If a current meeting may have taken place, it will:
+        /*   ===== RetrieveOnlineFiles will:
+         * Read the meeting schedules of each GovBody in the database.
+         * If a current meeting may have taken place, it will:
          *    Check the website where either its transcript or a recording may be found.
          *    If found it will:
-         * 2. Start the file retrieval.
-         * 3. Store the retieved file in the "DATAFILES/RECEIVED" folder.
+         * Start the file retrieval.
+         * Store the retieved file in the "DATAFILES/RECEIVED" folder.
+         * Create a new Meeting record for the GovBody
+         * Set the Meeting WorkStatus property to "Received"
+         * Set the Meeting Approved property to false".
+         * Send the GovBody managers a "RECEIVED" message.
          * Repeat for each government body.
          *
-         *  Files can also be placed in the RECEIVED folder by the phone app for recording a meeting.
-         *  Files that are uploaded by a registered user are also placed in the RECEIVED folder.
+         *  New meetings can also added to a GovBody by:
+         *      * the phone app for recording a meeting
+         *      * a file being uploaded by a registered user with appropriate rights.
          */
 
         readonly AppSettings _config;
@@ -50,7 +55,6 @@ namespace GM.Workflow
 
         public void RetrieveNewFiles(string incomingPath)
         {
-            // TODO - read schedules in database and check for new files to retrieve.
             // throw new NotImplementedException();
         }
     }

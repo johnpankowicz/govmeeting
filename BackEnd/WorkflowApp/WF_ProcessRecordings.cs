@@ -21,10 +21,10 @@ namespace GM.Workflow
         readonly RecordingProcess processRecording;
         readonly IGovBodyRepository govBodyRepository;
         readonly IMeetingRepository meetingRepository;
-        readonly ILogger<WF_ProcessReceivedFiles> logger;
+        readonly ILogger<WF_ProcessRecordings> logger;
 
         public WF_ProcessRecordings(
-            ILogger<WF_ProcessReceivedFiles> _logger,
+            ILogger<WF_ProcessRecordings> _logger,
             IOptions<AppSettings> _config,
             RecordingProcess _processRecording,
             IGovBodyRepository _govBodyRepository,
@@ -58,38 +58,29 @@ namespace GM.Workflow
         // Create a work folder in DATAFILES/PROCESSING and process the recording
         public void DoWork(Meeting meeting)
         {
-            // Get the work folder path
-            //MeetingFolder meetingFolder = new MeetingFolder(govBodyRepository, meeting);
-            //string workFolderPath = config.DatafilesPath + "\\PROCESSING\\" + meetingFolder.path;
+            // Create workfolder
+            string workFolderPath = CreateWorkFolder(meeting);
 
-            string workfolder = meetingRepository.GetLongName(meeting.Id);
-            string workFolderPath = config.DatafilesPath + "\\PROCESSING\\" + workfolder;
+            // transcribe recording
+            string sourceFilePath = config.DatafilesPath + "\\RECEIVED\\" + meeting.SourceFilename;
+            processRecording.Process(sourceFilePath, workFolderPath, meeting.Language);
+
+            meeting.WorkStatus = WorkStatus.Proofreading;
+            meeting.Approved = false;
+        }
+
+        private string CreateWorkFolder(Meeting meeting)
+        {
+            string workfolderName = meetingRepository.GetLongName(meeting.Id);
+            string workFolderPath = config.DatafilesPath + "\\PROCESSING\\" + workfolderName;
 
             if (!GMFileAccess.CreateDirectory(workFolderPath))
             {
                 Console.WriteLine($"ProcessRecordings - ERROR: could not create meeting folder {workFolderPath}");
-                return;
+                return null;
             }
 
-            // Move source file to the PROCESSING folder
-            string sourceFilePath = config.DatafilesPath + "\\RECEIVED\\" + meeting.SourceFilename;
-            string destFilePath = config.DatafilesPath + "\\PROCESSING\\" + meeting.SourceFilename;
-
-            if (!File.Exists(sourceFilePath))
-            {
-                logger.LogError("File does not exist: ${sourceFilePath}");
-                return;
-            }
-
-            if (File.Exists(destFilePath))
-            {
-                logger.LogError("File already exists: ${destFilePath}");
-                return;
-            }
-
-            File.Move(sourceFilePath, destFilePath);
-            processRecording.Process(destFilePath, workFolderPath, meeting.Language);
-
+            return workFolderPath;
         }
     }
 }

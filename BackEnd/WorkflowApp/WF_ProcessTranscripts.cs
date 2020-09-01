@@ -31,22 +31,19 @@ namespace GM.Workflow
         readonly AppSettings config;
         readonly TranscriptProcess transcriptProcess;
         readonly IMeetingRepository meetingRepository;
-        readonly IGovBodyRepository govBodyRepository;
-        readonly ILogger<WF_ProcessReceivedFiles> logger;
+        readonly ILogger<WF_ProcessTranscripts> logger;
 
         public WF_ProcessTranscripts(
-            ILogger<WF_ProcessReceivedFiles> _logger,
+            ILogger<WF_ProcessTranscripts> _logger,
             IOptions<AppSettings> _config,
             TranscriptProcess _transcriptProcess,
-            IMeetingRepository _meetingRepository,
-            IGovBodyRepository _govBodyRepository
+            IMeetingRepository _meetingRepository
            )
         {
             logger = _logger;
             config = _config.Value;
             transcriptProcess = _transcriptProcess;
             meetingRepository = _meetingRepository;
-            govBodyRepository = _govBodyRepository;
         }
 
         // Watch the incoming folder and process new files as they arrive.
