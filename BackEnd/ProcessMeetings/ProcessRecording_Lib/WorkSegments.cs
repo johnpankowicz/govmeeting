@@ -7,7 +7,7 @@ using GM.ViewModels;
 
 namespace GM.ProcessRecording
 {
-    public class SplitIntoWorkSegments
+    public class WorkSegments
     {
         /*   Split the video, audio and JSON data for this meeting into smaller
          *   segments. This allows multiple people to work on the fixes to 
@@ -42,6 +42,16 @@ namespace GM.ProcessRecording
             // Split the full transcript into segments that match the audio and video segments in size.
             SplitTranscript splitTranscript = new SplitTranscript();
             splitTranscript.split(fixasr, splitFolder, segmentSize, segmentOverlap, parts);
+
+        }
+
+        public bool CheckIfFinished(string meetingFolder)
+        {
+            return false;
+        }
+
+        public void Combine(string meetingFolder, string combinedFile)
+        {
 
         }
     }

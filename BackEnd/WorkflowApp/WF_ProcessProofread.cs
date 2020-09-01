@@ -65,7 +65,7 @@ namespace GM.Workflow
             string videofileCopy = workFolderPath + "\\" + "01-Video.mp4";
             string outputJsonFile = workFolderPath + "\\" + "04-ToFix.json";
 
-            SplitIntoWorkSegments split = new SplitIntoWorkSegments();
+            WorkSegments split = new WorkSegments();
             split.Split(workFolderPath, videofileCopy, outputJsonFile, config.FixasrSegmentSize,
                 config.FixasrSegmentOverlap);
 

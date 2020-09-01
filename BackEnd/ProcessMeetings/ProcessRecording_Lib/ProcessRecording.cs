@@ -90,10 +90,11 @@ namespace GM.ProcessRecording
 
             ///// Split the video, audio and transcript into multiple work segments
 
-            SplitIntoWorkSegments split = new SplitIntoWorkSegments();
+            WorkSegments split = new WorkSegments();
             split.Split(meetingFolder, videofileCopy, outputJsonFile, config.FixasrSegmentSize,
                 config.FixasrSegmentOverlap);
         }
+
 
 
     }

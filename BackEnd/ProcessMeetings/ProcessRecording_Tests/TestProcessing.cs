@@ -62,7 +62,7 @@ namespace GM.ProcessRecording_Tests
             int segmentSize = 180;
             int overlap = 5;
 
-            SplitIntoWorkSegments split = new SplitIntoWorkSegments();
+            WorkSegments split = new WorkSegments();
             split.Split(outputFolder, videoFile, transcriptFile, segmentSize, overlap);
         }
 

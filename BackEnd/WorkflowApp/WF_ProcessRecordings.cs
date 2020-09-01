@@ -23,6 +23,8 @@ namespace GM.Workflow
         readonly IMeetingRepository meetingRepository;
         readonly ILogger<WF_ProcessRecordings> logger;
 
+        WorkSegments workSegments = new WorkSegments();
+
         public WF_ProcessRecordings(
             ILogger<WF_ProcessRecordings> _logger,
             IOptions<AppSettings> _config,
@@ -45,42 +47,71 @@ namespace GM.Workflow
             // Do we need manager approval?
             bool? approved = true;
             if (!config.RequireManagerApproval) approved = null;
-
             List<Meeting> meetings;
-            meetings = meetingRepository.FindAll(SourceType.Recording, WorkStatus.Received, approved);
 
+            meetings = meetingRepository.FindAll(SourceType.Recording, WorkStatus.Received, approved);
             foreach (Meeting meeting in meetings)
             {
-                DoWork(meeting);
+                TranscribeRecording(meeting);
+            }
+
+            meetings = meetingRepository.FindAll(SourceType.Recording, WorkStatus.Editing, approved);
+            foreach (Meeting meeting in meetings)
+            {
+                CheckIfEditingCompleted(meeting);
             }
         }
 
         // Create a work folder in DATAFILES/PROCESSING and process the recording
-        public void DoWork(Meeting meeting)
+        private void TranscribeRecording(Meeting meeting)
         {
             // Create workfolder
-            string workFolderPath = CreateWorkFolder(meeting);
+            string workfolderPath = GetWorkfolderPath(meeting);
+            if (!CreateWorkfolder(workfolderPath))
+            {
+                return;
+            }
 
             // transcribe recording
             string sourceFilePath = config.DatafilesPath + "\\RECEIVED\\" + meeting.SourceFilename;
-            processRecording.Process(sourceFilePath, workFolderPath, meeting.Language);
+            processRecording.Process(sourceFilePath, workfolderPath, meeting.Language);
 
-            meeting.WorkStatus = WorkStatus.Proofreading;
+            meeting.WorkStatus = WorkStatus.Editing;
+
+            // if true, editing will be allowed to proceed automatically.
+            // set to false to require manager approval.
+            meeting.Approved = true;
+        }
+
+        private void CheckIfEditingCompleted(Meeting meeting)
+        {
+            string workfolderPath = GetWorkfolderPath(meeting);
+            if (workSegments.CheckIfFinished(workfolderPath))
+            {
+                workSegments.Combine(workfolderPath, "ToView.json");
+            }
+
+            meeting.WorkStatus = WorkStatus.Edited;
             meeting.Approved = false;
         }
 
-        private string CreateWorkFolder(Meeting meeting)
+
+        private string GetWorkfolderPath(Meeting meeting)
         {
             string workfolderName = meetingRepository.GetLongName(meeting.Id);
             string workFolderPath = config.DatafilesPath + "\\PROCESSING\\" + workfolderName;
 
+            return workFolderPath;
+        }
+
+        private bool CreateWorkfolder(string workFolderPath)
+        {
             if (!GMFileAccess.CreateDirectory(workFolderPath))
             {
                 Console.WriteLine($"ProcessRecordings - ERROR: could not create meeting folder {workFolderPath}");
-                return null;
+                return false;
             }
-
-            return workFolderPath;
+            return true;
         }
     }
 }
