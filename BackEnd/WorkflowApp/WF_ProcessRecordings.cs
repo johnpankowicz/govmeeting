@@ -12,6 +12,8 @@ using GM.DatabaseRepositories;
 using GM.DatabaseModel;
 using Microsoft.Extensions.Logging;
 using GM.Utilities;
+using GM.EditTranscript;
+
 
 namespace GM.Workflow
 {
@@ -19,17 +21,14 @@ namespace GM.Workflow
     {
         readonly AppSettings config;
         readonly RecordingProcess processRecording;
-        readonly IGovBodyRepository govBodyRepository;
         readonly IMeetingRepository meetingRepository;
         readonly ILogger<WF_ProcessRecordings> logger;
-
-        WorkSegments workSegments = new WorkSegments();
+        readonly WorkSegments workSegments = new WorkSegments();
 
         public WF_ProcessRecordings(
             ILogger<WF_ProcessRecordings> _logger,
             IOptions<AppSettings> _config,
             RecordingProcess _processRecording,
-            IGovBodyRepository _govBodyRepository,
             IMeetingRepository _meetingRepository
            )
         {
@@ -38,7 +37,6 @@ namespace GM.Workflow
             logger = _logger;
             processRecording = _processRecording;
             meetingRepository = _meetingRepository;
-            govBodyRepository = _govBodyRepository;
         }
 
         // Find all new received meetings whose source is a recording and approved status is true.
@@ -54,17 +52,13 @@ namespace GM.Workflow
             {
                 TranscribeRecording(meeting);
             }
-
-            meetings = meetingRepository.FindAll(SourceType.Recording, WorkStatus.Editing, approved);
-            foreach (Meeting meeting in meetings)
-            {
-                CheckIfEditingCompleted(meeting);
-            }
         }
 
         // Create a work folder in DATAFILES/PROCESSING and process the recording
         private void TranscribeRecording(Meeting meeting)
         {
+            meeting.WorkStatus = WorkStatus.Transcribing;
+
             // Create workfolder
             string workfolderPath = GetWorkfolderPath(meeting);
             if (!CreateWorkfolder(workfolderPath))
@@ -76,23 +70,11 @@ namespace GM.Workflow
             string sourceFilePath = config.DatafilesPath + "\\RECEIVED\\" + meeting.SourceFilename;
             processRecording.Process(sourceFilePath, workfolderPath, meeting.Language);
 
-            meeting.WorkStatus = WorkStatus.Editing;
+            meeting.WorkStatus = WorkStatus.Transcribed;
 
             // if true, editing will be allowed to proceed automatically.
             // set to false to require manager approval.
             meeting.Approved = true;
-        }
-
-        private void CheckIfEditingCompleted(Meeting meeting)
-        {
-            string workfolderPath = GetWorkfolderPath(meeting);
-            if (workSegments.CheckIfFinished(workfolderPath))
-            {
-                workSegments.Combine(workfolderPath, "ToView.json");
-            }
-
-            meeting.WorkStatus = WorkStatus.Edited;
-            meeting.Approved = false;
         }
 
 

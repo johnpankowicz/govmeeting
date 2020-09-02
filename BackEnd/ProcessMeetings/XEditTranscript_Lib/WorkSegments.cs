@@ -5,7 +5,7 @@ using System.IO;
 using System.Text;
 using GM.ViewModels;
 
-namespace GM.ProcessRecording
+namespace GM.EditTranscript
 {
     public class WorkSegments
     {
@@ -41,7 +41,7 @@ namespace GM.ProcessRecording
 
             // Split the full transcript into segments that match the audio and video segments in size.
             SplitTranscript splitTranscript = new SplitTranscript();
-            splitTranscript.split(fixasr, splitFolder, segmentSize, segmentOverlap, parts);
+            splitTranscript.Split(fixasr, splitFolder, segmentSize, segmentOverlap, parts);
 
         }
 

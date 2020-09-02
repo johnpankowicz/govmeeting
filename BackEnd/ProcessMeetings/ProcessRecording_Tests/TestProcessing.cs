@@ -8,7 +8,7 @@ using GM.ViewModels;
 using GM.GoogleCloud;
 using GM.Configuration;
 using GM.Utilities;
-
+using GM.EditTranscript;
 
 namespace GM.ProcessRecording_Tests
 {
@@ -44,7 +44,7 @@ namespace GM.ProcessRecording_Tests
             int parts = 4;
 
             SplitTranscript st = new SplitTranscript();
-            st.split(fixasr, outputFolder, sectionSize, overlap, parts);
+            st.Split(fixasr, outputFolder, sectionSize, overlap, parts);
 
         }
         public void TestSplitIntoWorkSegments()

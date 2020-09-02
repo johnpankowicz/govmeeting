@@ -17,8 +17,7 @@ namespace GM.Workflow
         private readonly WF_RetrieveOnlineFiles wf_retrieveOnlineFiles;
         private readonly WF_ProcessRecordings wf_processRecordings;
         private readonly WF_ProcessTranscripts wf_processTranscripts;
-        private readonly WF_ProcessProofread wf_processFixedAsr;
-        private readonly WF_ProcessTagged wf_processTagged;
+        private readonly WF_Editing wf_processTagged;
         private readonly WF_LoadDatabase wf_loadDatabase;
 
         public WorkflowController(
@@ -28,8 +27,7 @@ namespace GM.Workflow
             WF_RetrieveOnlineFiles _wf_retrieveOnlineFiles,
             WF_ProcessRecordings _wf_processRecordings,
             WF_ProcessTranscripts _wf_processTranscripts,
-            WF_ProcessProofread _wf_processProofread,
-            WF_ProcessTagged _wf_processTagged,
+            WF_Editing _wf_processTagged,
             WF_LoadDatabase _wf_loadDatabase
             )
         {
@@ -39,7 +37,6 @@ namespace GM.Workflow
             wf_retrieveOnlineFiles = _wf_retrieveOnlineFiles;
             wf_processRecordings = _wf_processRecordings;
             wf_processTranscripts = _wf_processTranscripts;
-            wf_processFixedAsr = _wf_processProofread;
             wf_processTagged = _wf_processTagged;
             wf_loadDatabase = _wf_loadDatabase;
         }
@@ -56,9 +53,6 @@ namespace GM.Workflow
 
             // Processing new transcript files
             wf_processTranscripts.Run();
-
-            // Process the proofread transcripts to get ready for tagging
-            wf_processFixedAsr.Run();
 
             // Process tagged transcripts to be ready for viewing
             wf_processTagged.Run();
