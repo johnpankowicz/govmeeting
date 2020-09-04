@@ -13,13 +13,13 @@ using GM.EditTranscript;
 namespace GM.Workflow
 {
 
-    public class WF_Editing
+    public class WF5_EditTranscriptions
     {
         readonly AppSettings config;
 
         readonly IMeetingRepository meetingRepository;
 
-        public WF_Editing(
+        public WF5_EditTranscriptions(
             IOptions<AppSettings> _config,
             IMeetingRepository _meetingRepository
             )

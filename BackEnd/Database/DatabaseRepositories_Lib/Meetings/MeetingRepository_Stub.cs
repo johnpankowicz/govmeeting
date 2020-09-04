@@ -120,7 +120,7 @@ namespace GM.DatabaseRepositories
                 GovBodyId = 7,
                 SourceFilename = "USA_ME_LincolnCounty_BoothbayHarbor_Selectmen_en_2017-02-15.mp4",
                 SourceType = SourceType.Recording,
-                WorkStatus = WorkStatus.Proofreading,
+                WorkStatus = WorkStatus.Editing,
                 Approved = false
 
            },

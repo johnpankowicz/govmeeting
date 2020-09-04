@@ -14,16 +14,16 @@ using Microsoft.Extensions.Logging;
 
 namespace GM.Workflow
 {
-    public class WF_LoadDatabase
+    public class WF7_LoadDatabase
     {
         readonly AppSettings config;
         readonly IMeetingRepository meetingRepository;
-        readonly ILogger<WF_LoadDatabase> logger;
+        readonly ILogger<WF7_LoadDatabase> logger;
         //IGovBodyRepository govBodyRepository;
         //ILoadDatabase loadDatabase;
 
-        public WF_LoadDatabase(
-            ILogger<WF_LoadDatabase> _logger,
+        public WF7_LoadDatabase(
+            ILogger<WF7_LoadDatabase> _logger,
             IOptions<AppSettings> _config,
             IMeetingRepository _meetingRepository
            //IGovBodyRepository _govBodyRepository,

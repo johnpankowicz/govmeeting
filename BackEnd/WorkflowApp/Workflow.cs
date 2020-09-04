@@ -14,21 +14,21 @@ namespace GM.Workflow
         //private readonly ITestService _testService;
         private readonly ILogger<WorkflowController> logger;
         private readonly AppSettings config;
-        private readonly WF_RetrieveOnlineFiles wf_retrieveOnlineFiles;
-        private readonly WF_ProcessRecordings wf_processRecordings;
-        private readonly WF_ProcessTranscripts wf_processTranscripts;
-        private readonly WF_Editing wf_processTagged;
-        private readonly WF_LoadDatabase wf_loadDatabase;
+        private readonly WF1_RetrieveOnlineFiles wf_retrieveOnlineFiles;
+        private readonly WF3_ProcessRecordings wf_processRecordings;
+        private readonly WF2_ProcessTranscripts wf_processTranscripts;
+        private readonly WF5_EditTranscriptions wf_processTagged;
+        private readonly WF7_LoadDatabase wf_loadDatabase;
 
         public WorkflowController(
             //ITestService testService,
             IOptions<AppSettings> _config,
             ILogger<WorkflowController> _logger,
-            WF_RetrieveOnlineFiles _wf_retrieveOnlineFiles,
-            WF_ProcessRecordings _wf_processRecordings,
-            WF_ProcessTranscripts _wf_processTranscripts,
-            WF_Editing _wf_processTagged,
-            WF_LoadDatabase _wf_loadDatabase
+            WF1_RetrieveOnlineFiles _wf_retrieveOnlineFiles,
+            WF3_ProcessRecordings _wf_processRecordings,
+            WF2_ProcessTranscripts _wf_processTranscripts,
+            WF5_EditTranscriptions _wf_processTagged,
+            WF7_LoadDatabase _wf_loadDatabase
             )
         {
             //_testService = testService;

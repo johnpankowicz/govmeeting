@@ -8,7 +8,7 @@ using GM.DatabaseModel;
 
 namespace GM.Workflow
 {
-    public class WF_RetrieveOnlineFiles
+    public class WF1_RetrieveOnlineFiles
     {
         // TODO - IMPLEMENT THIS CLASS
 
@@ -34,7 +34,7 @@ namespace GM.Workflow
         readonly IGovBodyRepository govBodyRepository;
         readonly IMeetingRepository meetingRepository;
 
-        public WF_RetrieveOnlineFiles(
+        public WF1_RetrieveOnlineFiles(
             IOptions<AppSettings> config,
             IGovBodyRepository _govBodyRepository,
             IMeetingRepository _meetingRepository

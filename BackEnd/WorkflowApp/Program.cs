@@ -139,11 +139,11 @@ namespace GM.Workflow
             services.AddSingleton<IGovBodyRepository, GovBodyRepository_Stub>();
             services.AddSingleton<IGovLocationRepository, GovLocationRepository_Stub>();
 
-            services.AddTransient<WF_RetrieveOnlineFiles>();
-            services.AddTransient<WF_ProcessRecordings>();
-            services.AddTransient<WF_ProcessTranscripts>();
-            services.AddTransient<WF_Editing>();
-            services.AddTransient<WF_LoadDatabase>();
+            services.AddTransient<WF1_RetrieveOnlineFiles>();
+            services.AddTransient<WF3_ProcessRecordings>();
+            services.AddTransient<WF2_ProcessTranscripts>();
+            services.AddTransient<WF5_EditTranscriptions>();
+            services.AddTransient<WF7_LoadDatabase>();
 
             // add app
             services.AddTransient<WorkflowController>();

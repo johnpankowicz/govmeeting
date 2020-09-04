@@ -15,7 +15,7 @@ using GM.Utilities;
 
 namespace GM.Workflow
 {
-    public class WF_ProcessTranscripts
+    public class WF2_ProcessTranscripts
     {
 
         /*   ProcessIncomingFiles watches the "RECEIVED" folder for files to be processed.
@@ -31,10 +31,10 @@ namespace GM.Workflow
         readonly AppSettings config;
         readonly TranscriptProcess transcriptProcess;
         readonly IMeetingRepository meetingRepository;
-        readonly ILogger<WF_ProcessTranscripts> logger;
+        readonly ILogger<WF2_ProcessTranscripts> logger;
 
-        public WF_ProcessTranscripts(
-            ILogger<WF_ProcessTranscripts> _logger,
+        public WF2_ProcessTranscripts(
+            ILogger<WF2_ProcessTranscripts> _logger,
             IOptions<AppSettings> _config,
             TranscriptProcess _transcriptProcess,
             IMeetingRepository _meetingRepository
@@ -98,6 +98,9 @@ namespace GM.Workflow
 
 
             transcriptProcess.Process(destFilePath, workFolderPath, meeting.Language);
+
+            meeting.WorkStatus = WorkStatus.Processed;
+            meeting.Approved = false;
         }
     }
 }

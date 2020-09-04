@@ -17,16 +17,16 @@ using GM.EditTranscript;
 
 namespace GM.Workflow
 {
-    public class WF_ProcessRecordings
+    public class WF3_ProcessRecordings
     {
         readonly AppSettings config;
         readonly RecordingProcess processRecording;
         readonly IMeetingRepository meetingRepository;
-        readonly ILogger<WF_ProcessRecordings> logger;
+        readonly ILogger<WF3_ProcessRecordings> logger;
         readonly WorkSegments workSegments = new WorkSegments();
 
-        public WF_ProcessRecordings(
-            ILogger<WF_ProcessRecordings> _logger,
+        public WF3_ProcessRecordings(
+            ILogger<WF3_ProcessRecordings> _logger,
             IOptions<AppSettings> _config,
             RecordingProcess _processRecording,
             IMeetingRepository _meetingRepository
