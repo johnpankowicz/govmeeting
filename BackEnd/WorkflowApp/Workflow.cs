@@ -15,7 +15,7 @@ namespace GM.Workflow
         private readonly ILogger<WorkflowController> logger;
         private readonly AppSettings config;
         private readonly WF1_RetrieveOnlineFiles wf_retrieveOnlineFiles;
-        private readonly WF3_ProcessRecordings wf_processRecordings;
+        private readonly WF3_TranscribeRecordings wf_processRecordings;
         private readonly WF2_ProcessTranscripts wf_processTranscripts;
         private readonly WF5_EditTranscriptions wf_processTagged;
         private readonly WF7_LoadDatabase wf_loadDatabase;
@@ -25,7 +25,7 @@ namespace GM.Workflow
             IOptions<AppSettings> _config,
             ILogger<WorkflowController> _logger,
             WF1_RetrieveOnlineFiles _wf_retrieveOnlineFiles,
-            WF3_ProcessRecordings _wf_processRecordings,
+            WF3_TranscribeRecordings _wf_processRecordings,
             WF2_ProcessTranscripts _wf_processTranscripts,
             WF5_EditTranscriptions _wf_processTagged,
             WF7_LoadDatabase _wf_loadDatabase

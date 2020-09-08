@@ -2,59 +2,51 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using GM.ProcessRecording;
+//using GM.ProcessRecording;
 using GM.ProcessTranscript;
 using GM.ViewModels;
 using Microsoft.Extensions.Options;
 using GM.Configuration;
-using GM.FileDataRepositories;
+//using GM.FileDataRepositories;
 using GM.DatabaseRepositories;
 using GM.DatabaseModel;
 using Microsoft.Extensions.Logging;
 using GM.Utilities;
+using ChinhDo.Transactions;
+using System.Transactions;
+using GM.FileDataRepositories;
 
 namespace GM.Workflow
 {
     public class WF2_ProcessTranscripts
     {
-
-        /*   ProcessIncomingFiles watches the "RECEIVED" folder for files to be processed.
-         *   Currently the file types can be either PDF or MP4.
-         *   The names of the files must be in the format: <country>_<state>_<county>_<town-or-city>_<gov-entity>_<language>_<date>.<extension>
-         *   For example:  USA_TX_TravisCounty_Austin_CityCouncil_en_2017-12-14.pdf
-         * It creates a work folder in the DATAFILES folder based on the name of the file.
-         *    For example: USA_TX_TravisCounty_Austin_CityCouncil_en/2017-12-14
-         * For new MP4 files, it calls: ProcessRecording
-         * For new PDF files, it calls: ProcessTranscript
-        */
-
-        readonly AppSettings config;
-        readonly TranscriptProcess transcriptProcess;
-        readonly IMeetingRepository meetingRepository;
         readonly ILogger<WF2_ProcessTranscripts> logger;
+        readonly AppSettings config;
+        readonly ITranscriptProcess transcriptProcess;
+        readonly IMeetingRepository meetingRepository;
+        readonly IFileRepository fileRepository;
 
         public WF2_ProcessTranscripts(
             ILogger<WF2_ProcessTranscripts> _logger,
             IOptions<AppSettings> _config,
-            TranscriptProcess _transcriptProcess,
-            IMeetingRepository _meetingRepository
+            ITranscriptProcess _transcriptProcess,
+            IMeetingRepository _meetingRepository,
+            IFileRepository _fileRepository
            )
         {
             logger = _logger;
             config = _config.Value;
             transcriptProcess = _transcriptProcess;
             meetingRepository = _meetingRepository;
+            fileRepository = _fileRepository;
         }
 
-        // Watch the incoming folder and process new files as they arrive.
         public void Run()
         {
-
-            // Do we need manager approval?
-            bool? approved = true;
-            if (!config.RequireManagerApproval) approved = null;
-
-            List<Meeting> meetings = meetingRepository.FindAll(SourceType.Transcript, WorkStatus.Received, approved);
+            // 
+            bool? isApproved = true;        // We want the received transcripts that were approved.
+            if (!config.RequireManagerApproval) isApproved = null;  // unless config setting says otherwise.
+            List<Meeting> meetings = meetingRepository.FindAll(SourceType.Transcript, WorkStatus.Received, isApproved);
 
             foreach (Meeting meeting in meetings)
             {
@@ -63,44 +55,56 @@ namespace GM.Workflow
 
         }
 
-        public void DoWork(Meeting meeting)
+        private void DoWork(Meeting meeting)
         {
-            // Get the work folder path
-            //MeetingFolder meetingFolder = new MeetingFolder(govBodyRepository, meeting);
-            //string workFolderPath = config.DatafilesPath + "\\PROCESSING\\" + meetingFolder.path;
+            string workFolderPath = fileRepository.WorkFolderPath(meeting.Id);
+            string sourceFilePath = fileRepository.SourceFilePath(meeting.Id);
+            string fileExtension = Path.GetExtension(sourceFilePath);
+            string toProcessFilePath = workFolderPath + @"\toProcess." + fileExtension;
+            string processedFilePath = workFolderPath + @"\processed." + fileExtension;
 
-            string workfolder = meetingRepository.GetLongName(meeting.Id);
-            string workFolderPath = config.DatafilesPath + "\\PROCESSING\\" + workfolder;
-
-            if (!GMFileAccess.CreateDirectory(workFolderPath))
+            // If the workfolder exists, it most likely means the system crashed while trying to
+            // process this meeting earlier. Remove the folder and try again.
+            if (Directory.Exists(workFolderPath))
             {
-                // We were not able to create a folder for processing this video.
-                // Probably because the folder already exists.
-                Console.WriteLine("ProcessTranscriptsFiles.cs - ERROR: could not create work folder");
-                return;
+                GMFileAccess.DeleteDirectoryAndContents(workFolderPath);
             }
 
-            string sourceFilePath = config.DatafilesPath + "\\RECEIVED\\" + meeting.SourceFilename;
-            if (!File.Exists(sourceFilePath)){
-                logger.LogError("Source file does not exist: ${sourceFilePath}");
-                return;
-            }
-
-            string destFilePath = config.DatafilesPath + "\\PROCESSING\\" + meeting.SourceFilename;
-            if (File.Exists(destFilePath))
+            // Wrap the file and database operations in the same transaction
+            TxFileManager fileMgr = new TxFileManager();
+            using (TransactionScope scope = new TransactionScope())
             {
-                logger.LogError("Destination file already exists: ${destFilePath}");
+
+                fileMgr.CreateDirectory(workFolderPath);
+
+
+                fileMgr.Move(sourceFilePath, toProcessFilePath);
+
+                meeting.WorkStatus = WorkStatus.Processing;
+                meeting.Approved = false;
+
+                // TODO - Write the meeting changes to the DB.
+
+                scope.Complete();
             }
-            else
+
+            string processedOutputFile = transcriptProcess.Process(toProcessFilePath, workFolderPath, meeting.Language);
+
+            using (TransactionScope scope = new TransactionScope())
             {
-                File.Move(sourceFilePath, destFilePath);
+
+                fileMgr.Copy(processedOutputFile, processedFilePath, true);
+
+                meeting.WorkStatus = WorkStatus.Processed;
+                meeting.Approved = false;
+
+                // TODO - Write the meeting changes to the DB.
+
+                scope.Complete();
             }
-
-
-            transcriptProcess.Process(destFilePath, workFolderPath, meeting.Language);
-
-            meeting.WorkStatus = WorkStatus.Processed;
-            meeting.Approved = false;
         }
+
+
     }
 }
+

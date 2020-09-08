@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using GM.Utilities;
 using GM.EditTranscript;
 
-namespace WorkflowApp
+namespace GM.Workflow
 {
     /* The final meeting transctipt is ready for viewing, when either:
      *  1.  An original transcript has been processed and tagged.
@@ -21,7 +21,7 @@ namespace WorkflowApp
      *  2. An original recording has been transcribed and edited.
      */
 
-    class WF6_ViewMeetings
+    public class WF6_ViewMeetings
     {
         readonly AppSettings config;
         readonly IMeetingRepository meetingRepository;

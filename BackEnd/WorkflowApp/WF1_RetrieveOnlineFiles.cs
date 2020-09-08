@@ -5,6 +5,8 @@ using GM.Configuration;
 using GM.FileDataRepositories;
 using GM.DatabaseRepositories;
 using GM.DatabaseModel;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace GM.Workflow
 {
@@ -30,32 +32,45 @@ namespace GM.Workflow
          *      * a file being uploaded by a registered user with appropriate rights.
          */
 
-        readonly AppSettings _config;
+        readonly AppSettings config;
         readonly IGovBodyRepository govBodyRepository;
         readonly IMeetingRepository meetingRepository;
 
         public WF1_RetrieveOnlineFiles(
-            IOptions<AppSettings> config,
+            IOptions<AppSettings> _config,
             IGovBodyRepository _govBodyRepository,
             IMeetingRepository _meetingRepository
            )
         {
-            _config = config.Value;
+            config = _config.Value;
             govBodyRepository = _govBodyRepository;
             meetingRepository = _meetingRepository;
         }
+
         public void Run()
         {
-            string incomingPath = _config.DatafilesPath + @"\RECEIVED";
-            Directory.CreateDirectory(incomingPath);
-            
-            RetrieveNewFiles(incomingPath);
+            List<GovBody> govBodies = govBodyRepository.FindThoseWithScheduledMeetings();
 
+            foreach (GovBody govBody in govBodies)
+            {
+                DoWork(govBody);
+            }
         }
 
-        public void RetrieveNewFiles(string incomingPath)
+        private void DoWork(GovBody govBody)
         {
-            // throw new NotImplementedException();
+
         }
+
+            //string incomingPath = _config.DatafilesPath + @"\RECEIVED";
+            //Directory.CreateDirectory(incomingPath);
+            
+            //RetrieveNewFiles(incomingPath);
+
+
+        //public void RetrieveNewFiles(string incomingPath)
+        //{
+        //    // throw new NotImplementedException();
+        //}
     }
 }

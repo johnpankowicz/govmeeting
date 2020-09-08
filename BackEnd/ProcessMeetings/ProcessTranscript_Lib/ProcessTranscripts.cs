@@ -5,7 +5,13 @@ using System.Runtime.InteropServices.ComTypes;
 
 namespace GM.ProcessTranscript
 {
-    public class TranscriptProcess
+
+    public interface ITranscriptProcess
+    {
+        public string Process(string filename, string meetingFolder, string language);
+    }
+
+    public class TranscriptProcess : ITranscriptProcess
     {
         /*     ProcessTranscript process new transcript files that arrive.
          *     It performs the following steps:
@@ -19,7 +25,7 @@ namespace GM.ProcessTranscript
         string workFolder;
         string location;
 
-        public bool Process(string filename, string meetingFolder, string language)
+        public string Process(string filename, string meetingFolder, string language)
         {
             //MeetingFolder mf = new MeetingFolder(filename);
             ////mf.SetFields(filename);
@@ -44,7 +50,7 @@ namespace GM.ProcessTranscript
             return TextFixes(text);
         }
 
-        private bool ProcessPdf(string filename, string language)
+        private string ProcessPdf(string filename, string language)
         {
 
             // Step 1 - Copy PDF to meeting workfolder
@@ -61,7 +67,7 @@ namespace GM.ProcessTranscript
             return TextFixes(text);
         }
 
-        private bool TextFixes(string text)
+        private string TextFixes(string text)
         {
             // Step 3 - Fix the transcript text: Put in common format
 
@@ -73,7 +79,7 @@ namespace GM.ProcessTranscript
             string outfile = workFolder + "3 ToBeTagged.json";
             File.WriteAllText(outfile, transcript);
 
-            return true;
+            return outfile;
         }
 
         //private void CreateWorkFolder(string meetingFolder)

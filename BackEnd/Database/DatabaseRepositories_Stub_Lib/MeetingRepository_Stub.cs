@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using GM.DatabaseModel;
+using GM.DatabaseRepositories;
 
-namespace GM.DatabaseRepositories
+namespace GM.DatabaseRepositories_Stub
 {
     public class MeetingRepository_Stub : IMeetingRepository
     {
@@ -63,6 +64,12 @@ namespace GM.DatabaseRepositories
         }
 
         // The LongName is the SourceFilename without the extension + "_" +  meetingId;
+        public string GetSourceFilename(long meetingId)
+        {
+            Meeting m = Get(meetingId);
+            return m.SourceFilename;
+        }
+
         public string GetLongName(long meetingId)
         {
             Meeting m = Get(meetingId);

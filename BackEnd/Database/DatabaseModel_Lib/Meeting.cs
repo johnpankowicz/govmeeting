@@ -11,10 +11,11 @@ namespace GM.DatabaseModel
         Processing, Processed,
         Transcribing, Transcribed,
         Editing, Edited,
-        //Proofreading, Proofread,
         Tagging, Tagged,
         Viewing, Viewed,
-        Loading, Loaded};
+        Loading, Loaded,
+        Alerting, Alerted
+    };
     public enum SourceType
     {
         Recording,
@@ -34,6 +35,7 @@ namespace GM.DatabaseModel
         public long GovBodyId { get; set; }
         public string Language { get; set; }
         public string SourceFilename { get; set; }
+        public string Workarea { get; set; }
         public SourceType SourceType { get; set; }
         public WorkStatus WorkStatus { get; set; }
         public bool Approved { get; set; }

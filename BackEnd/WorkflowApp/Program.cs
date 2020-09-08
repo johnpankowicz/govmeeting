@@ -11,6 +11,7 @@ using GM.GoogleCloud;
 using GM.ProcessTranscript;
 using GM.FileDataRepositories;
 using GM.DatabaseRepositories;
+using GM.DatabaseRepositories_Stub;
 using GM.DatabaseAccess;
 using Microsoft.Extensions.Options;
 using Google.Cloud.Storage.V1;
@@ -132,6 +133,8 @@ namespace GM.Workflow
             services.AddTransient<TranscribeAudio>();
             services.AddTransient<TranscriptProcess>();
             //services.AddTransient<ILoadTranscript, LoadTranscript_Stub>();
+            services.AddTransient<IFileRepository, FileRepository>();
+
 
             // services.AddTransient<IMeetingRepository, MeetingRepository_Stub>();
             // services.AddTransient<IGovBodyRepository, GovBodyRepository_Stub>();
@@ -139,11 +142,15 @@ namespace GM.Workflow
             services.AddSingleton<IGovBodyRepository, GovBodyRepository_Stub>();
             services.AddSingleton<IGovLocationRepository, GovLocationRepository_Stub>();
 
+            // TODO make singletons
             services.AddTransient<WF1_RetrieveOnlineFiles>();
-            services.AddTransient<WF3_ProcessRecordings>();
             services.AddTransient<WF2_ProcessTranscripts>();
+            services.AddTransient<WF3_TranscribeRecordings>();
+            services.AddTransient<WF4_TagTranscripts>();
             services.AddTransient<WF5_EditTranscriptions>();
+            services.AddTransient<WF6_ViewMeetings>();
             services.AddTransient<WF7_LoadDatabase>();
+            services.AddTransient<WF8_SendAlerts>();
 
             // add app
             services.AddTransient<WorkflowController>();
