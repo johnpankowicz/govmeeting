@@ -26,20 +26,17 @@ namespace GM.Workflow
          */
 
         readonly AppSettings config;
-        readonly IGovBodyRepository govBodyRepository;
         readonly IMeetingRepository meetingRepository;
         readonly ILogger<WF2_ProcessTranscripts> logger;
 
         public WF4_TagTranscripts(
             IOptions<AppSettings> _config,
-            IGovBodyRepository _govBodyRepository,
             IMeetingRepository _meetingRepository,
             ILogger<WF2_ProcessTranscripts> _logger
            )
         {
             logger = _logger;
             config = _config.Value;
-            govBodyRepository = _govBodyRepository;
             meetingRepository = _meetingRepository;
         }
         public void Run()

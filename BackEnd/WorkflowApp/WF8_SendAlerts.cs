@@ -17,19 +17,16 @@ namespace GM.Workflow
         readonly AppSettings config;
         readonly IMeetingRepository meetingRepository;
         readonly ILogger<WF8_SendAlerts> logger;
-        IGovBodyRepository govBodyRepository;
 
         public WF8_SendAlerts(
             ILogger<WF8_SendAlerts> _logger,
             IOptions<AppSettings> _config,
-            IMeetingRepository _meetingRepository,
-            IGovBodyRepository _govBodyRepository
+            IMeetingRepository _meetingRepository
            )
         {
             config = _config.Value;
             logger = _logger;
             meetingRepository = _meetingRepository;
-            govBodyRepository = _govBodyRepository;
         }
 
         // Find all meetings that have been loaded into the database.
