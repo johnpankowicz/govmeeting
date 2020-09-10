@@ -13,98 +13,125 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using GM.DatabaseModel;
 using GM.FileDataRepositories;
+using GM.DatabaseAccess;
+using System.IO;
 
 namespace GM.WorkflowApp.Tests
 {
     public class WF2_ProcessTranscriptsTests
     {
+        WF2_ProcessTranscripts wf2;
         NullLogger<WF2_ProcessTranscripts> logger;
         IOptions<AppSettings> config;
         ITranscriptProcess transcriptProcess;
-        IMeetingRepository meetingRepository;
-        IFileRepository fileRepository;
 
-        [Fact()]
-        public void Create_WF2_ProcessTranscriptsTest()
-        {
-            SetupMocks();
-            WF2_ProcessTranscripts wf2 = new WF2_ProcessTranscripts(logger, config, transcriptProcess, meetingRepository, fileRepository);
-            Assert.True(wf2 != null, "Create new WF2_ProcessTranscripts");
-        }
+        string datafilesPath = @"C:\TMP\" + Guid.NewGuid();
+        string processingResults = "Processing Results";
 
-        [Fact()]
-        public void RunTest()
-        {
-            SetupMocks();
-            WF2_ProcessTranscripts wf2 = new WF2_ProcessTranscripts(logger, config, transcriptProcess, meetingRepository, fileRepository);
-            wf2.Run();
-            Assert.True(wf2 != null, "Create new WF2_ProcessTranscripts");
-        }
 
-        private void SetupMocks()
+        public WF2_ProcessTranscriptsTests()
         {
+            // Create dependencies of WF2_ProcessTranscripts
+
+            // logger will be null logger
             logger = new NullLogger<WF2_ProcessTranscripts>();
-            transcriptProcess = new MockTranscriptProcess();
-            meetingRepository = new MockMeetingRepository();
-            fileRepository = new MockFileRepository();
 
+            // Appsettings that it accesses
             AppSettings appsettings = new AppSettings()
             {
-                //DatafilesPath = Guid.NewGuid();
-                DatafilesPath = @"C:\TMP\DATAFILES" + Guid.NewGuid(),
+                DatafilesPath = datafilesPath,
                 RequireManagerApproval = true
             };
             var mock = new Mock<IOptions<AppSettings>>();
             mock.Setup(a => a.Value).Returns(appsettings);
             config = mock.Object;
+
+            // mock of TranscriptProcess that it calls to process transcript.
+            // Its Process method will return the path to the processed file.
+            // WF2_ProcessTranscripts should move it to the workfolder as "processed.txt".
+            var mockTranscriptProcess = new Mock<ITranscriptProcess>();
+            mockTranscriptProcess.Setup(a => a.Process(
+                It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(processingResults);
+            transcriptProcess = mockTranscriptProcess.Object;
         }
 
-    }
 
-    public class MockTranscriptProcess : ITranscriptProcess
-    {
-        public string Process(string destFilePath, string workFolderPath, string language)
+        [Fact()]
+        public void Create_WF2_ProcessTranscriptsTest()
         {
-            return "";
+            var mockDbOp = new Mock<IDBOperations>();
+            IDBOperations dBOperations = mockDbOp.Object;
+
+            wf2 = new WF2_ProcessTranscripts(logger, config, transcriptProcess, dBOperations);
+            Assert.True(wf2 != null, "Create new WF2_ProcessTranscripts");
         }
-    }
 
-    public class MockFileRepository: IFileRepository
-    {
-        public string WorkFolderPath(long id) { return ""; }
-        public string SourceFilePath(long id) { return ""; }
-    }
-
-
-    public class MockMeetingRepository : IMeetingRepository
-    {
-        public Meeting Get(long meetingId) { return new Meeting(); }
-        public long GetId(Meeting meeting) { return 0; }
-        public Meeting Get(long govBodyId, DateTime datetime) { return new Meeting(); }
-        public long Add(Meeting m) { return 0; }
-        public List<Meeting> FindAll(SourceType? sourceType, WorkStatus? workStatus, bool? approved)
+        [Fact()]
+        public void Run_WF2_Process_One_TranscriptTest()
         {
-            List<Meeting> listMeeting = new List<Meeting>()
-            {
-                new Meeting()
+            List<Meeting> meetings = new List<Meeting>()
                 {
-                    Id = 1,
-                    Name = "Monthly Council Meeting",
-                    Date = new DateTime(2019, 9, 8),
-                    Length = 1810,
-                    Sections = null,
-                    GovBodyId = 7,
-                    SourceFilename = "USA_ME_LincolnCounty_BoothbayHarbor_Selectmen_en_2014-09-08.mp4",
-                    SourceType = SourceType.Transcript,
-                    WorkStatus = WorkStatus.Received,
-                    Approved = false
-               }
-            };
-            return listMeeting;
-        }
-        public string GetLongName(long meetingId) { return "USA_ME_LincolnCounty_BoothbayHarbor_Selectmen_en_2014-09-08"; }
-        public string GetSourceFilename(long meetingId) { return "USA_ME_LincolnCounty_BoothbayHarbor_Selectmen_en_2014-09-08.mp4"; }
+                    new Meeting()
+                    {
+                        WorkFolder = "USA_ME_en_2014-09-08",
+                        SourceFilename = "source.pdf",
+                        SourceType = SourceType.Transcript,
+                        WorkStatus = WorkStatus.Received,
+                        Approved = false
+                    }
+                };
 
+            // DBOperations that it calls (only FindMeetings)
+            var mockDbOp = new Mock<IDBOperations>();
+            mockDbOp.Setup(a => a.FindMeetings(SourceType.Transcript, WorkStatus.Received, true)).Returns(meetings);
+            mockDbOp.Setup(a => a.WriteChanges());
+            IDBOperations dBOperations = mockDbOp.Object;
+
+            string workfolderPath = Path.Combine(datafilesPath, meetings[0].WorkFolder);
+            string sourceFilePath = Path.Combine(workfolderPath, meetings[0].SourceFilename);
+            string processedFile = Path.Combine(workfolderPath, WorkfileNames.processedTranscript);
+
+            Directory.CreateDirectory(workfolderPath);
+            File.Create(sourceFilePath); // file that will be passed to Process()
+
+            // The Run method should process one transcript and create the processed file in the workfolder 
+            wf2 = new WF2_ProcessTranscripts(logger, config, transcriptProcess, dBOperations);
+            wf2.Run();
+            Assert.True(File.Exists(processedFile), "Create processed file");
+            string results = File.ReadAllText(processedFile);
+            Assert.True(results == processingResults, "Processed results are correct");
         }
+
+        //  ### Experiments with IOptions
+        //class AOptions : IOptions<AppSettings>
+        //{
+        //    public AppSettings Value => null;
+        //}
+
+        //public interface IAppsettings : IOptions<AppSettings>
+        //{
+        //    public string DatafilesPath { get; set; }
+        //}
+
+        //class DAppSettings : IAppsettings
+        //{
+        //    public AppSettings Value => null;
+        //    public string DatafilesPath { get; set; }
+        //}
+
+        //class EAppSettings : IOptions<AppSettings>
+        //{
+        //    AppSettings IOptions<AppSettings>.Value => throw new NotImplementedException();
+        //}
+        //public interface IShape
+        //{
+        //    int area { get; }
+        //}
+
+        //public interface IFindWindow : IShape
+        //{
+        //    string WindowName { get; }
+        //}
 
     }
+}

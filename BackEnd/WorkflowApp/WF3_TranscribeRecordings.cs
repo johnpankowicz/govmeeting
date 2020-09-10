@@ -8,35 +8,35 @@ using GM.ViewModels;
 using Microsoft.Extensions.Options;
 using GM.Configuration;
 using GM.FileDataRepositories;
-using GM.DatabaseRepositories;
 using GM.DatabaseModel;
 using Microsoft.Extensions.Logging;
 using GM.Utilities;
 using GM.EditTranscript;
+using GM.DatabaseAccess;
 
 
 namespace GM.Workflow
 {
     public class WF3_TranscribeRecordings
     {
+        readonly ILogger<WF3_TranscribeRecordings> logger;
         readonly AppSettings config;
         readonly RecordingProcess processRecording;
-        readonly IMeetingRepository meetingRepository;
-        readonly ILogger<WF3_TranscribeRecordings> logger;
+        readonly IDBOperations dBOperations;
         readonly WorkSegments workSegments = new WorkSegments();
 
         public WF3_TranscribeRecordings(
             ILogger<WF3_TranscribeRecordings> _logger,
             IOptions<AppSettings> _config,
             RecordingProcess _processRecording,
-            IMeetingRepository _meetingRepository
+            IDBOperations _dBOperations
            )
         {
             config = _config.Value;
 
             logger = _logger;
             processRecording = _processRecording;
-            meetingRepository = _meetingRepository;
+            dBOperations = _dBOperations;
         }
 
         // Find all new received meetings whose source is a recording and approved status is true.
@@ -47,7 +47,7 @@ namespace GM.Workflow
             if (!config.RequireManagerApproval) approved = null;
             List<Meeting> meetings;
 
-            meetings = meetingRepository.FindAll(SourceType.Recording, WorkStatus.Received, approved);
+            meetings = dBOperations.FindMeetings(SourceType.Recording, WorkStatus.Received, approved);
             foreach (Meeting meeting in meetings)
             {
                 TranscribeRecording(meeting);
@@ -80,8 +80,7 @@ namespace GM.Workflow
 
         private string GetWorkfolderPath(Meeting meeting)
         {
-            string workfolderName = meetingRepository.GetLongName(meeting.Id);
-            string workFolderPath = config.DatafilesPath + "\\PROCESSING\\" + workfolderName;
+            string workFolderPath = config.DatafilesPath + "\\PROCESSING\\" + meeting.WorkFolder;
 
             return workFolderPath;
         }

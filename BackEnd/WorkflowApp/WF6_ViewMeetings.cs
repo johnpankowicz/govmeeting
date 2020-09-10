@@ -7,11 +7,11 @@ using GM.ViewModels;
 using Microsoft.Extensions.Options;
 using GM.Configuration;
 using GM.FileDataRepositories;
-using GM.DatabaseRepositories;
 using GM.DatabaseModel;
 using Microsoft.Extensions.Logging;
 using GM.Utilities;
 using GM.EditTranscript;
+using GM.DatabaseAccess;
 
 namespace GM.Workflow
 {
@@ -23,20 +23,20 @@ namespace GM.Workflow
 
     public class WF6_ViewMeetings
     {
-        readonly AppSettings config;
-        readonly IMeetingRepository meetingRepository;
         readonly ILogger<WF6_ViewMeetings> logger;
+        readonly AppSettings config;
+        readonly IDBOperations dBOperations;
         readonly WorkSegments workSegments = new WorkSegments();
 
         public WF6_ViewMeetings(
             ILogger<WF6_ViewMeetings> _logger,
             IOptions<AppSettings> _config,
-            IMeetingRepository _meetingRepository
+            IDBOperations _dBOperations
            )
         {
-            config = _config.Value;
             logger = _logger;
-            meetingRepository = _meetingRepository;
+            config = _config.Value;
+            dBOperations = _dBOperations;
         }
 
         public void Run()
@@ -48,13 +48,13 @@ namespace GM.Workflow
 
             // Find all tagged transcripts or edited transcriptions
 
-            meetings = meetingRepository.FindAll(SourceType.Transcript, WorkStatus.Tagged, approved);
+            meetings = dBOperations.FindMeetings(SourceType.Transcript, WorkStatus.Tagged, approved);
             foreach (Meeting meeting in meetings)
             {
                 ViewTaggedTranscript(meeting);
             }
 
-            meetings = meetingRepository.FindAll(SourceType.Recording, WorkStatus.Edited, approved);
+            meetings = dBOperations.FindMeetings(SourceType.Recording, WorkStatus.Edited, approved);
             foreach (Meeting meeting in meetings)
             {
                 ViewEditedTranscription(meeting);

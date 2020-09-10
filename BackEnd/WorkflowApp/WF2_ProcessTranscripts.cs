@@ -8,13 +8,13 @@ using GM.ViewModels;
 using Microsoft.Extensions.Options;
 using GM.Configuration;
 //using GM.FileDataRepositories;
-using GM.DatabaseRepositories;
 using GM.DatabaseModel;
 using Microsoft.Extensions.Logging;
 using GM.Utilities;
 using ChinhDo.Transactions;
 using System.Transactions;
 using GM.FileDataRepositories;
+using GM.DatabaseAccess;
 
 namespace GM.Workflow
 {
@@ -23,22 +23,22 @@ namespace GM.Workflow
         readonly ILogger<WF2_ProcessTranscripts> logger;
         readonly AppSettings config;
         readonly ITranscriptProcess transcriptProcess;
-        readonly IMeetingRepository meetingRepository;
-        readonly IFileRepository fileRepository;
+        readonly IDBOperations dBOperations;
+        //readonly IFileRepository fileRepository;
 
         public WF2_ProcessTranscripts(
             ILogger<WF2_ProcessTranscripts> _logger,
             IOptions<AppSettings> _config,
             ITranscriptProcess _transcriptProcess,
-            IMeetingRepository _meetingRepository,
-            IFileRepository _fileRepository
+            IDBOperations _dBOperations
+            //IFileRepository _fileRepository
            )
         {
             logger = _logger;
             config = _config.Value;
             transcriptProcess = _transcriptProcess;
-            meetingRepository = _meetingRepository;
-            fileRepository = _fileRepository;
+            dBOperations = _dBOperations;
+            //fileRepository = _fileRepository;
         }
 
         public void Run()
@@ -46,7 +46,7 @@ namespace GM.Workflow
             // 
             bool? isApproved = true;        // We want the received transcripts that were approved.
             if (!config.RequireManagerApproval) isApproved = null;  // unless config setting says otherwise.
-            List<Meeting> meetings = meetingRepository.FindAll(SourceType.Transcript, WorkStatus.Received, isApproved);
+            List<Meeting> meetings = dBOperations.FindMeetings(SourceType.Transcript, WorkStatus.Received, isApproved);
 
             foreach (Meeting meeting in meetings)
             {
@@ -57,48 +57,43 @@ namespace GM.Workflow
 
         private void DoWork(Meeting meeting)
         {
-            string workFolderPath = fileRepository.WorkFolderPath(meeting.Id);
-            string sourceFilePath = fileRepository.SourceFilePath(meeting.Id);
-            string fileExtension = Path.GetExtension(sourceFilePath);
-            string toProcessFilePath = workFolderPath + @"\toProcess." + fileExtension;
-            string processedFilePath = workFolderPath + @"\processed." + fileExtension;
+            string workFolderPath = Path.Combine(config.DatafilesPath, meeting.WorkFolder);
+            //string sourceFilePath = Path.Combine(workFolderPath, meeting.SourceFilename);
+            string processedFilePath = Path.Combine(workFolderPath, WorkfileNames.processedTranscript);
 
             // If the workfolder exists, it most likely means the system crashed while trying to
             // process this meeting earlier. Remove the folder and try again.
-            if (Directory.Exists(workFolderPath))
-            {
-                GMFileAccess.DeleteDirectoryAndContents(workFolderPath);
-            }
+            //if (Directory.Exists(workFolderPath))
+            //{
+            //    GMFileAccess.DeleteDirectoryAndContents(workFolderPath);
+            //}
 
             // Wrap the file and database operations in the same transaction
             TxFileManager fileMgr = new TxFileManager();
             using (TransactionScope scope = new TransactionScope())
             {
 
-                fileMgr.CreateDirectory(workFolderPath);
-
-
-                fileMgr.Move(sourceFilePath, toProcessFilePath);
+                //fileMgr.CreateDirectory(workFolderPath);
 
                 meeting.WorkStatus = WorkStatus.Processing;
                 meeting.Approved = false;
 
-                // TODO - Write the meeting changes to the DB.
+                dBOperations.WriteChanges();
 
                 scope.Complete();
             }
 
-            string processedOutputFile = transcriptProcess.Process(toProcessFilePath, workFolderPath, meeting.Language);
+            string processedOutput = transcriptProcess.Process(meeting.SourceFilename, workFolderPath, meeting.Language);
 
             using (TransactionScope scope = new TransactionScope())
             {
 
-                fileMgr.Copy(processedOutputFile, processedFilePath, true);
+                fileMgr.WriteAllText(processedFilePath, processedOutput);
 
                 meeting.WorkStatus = WorkStatus.Processed;
                 meeting.Approved = false;
 
-                // TODO - Write the meeting changes to the DB.
+                dBOperations.WriteChanges();
 
                 scope.Complete();
             }

@@ -19,6 +19,10 @@ namespace GM.DatabaseAccess
         public List<Topic> GetExistingTopics(long govBodyId);
         public List<TopicDiscussion> GetTopicDiscussions(int meetingId);
         public List<Talk> GetTalks(int topicDiscussionId);
+        public long Add(Meeting m);
+        public long Add(GovLocation govLocation);
+        public long Add(GovBody govBody);
+        public List<Meeting> FindMeetings(SourceType? sourceType, WorkStatus? workStatus, bool? approved);
     }
 
 
@@ -92,6 +96,30 @@ namespace GM.DatabaseAccess
                         where m.GovBodyId == govBodyId
                         select m;
             return query.ToList();
+        }
+
+        public long Add(Meeting m)
+        {
+            // TODO - Implement
+            return 0;
+        }
+
+        public long Add(GovLocation govLocation)
+        {
+            // TODO - Implement
+            return 0;
+        }
+
+        public long Add(GovBody govBody)
+        {
+            // TODO - Implement
+            return 0;
+        }
+
+        public List<Meeting> FindMeetings(SourceType? sourceType, WorkStatus? workStatus, bool? approved)
+        {
+            // TODO - Implement
+            return new List<Meeting>();
         }
 
 

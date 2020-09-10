@@ -90,7 +90,7 @@ namespace GM.DatabaseAccess_Stub
             return id;
         }
 
-        public List<Meeting> FindAll(SourceType? sourceType, WorkStatus? workStatus, bool? approved)
+        public List<Meeting> FindMeetings(SourceType? sourceType, WorkStatus? workStatus, bool? approved)
         {
             List<Meeting> meetings = MeetingsStubData.FindAll(element =>
                ((sourceType == null) || (element.SourceType == sourceType)) &&

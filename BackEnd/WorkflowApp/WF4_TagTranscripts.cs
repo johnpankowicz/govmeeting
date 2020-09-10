@@ -3,11 +3,11 @@ using System.IO;
 using Microsoft.Extensions.Options;
 using GM.Configuration;
 using GM.FileDataRepositories;
-using GM.DatabaseRepositories;
 using GM.DatabaseModel;
 using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 using GM.Utilities;
+using GM.DatabaseAccess;
 
 namespace GM.Workflow
 {
@@ -26,18 +26,18 @@ namespace GM.Workflow
          */
 
         readonly AppSettings config;
-        readonly IMeetingRepository meetingRepository;
+        readonly IDBOperations dBOperations;
         readonly ILogger<WF2_ProcessTranscripts> logger;
 
         public WF4_TagTranscripts(
             IOptions<AppSettings> _config,
-            IMeetingRepository _meetingRepository,
+            IDBOperations _dBOperations,
             ILogger<WF2_ProcessTranscripts> _logger
            )
         {
             logger = _logger;
             config = _config.Value;
-            meetingRepository = _meetingRepository;
+            dBOperations = _dBOperations;
         }
         public void Run()
         {
@@ -46,14 +46,14 @@ namespace GM.Workflow
             bool? approved = true;
             if (!config.RequireManagerApproval) approved = null;
 
-            List<Meeting> meetings = meetingRepository.FindAll(SourceType.Transcript, WorkStatus.Processed, approved);
+            List<Meeting> meetings = dBOperations.FindMeetings(SourceType.Transcript, WorkStatus.Processed, approved);
 
             foreach (Meeting meeting in meetings)
             {
                 StartTagging(meeting);
             }
 
-            meetings = meetingRepository.FindAll(SourceType.Recording, WorkStatus.Tagging, null);
+            meetings = dBOperations.FindMeetings(SourceType.Recording, WorkStatus.Tagging, null);
             foreach (Meeting meeting in meetings)
             {
                 CheckIfTaggingCompleted(meeting);
@@ -64,8 +64,7 @@ namespace GM.Workflow
 
         public void DoWork(Meeting meeting)
         {
-            string workfolder = meetingRepository.GetLongName(meeting.Id);
-            string workFolderPath = config.DatafilesPath + "\\PROCESSING\\" + workfolder;
+            string workFolderPath = config.DatafilesPath + "\\PROCESSING\\" + meeting.WorkFolder;
 
             if (!GMFileAccess.CreateDirectory(workFolderPath))
             {
