@@ -74,11 +74,11 @@ namespace GM.WorkflowApp
                 scope.Complete();
             }
 
-            //string processedOutput = transcriptProcess.Process(meeting.SourceFilename, workFolderPath, meeting.Language);
+            string processedOutput = transcriptProcess.Process(meeting.SourceFilename, workFolderPath, meeting.Language);
 
             using (TransactionScope scope = new TransactionScope())
             {
-                //fileMgr.WriteAllText(processedFilePath, processedOutput);
+                fileMgr.WriteAllText(processedFilePath, processedOutput);
 
                 meeting.WorkStatus = WorkStatus.Processed;
                 meeting.Approved = false;
