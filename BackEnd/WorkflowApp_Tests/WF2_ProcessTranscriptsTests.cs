@@ -102,7 +102,7 @@ namespace GM.WorkflowApp.Tests
             string workFolderPath = datafilesPath + "\\" + workfolderName;
             Directory.CreateDirectory(workFolderPath);
             string sourceFilePath = Path.Combine(workFolderPath, meetings[0].SourceFilename);
-            //File.WriteAllText(sourceFilePath, "Sample Source File Coneents");
+            File.WriteAllText(sourceFilePath, "Sample Source File Coneents");
 
             // We expect WF2_ProcessTranscripts to write the results of processing the transcript
             // to the following file.
