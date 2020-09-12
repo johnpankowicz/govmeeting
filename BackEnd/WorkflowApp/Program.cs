@@ -18,7 +18,7 @@ using Google.Cloud.Storage.V1;
 using GM.Utilities;
 using GM.DatabaseAccess_Stub;
 
-namespace GM.Workflow
+namespace GM.WorkflowApp
 {
     /* Eventually This may become part of WebApp. It is in a separate proceess
      * for development. We want to start it in the same way that WebApp will start it.

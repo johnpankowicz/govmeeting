@@ -16,7 +16,7 @@ using System.Transactions;
 using GM.FileDataRepositories;
 using GM.DatabaseAccess;
 
-namespace GM.Workflow
+namespace GM.WorkflowApp
 {
     public class WF2_ProcessTranscripts
     {
@@ -43,23 +43,25 @@ namespace GM.Workflow
         public void Run()
         {
             // 
-            bool? isApproved = true;        // We want the received transcripts that were approved.
-            if (!config.RequireManagerApproval) isApproved = null;  // unless config setting says otherwise.
+            bool? isApproved = true;        // We want only the received transcripts that were approved.
+            if (!config.RequireManagerApproval) isApproved = null;  // unless the config setting says otherwise.
+
             List<Meeting> meetings = dBOperations.FindMeetings(SourceType.Transcript, WorkStatus.Received, isApproved);
 
             foreach (Meeting meeting in meetings)
             {
                     DoWork(meeting);
             }
-
         }
 
         private void DoWork(Meeting meeting)
         {
-            string workFolderPath = Path.Combine(config.DatafilesPath, meeting.WorkFolder);
+            string workfolderName = dBOperations.GetWorkFolderName(meeting);
+
+            string workFolderPath = Path.Combine(config.DatafilesPath, workfolderName);
             string processedFilePath = Path.Combine(workFolderPath, WorkfileNames.processedTranscript);
 
-            // For wrapping the file and database operations in the same transaction
+            // For wrapping file database operations in the same transaction
             TxFileManager fileMgr = new TxFileManager();
 
             using (TransactionScope scope = new TransactionScope())
