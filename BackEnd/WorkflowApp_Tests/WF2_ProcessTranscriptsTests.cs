@@ -33,6 +33,14 @@ namespace GM.WorkflowApp.Tests
 
         public WF2_ProcessTranscriptsTests()
         {
+
+            using var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+            var loggerReal = loggerFactory.CreateLogger<WF2_ProcessTranscriptsTests>();
+            loggerReal.LogInformation("REALLOGGER - information");
+            loggerReal.LogWarning("REALLOGGER - warning");
+            loggerReal.LogCritical("REALLOGGER - critical");
+            loggerReal.LogDebug("REALLOGGER - debug");
+
             // Create dependencies used by WF2_ProcessTranscripts that are needed
             // for all the tests.
 
