@@ -100,9 +100,9 @@ namespace GM.WorkflowApp.Tests
             // the source file for the transcript to be processed.
             string workfolderName = govbody.LongName + "_" + meetingDate;
             string workFolderPath = datafilesPath + "\\" + workfolderName;
-            Directory.CreateDirectory(workFolderPath);
+            //Directory.CreateDirectory(workFolderPath);
             string sourceFilePath = Path.Combine(workFolderPath, meetings[0].SourceFilename);
-            File.WriteAllText(sourceFilePath, "Sample Source File Coneents");
+            //File.WriteAllText(sourceFilePath, "Sample Source File Coneents");
 
             // We expect WF2_ProcessTranscripts to write the results of processing the transcript
             // to the following file.
@@ -125,7 +125,7 @@ namespace GM.WorkflowApp.Tests
             //Assert.True(results == processingResults, "Processed results are correct");
 
             // Clean up the temporary Datafiles folder and all its contents.
-            GMFileAccess.DeleteDirectoryAndContents(datafilesPath);
+            //GMFileAccess.DeleteDirectoryAndContents(datafilesPath);
         }
     }
 }
