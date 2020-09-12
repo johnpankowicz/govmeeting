@@ -25,8 +25,8 @@ namespace GM.WorkflowApp.Tests
         readonly IOptions<AppSettings> config;
         readonly ITranscriptProcess transcriptProcess;
 
-        // We will create a temporary workfolder with a unique name for the tests.
-        readonly string datafilesPath = @"DATAFILES" + Guid.NewGuid();
+        // We will create a temporary DATAFILES folder with a unique name for the tests.
+        readonly string datafilesPath = Path.Combine(Directory.GetCurrentDirectory(), @"DATAFILES" + Guid.NewGuid());
 
         // These are the results that the mock of TranscriptProcess will return.
         readonly string processingResults = "Sample Processing Results";
