@@ -74,7 +74,7 @@ namespace GM.WorkflowApp
                 scope.Complete();
             }
 
-            string processedOutput = transcriptProcess.Process(meeting.SourceFilename, workFolderPath, meeting.Language);
+            //string processedOutput = transcriptProcess.Process(meeting.SourceFilename, workFolderPath, meeting.Language);
 
             using (TransactionScope scope = new TransactionScope())
             {
