@@ -78,7 +78,7 @@ namespace GM.WorkflowApp
 
             using (TransactionScope scope = new TransactionScope())
             {
-                fileMgr.WriteAllText(processedFilePath, processedOutput);
+                //fileMgr.WriteAllText(processedFilePath, processedOutput);
 
                 meeting.WorkStatus = WorkStatus.Processed;
                 meeting.Approved = false;
