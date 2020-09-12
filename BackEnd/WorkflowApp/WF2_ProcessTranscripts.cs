@@ -62,7 +62,7 @@ namespace GM.WorkflowApp
             string processedFilePath = Path.Combine(workFolderPath, WorkfileNames.processedTranscript);
 
             // For wrapping file database operations in the same transaction
-            TxFileManager fileMgr = new TxFileManager();
+            //TxFileManager fileMgr = new TxFileManager();
 
             using (TransactionScope scope = new TransactionScope())
             {
@@ -78,7 +78,8 @@ namespace GM.WorkflowApp
 
             using (TransactionScope scope = new TransactionScope())
             {
-                fileMgr.WriteAllText(processedFilePath, processedOutput);
+                //fileMgr.WriteAllText(processedFilePath, processedOutput);
+                File.WriteAllText(processedFilePath, processedOutput);
 
                 meeting.WorkStatus = WorkStatus.Processed;
                 meeting.Approved = false;
