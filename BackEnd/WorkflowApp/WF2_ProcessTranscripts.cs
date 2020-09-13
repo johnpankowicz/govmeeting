@@ -69,9 +69,9 @@ namespace GM.WorkflowApp
             string workfolderName = dBOperations.GetWorkFolderName(meeting);
 
             string workFolderPath = Path.Combine(config.DatafilesPath, workfolderName);
-            string processedFilePath = Path.Combine(workFolderPath, WorkfileNames.processedTranscript);
+            string processedFile = Path.Combine(workFolderPath, WorkfileNames.processedTranscript);
 
-            loggerReal.LogInformation("REALLOGGER procesedFilePath={processedFilePath}");
+            loggerReal.LogInformation("REALLOGGER procesedFilePath={0}", processedFile);
 
             // For wrapping file database operations in the same transaction
             //TxFileManager fileMgr = new TxFileManager();
@@ -90,8 +90,8 @@ namespace GM.WorkflowApp
 
             using (TransactionScope scope = new TransactionScope())
             {
-                //fileMgr.WriteAllText(processedFilePath, processedOutput);
-                File.WriteAllText(processedFilePath, processedOutput);
+                //fileMgr.WriteAllText(processedFile, processedOutput);
+                File.WriteAllText(processedFile, processedOutput);
 
                 meeting.WorkStatus = WorkStatus.Processed;
                 meeting.Approved = false;

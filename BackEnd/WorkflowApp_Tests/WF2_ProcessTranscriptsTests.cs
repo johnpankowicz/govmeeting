@@ -116,7 +116,7 @@ namespace GM.WorkflowApp.Tests
             // to the following file.
             string processedFile = Path.Combine(workFolderPath, WorkfileNames.processedTranscript);
 
-            loggerReal.LogInformation("REALLOGGER procesedFilePath={processedFile}");
+            loggerReal.LogInformation("REALLOGGER procesedFilePath={0}", processedFile);
 
 
             // Mock all DBOperations that WF2_ProcessTranscripts calls
