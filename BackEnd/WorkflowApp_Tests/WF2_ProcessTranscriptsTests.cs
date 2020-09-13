@@ -1,14 +1,14 @@
-﻿using Xunit;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using GM.Configuration;
 using GM.DatabaseRepositories;
 using GM.ProcessTranscript;
 using GM.Utilities;
+using Xunit;
 using Moq;
-using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using GM.DatabaseModel;
 using GM.FileDataRepositories;
@@ -25,21 +25,21 @@ namespace GM.WorkflowApp.Tests
         readonly IOptions<AppSettings> config;
         readonly ITranscriptProcess transcriptProcess;
 
+        ILogger<WF2_ProcessTranscriptsTests> loggerReal;
+
         // We will create a temporary DATAFILES folder with a unique name for the tests.
         readonly string datafilesPath = Path.Combine(Directory.GetCurrentDirectory(), @"DATAFILES" + Guid.NewGuid());
 
         // These are the results that the mock of TranscriptProcess will return.
         readonly string processingResults = "Sample Processing Results";
 
+
         public WF2_ProcessTranscriptsTests()
         {
 
-            using var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
-            var loggerReal = loggerFactory.CreateLogger<WF2_ProcessTranscriptsTests>();
-            loggerReal.LogInformation("REALLOGGER - information");
-            loggerReal.LogWarning("REALLOGGER - warning");
-            loggerReal.LogCritical("REALLOGGER - critical");
-            loggerReal.LogDebug("REALLOGGER - debug");
+            ILoggerFactory loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+            loggerReal = loggerFactory.CreateLogger<WF2_ProcessTranscriptsTests>();
+            loggerReal.LogInformation("REALLOGGER - WF2_ProcessTranscriptsTests");
 
             // Create dependencies used by WF2_ProcessTranscripts that are needed
             // for all the tests.
@@ -115,6 +115,9 @@ namespace GM.WorkflowApp.Tests
             // We expect WF2_ProcessTranscripts to write the results of processing the transcript
             // to the following file.
             string processedFile = Path.Combine(workFolderPath, WorkfileNames.processedTranscript);
+
+            loggerReal.LogInformation("REALLOGGER procesedFilePath={processedFile}");
+
 
             // Mock all DBOperations that WF2_ProcessTranscripts calls
             var mockDbOp = new Mock<IDBOperations>();

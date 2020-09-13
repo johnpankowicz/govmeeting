@@ -10,6 +10,7 @@ using GM.Configuration;
 //using GM.FileDataRepositories;
 using GM.DatabaseModel;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using GM.Utilities;
 using ChinhDo.Transactions;
 using System.Transactions;
@@ -24,7 +25,11 @@ namespace GM.WorkflowApp
         readonly AppSettings config;
         readonly ITranscriptProcess transcriptProcess;
         readonly IDBOperations dBOperations;
+
         //readonly IFileRepository fileRepository;
+
+        // This is solely for debugging a unit test issue.
+        readonly ILogger<WF2_ProcessTranscripts> loggerReal;
 
         public WF2_ProcessTranscripts(
             ILogger<WF2_ProcessTranscripts> _logger,
@@ -38,6 +43,11 @@ namespace GM.WorkflowApp
             config = _config.Value;
             transcriptProcess = _transcriptProcess;
             dBOperations = _dBOperations;
+
+            // This is solely for debugging a unit test issue.
+            ILoggerFactory loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+            loggerReal = loggerFactory.CreateLogger<WF2_ProcessTranscripts>();
+            loggerReal.LogInformation("REALLOGGER - WF2_ProcessTranscripts");
         }
 
         public void Run()
@@ -60,6 +70,8 @@ namespace GM.WorkflowApp
 
             string workFolderPath = Path.Combine(config.DatafilesPath, workfolderName);
             string processedFilePath = Path.Combine(workFolderPath, WorkfileNames.processedTranscript);
+
+            loggerReal.LogInformation("REALLOGGER procesedFilePath={processedFilePath}");
 
             // For wrapping file database operations in the same transaction
             //TxFileManager fileMgr = new TxFileManager();

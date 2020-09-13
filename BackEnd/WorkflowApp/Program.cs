@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using NLog;
 using NLog.Web;
 using GM.Configuration;
@@ -82,9 +83,9 @@ namespace GM.WorkflowApp
             var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
             // add configured instance of logging
-            services.AddSingleton(new LoggerFactory()
-                .AddConsole()
-                .AddDebug());
+            //services.AddSingleton(new LoggerFactory()
+            //    .AddConsole()
+            //    .AddDebug());
 
             // add logging
             services.AddLogging();
