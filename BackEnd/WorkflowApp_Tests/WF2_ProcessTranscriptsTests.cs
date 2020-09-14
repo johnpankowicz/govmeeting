@@ -135,7 +135,7 @@ namespace GM.WorkflowApp.Tests
             Assert.True(results == processingResults, "Processed results are correct");
 
             // Clean up the temporary Datafiles folder and all its contents.
-            //GMFileAccess.DeleteDirectoryAndContents(datafilesPath);
+            GMFileAccess.DeleteDirectoryAndContents(datafilesPath);
         }
     }
 }
