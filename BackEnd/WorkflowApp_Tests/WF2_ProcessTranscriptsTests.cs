@@ -107,7 +107,7 @@ namespace GM.WorkflowApp.Tests
             // WF2_ProcessTranscripts expects a workfolder to exist that contains
             // the source file for the transcript to be processed.
             string workfolderName = govbody.LongName + "_" + meetingDate;
-            string workFolderPath = datafilesPath + "\\" + workfolderName;
+            string workFolderPath = Path.Combine(datafilesPath, workfolderName);
             loggerReal.LogInformation("REALLOGGER TEST datafilesPath={0}", datafilesPath);
             Directory.CreateDirectory(datafilesPath);
             loggerReal.LogInformation("REALLOGGER TEST workFolderPath={0}", workFolderPath);
