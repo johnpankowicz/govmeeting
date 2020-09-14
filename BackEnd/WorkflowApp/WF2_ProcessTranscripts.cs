@@ -74,7 +74,7 @@ namespace GM.WorkflowApp
             loggerReal.LogInformation("REALLOGGER MAIN proccesedFilePath={0}", processedFile);
 
             // For wrapping file database operations in the same transaction
-            //TxFileManager fileMgr = new TxFileManager();
+            TxFileManager fileMgr = new TxFileManager();
 
             using (TransactionScope scope = new TransactionScope())
             {
@@ -90,6 +90,9 @@ namespace GM.WorkflowApp
 
             using (TransactionScope scope = new TransactionScope())
             {
+                fileMgr.WriteAllText(processedFile, processedOutput);
+                //File.WriteAllText(processedFile, processedOutput);
+
                 bool existsDatafiles = Directory.Exists(config.DatafilesPath);
                 bool existsWorkfolder = Directory.Exists(workFolderPath);
                 bool existsSourceFile = File.Exists(Path.Combine(workFolderPath, meeting.SourceFilename));
@@ -98,10 +101,6 @@ namespace GM.WorkflowApp
                 loggerReal.LogInformation("REALLOGGER MAIN workFolderPath={0}", workFolderPath);
                 loggerReal.LogInformation("REALLOGGER MAIN D={0} W={1} S={3} P={4}",
                     existsDatafiles, existsWorkfolder, existsSourceFile, existsProcessedFile);
-
-
-                //fileMgr.WriteAllText(processedFile, processedOutput);
-                //File.WriteAllText(processedFile, processedOutput);
 
                 meeting.WorkStatus = WorkStatus.Processed;
                 meeting.Approved = false;
