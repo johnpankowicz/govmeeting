@@ -47,7 +47,7 @@ namespace GM.WorkflowApp
             // This is solely for debugging a unit test issue.
             ILoggerFactory loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
             loggerReal = loggerFactory.CreateLogger<WF2_ProcessTranscripts>();
-            loggerReal.LogInformation("REALLOGGER - WF2_ProcessTranscripts");
+            loggerReal.LogInformation("REALLOGGER MAIN - WF2_ProcessTranscripts");
         }
 
         public void Run()
@@ -71,7 +71,7 @@ namespace GM.WorkflowApp
             string workFolderPath = Path.Combine(config.DatafilesPath, workfolderName);
             string processedFile = Path.Combine(workFolderPath, WorkfileNames.processedTranscript);
 
-            loggerReal.LogInformation("REALLOGGER procesedFilePath={0}", processedFile);
+            loggerReal.LogInformation("REALLOGGER MAIN proccesedFilePath={0}", processedFile);
 
             // For wrapping file database operations in the same transaction
             //TxFileManager fileMgr = new TxFileManager();
@@ -90,6 +90,14 @@ namespace GM.WorkflowApp
 
             using (TransactionScope scope = new TransactionScope())
             {
+                bool existsDatafiles = Directory.Exists(config.DatafilesPath);
+                bool existsWorkfolder = Directory.Exists(workFolderPath);
+                bool existsSourceFile = File.Exists(Path.Combine(workFolderPath, meeting.SourceFilename));
+                bool existsProcessedFile = File.Exists(processedFile);
+                loggerReal.LogInformation("REALLOGGER MAIN D={0} W={1} S={3} P={4}",
+                    existsDatafiles, existsWorkfolder, existsSourceFile, existsProcessedFile);
+
+
                 //fileMgr.WriteAllText(processedFile, processedOutput);
                 //File.WriteAllText(processedFile, processedOutput);
 

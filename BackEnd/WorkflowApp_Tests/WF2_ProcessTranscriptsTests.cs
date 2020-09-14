@@ -39,7 +39,7 @@ namespace GM.WorkflowApp.Tests
 
             ILoggerFactory loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
             loggerReal = loggerFactory.CreateLogger<WF2_ProcessTranscriptsTests>();
-            loggerReal.LogInformation("REALLOGGER - WF2_ProcessTranscriptsTests");
+            loggerReal.LogInformation("REALLOGGER TEST - WF2_ProcessTranscriptsTests");
 
             // Create dependencies used by WF2_ProcessTranscripts that are needed
             // for all the tests.
@@ -116,7 +116,7 @@ namespace GM.WorkflowApp.Tests
             // to the following file.
             string processedFile = Path.Combine(workFolderPath, WorkfileNames.processedTranscript);
 
-            loggerReal.LogInformation("REALLOGGER procesedFilePath={0}", processedFile);
+            loggerReal.LogInformation("REALLOGGER TEST procesedFilePath={0}", processedFile);
 
 
             // Mock all DBOperations that WF2_ProcessTranscripts calls
