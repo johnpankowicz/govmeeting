@@ -94,6 +94,8 @@ namespace GM.WorkflowApp
                 bool existsWorkfolder = Directory.Exists(workFolderPath);
                 bool existsSourceFile = File.Exists(Path.Combine(workFolderPath, meeting.SourceFilename));
                 bool existsProcessedFile = File.Exists(processedFile);
+                loggerReal.LogInformation("REALLOGGER MAIN datafilesPath={0}", config.DatafilesPath);
+                loggerReal.LogInformation("REALLOGGER MAIN workFolderPath={0}", workFolderPath);
                 loggerReal.LogInformation("REALLOGGER MAIN D={0} W={1} S={3} P={4}",
                     existsDatafiles, existsWorkfolder, existsSourceFile, existsProcessedFile);
 

@@ -108,6 +108,9 @@ namespace GM.WorkflowApp.Tests
             // the source file for the transcript to be processed.
             string workfolderName = govbody.LongName + "_" + meetingDate;
             string workFolderPath = datafilesPath + "\\" + workfolderName;
+            loggerReal.LogInformation("REALLOGGER TEST datafilesPath={0}", datafilesPath);
+            Directory.CreateDirectory(datafilesPath);
+            loggerReal.LogInformation("REALLOGGER TEST workFolderPath={0}", workFolderPath);
             Directory.CreateDirectory(workFolderPath);
             string sourceFilePath = Path.Combine(workFolderPath, meetings[0].SourceFilename);
             File.WriteAllText(sourceFilePath, "Sample Source File Coneents");
