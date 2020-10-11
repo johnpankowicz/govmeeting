@@ -49,7 +49,7 @@ namespace GM.WorkflowApp.Tests
 
         }
 
-        [Fact()]
+        //[Fact()]
         public void Create_WF3_Transcribe_Test()
         {
             var mockDbOp = new Mock<IDBOperations>();
@@ -59,7 +59,7 @@ namespace GM.WorkflowApp.Tests
             Assert.True(wf3 != null, "Create new WF3_Transcribe");
         }
 
-        [Fact()]
+        //[Fact()]
         public void Run_WF3_Transcribe_One_Recording_Test()
         {
             // Mock some sample database records, a Meeting and GovBody.

@@ -50,7 +50,7 @@ namespace GM.WorkflowApp.Tests
             config = mock.Object;
         }
 
-        [Fact()]
+        //[Fact()]
         public void Create_WF1_RetrieveOnlineFiles_Test()
         {
             var mockDbOp = new Mock<IDBOperations>();
@@ -60,7 +60,7 @@ namespace GM.WorkflowApp.Tests
             Assert.True(wf1 != null, "Create new WF2_ProcessTranscripts");
         }
 
-        [Fact()]
+        //[Fact()]
         public void RetrieveOneOnlineFile_Test()
         {
             string scheduledDate = "2020-08-25";

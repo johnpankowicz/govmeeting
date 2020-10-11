@@ -186,6 +186,9 @@ namespace GM.WebApp
             app.UseRouting();
 
             //####################################
+            // UseAuthentication must come between UseRouting & UseEndpoints
+            // so that route information is available for authentication decisions
+            // and before accessing the endpoints.
             logger.Info("Use Authenitication & Authorization");
             app.UseAuthentication();
             app.UseAuthorization();
@@ -195,10 +198,10 @@ namespace GM.WebApp
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-                // Fix controller endpoints. This give err in HomeController/Index about "no file provider"
-                //endpoints.MapControllerRoute(
-                //name: "default",
-                //pattern: "{controller=Home}/{action=Index}/{id?}");
+                //Fix controller endpoints.This give err in HomeController / Index about "no file provider"
+                endpoints.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
             //####################################
