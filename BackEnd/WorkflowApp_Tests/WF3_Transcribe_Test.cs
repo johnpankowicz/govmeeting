@@ -49,7 +49,7 @@ namespace GM.WorkflowApp.Tests
 
         }
 
-        //[Fact()]
+        [Fact()]
         public void Create_WF3_Transcribe_Test()
         {
             var mockDbOp = new Mock<IDBOperations>();

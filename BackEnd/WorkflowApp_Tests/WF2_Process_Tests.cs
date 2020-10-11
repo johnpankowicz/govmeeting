@@ -59,7 +59,7 @@ namespace GM.WorkflowApp.Tests
             transcriptProcess = mockTranscriptProcess.Object;
         }
 
-        //[Fact()]
+        [Fact()]
         public void Create_WF2_ProcessTranscripts_Test()
         {
             var mockDbOp = new Mock<IDBOperations>();
