@@ -1,5 +1,5 @@
 ﻿using GM.Configuration;
-using GM.DatabaseRepositories;
+//using GM.DatabaseRepositories;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -16,27 +16,36 @@ namespace GM.FileDataRepositories
 
     public class FileRepository : IFileRepository
     {
-        readonly IMeetingRepository meetingRepository;
+        //readonly IMeetingRepository meetingRepository;
         readonly AppSettings config;
 
 
         public FileRepository(
-            IMeetingRepository _meetingRepository,
+            //IMeetingRepository _meetingRepository,
             IOptions<AppSettings> _config
             )
         {
-            meetingRepository = _meetingRepository;
+            //meetingRepository = _meetingRepository;
             config = _config.Value;
         }
 
         public string WorkFolderPath(long meetingId)
         {
-            return Path.Combine(config.DatafilesPath, "PROCESSING", meetingRepository.GetLongName(meetingId));
+            //return Path.Combine(config.DatafilesPath, "PROCESSING", meetingRepository.GetLongName(meetingId));
+            return "";
         }
+
+        //private string GetWorkfolderPath(Meeting meeting)
+        //{
+        //    string workfolderName = dBOperations.GetWorkFolderName(meeting);
+        //    string workFolderPath = config.DatafilesPath + workfolderName;
+        //    return workFolderPath;
+        //}
 
         public string SourceFilePath(long meetingId)
         {
-            return Path.Combine(config.DatafilesPath, "RECEIVED", meetingRepository.GetSourceFilename(meetingId));
+            //return Path.Combine(config.DatafilesPath, "RECEIVED", meetingRepository.GetSourceFilename(meetingId));
+            return "";
         }
 
     }

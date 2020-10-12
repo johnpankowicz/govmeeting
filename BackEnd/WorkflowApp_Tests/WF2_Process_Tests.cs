@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using GM.Configuration;
-using GM.DatabaseRepositories;
+//using GM.DatabaseRepositories;
 using GM.ProcessTranscript;
 using GM.Utilities;
 using Xunit;

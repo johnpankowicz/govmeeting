@@ -23,13 +23,15 @@ namespace GM.WorkflowApp
         readonly AppSettings config;
         readonly IRecordingProcess processRecording;
         readonly IDBOperations dBOperations;
+        readonly IFileRepository fileRepository;
         readonly WorkSegments workSegments = new WorkSegments();
 
         public WF3_Transcribe(
             ILogger<WF3_Transcribe> _logger,
             IOptions<AppSettings> _config,
             IRecordingProcess _processRecording,
-            IDBOperations _dBOperations
+            IDBOperations _dBOperations,
+            IFileRepository _fileRepository
            )
         {
             config = _config.Value;
@@ -37,6 +39,7 @@ namespace GM.WorkflowApp
             logger = _logger;
             processRecording = _processRecording;
             dBOperations = _dBOperations;
+            fileRepository = _fileRepository;
         }
 
         // Find all new received meetings whose source is a recording and approved status is true.

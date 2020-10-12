@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.Logging;
 using GM.Configuration;
-using GM.DatabaseRepositories;
+//using GM.DatabaseRepositories;
 using GM.ProcessTranscript;
 using GM.Utilities;
 using Moq;

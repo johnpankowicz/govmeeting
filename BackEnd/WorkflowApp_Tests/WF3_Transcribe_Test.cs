@@ -24,6 +24,7 @@ namespace GM.WorkflowApp.Tests
         readonly IOptions<AppSettings> config;
         IRecordingProcess recordingProcess;
         readonly string datafilesPath;
+        readonly IFileRepository fileRepository;
 
         public WF3_Transcribe_Tests()
         {
@@ -43,10 +44,12 @@ namespace GM.WorkflowApp.Tests
                 DatafilesPath = datafilesPath,
                 RequireManagerApproval = true
             };
-            var mock = new Mock<IOptions<AppSettings>>();
-            mock.Setup(a => a.Value).Returns(appsettings);
-            config = mock.Object;
+            var mockConfig = new Mock<IOptions<AppSettings>>();
+            mockConfig.Setup(a => a.Value).Returns(appsettings);
+            config = mockConfig.Object;
 
+            var mockFileRepository = new Mock<IFileRepository>();
+            fileRepository = mockFileRepository.Object;
         }
 
         [Fact()]
@@ -55,7 +58,7 @@ namespace GM.WorkflowApp.Tests
             var mockDbOp = new Mock<IDBOperations>();
             IDBOperations dBOperations = mockDbOp.Object;
 
-            wf3 = new WF3_Transcribe(logger, config, recordingProcess, dBOperations);
+            wf3 = new WF3_Transcribe(logger, config, recordingProcess, dBOperations, fileRepository);
             Assert.True(wf3 != null, "Create new WF3_Transcribe");
         }
 
@@ -115,7 +118,7 @@ namespace GM.WorkflowApp.Tests
 
 
             //################ This is the actual test. Everything else was setup ############. 
-            wf3 = new WF3_Transcribe(logger, config, recordingProcess, dBOperations);
+            wf3 = new WF3_Transcribe(logger, config, recordingProcess, dBOperations, fileRepository);
             wf3.Run();
             // 
             //################################################################################. 
