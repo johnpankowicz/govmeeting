@@ -35,7 +35,7 @@ namespace GM.DatabaseModel
         public string Name { get; set; }
         public DateTime Date { get; set; }
         public int Length { get; set; }
-        public List<Section> Sections { get; set; }
+        public List<Section> Sections { get; private set; }
         public long GovBodyId { get; set; }
         public string Language { get; set; }
         public string SourceFilename { get; set; }

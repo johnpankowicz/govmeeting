@@ -20,7 +20,7 @@ namespace GM.DatabaseModel
         public int Sequence { get; set; }    // sequence within Section
         // Talks is a convenience property. It's not part of the
         // DB table but is useful when re-constructing the transcript
-        public List<Talk> Talks { get; set; }
+        public List<Talk> Talks { get; private set; }
         private void CreateCollections()
         {
             Talks = new List<Talk>();

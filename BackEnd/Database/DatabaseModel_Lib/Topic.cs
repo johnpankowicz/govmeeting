@@ -17,7 +17,7 @@ namespace GM.DatabaseModel
         }
         public long Id { get; set; }
         public string Name { get; set; }
-        public List<Category> Categories { get; set; }
+        public List<Category> Categories { get; private set; }
         public long GovernmentBodyId { get; set; }
         private void CreateCollections()
         {

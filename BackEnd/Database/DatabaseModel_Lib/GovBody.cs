@@ -28,9 +28,9 @@ namespace GM.DatabaseModel
         ///  All GovBodies have a GovLocation as a parent
         /// </summary>
         public long GovLocationId { get; set; }
-        public List<Meeting> Meetings { get; set; }
-        public List<Topic> Topics { get; set; }
-        public List<ScheduledMeeting> ScheduledMeetings { get; set; }
+        public List<Meeting> Meetings { get; private set; }
+        public List<Topic> Topics { get; private set; }
+        public List<ScheduledMeeting> ScheduledMeetings { get; private set; }
         private void CreateCollections()
         {
             Meetings = new List<Meeting>();
