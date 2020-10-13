@@ -19,12 +19,12 @@ namespace GM.WorkflowApp.Tests
 {
     public class WF3_Transcribe_Tests
     {
-        WF3_Transcribe wf3;
         readonly ILogger<WF3_Transcribe> logger;
         readonly IOptions<AppSettings> config;
-        IRecordingProcess recordingProcess;
         readonly string datafilesPath;
-        readonly IFileRepository fileRepository;
+        WF3_Transcribe wf3;
+        IRecordingProcess recordingProcess;
+        IFileRepository fileRepository;
 
         public WF3_Transcribe_Tests()
         {
@@ -47,9 +47,6 @@ namespace GM.WorkflowApp.Tests
             var mockConfig = new Mock<IOptions<AppSettings>>();
             mockConfig.Setup(a => a.Value).Returns(appsettings);
             config = mockConfig.Object;
-
-            var mockFileRepository = new Mock<IFileRepository>();
-            fileRepository = mockFileRepository.Object;
         }
 
         [Fact()]
@@ -62,7 +59,7 @@ namespace GM.WorkflowApp.Tests
             Assert.True(wf3 != null, "Create new WF3_Transcribe");
         }
 
-        //[Fact()]
+        [Fact()]
         public void Run_WF3_Transcribe_One_Recording_Test()
         {
             // Mock some sample database records, a Meeting and GovBody.
@@ -91,29 +88,30 @@ namespace GM.WorkflowApp.Tests
                 LongName = "USA_ME"
             };
 
+            // Mock the FileRepository calls that it will make.
+            var mockFileRepository = new Mock<IFileRepository>();
+            mockFileRepository
+                .Setup(a => a.WorkfolderPath(It.IsAny<Meeting>()))
+                .Returns("x");
+            mockFileRepository
+                .Setup(a => a.SourcefilePath(It.IsAny<Meeting>()))
+                .Returns("x");
+            fileRepository = mockFileRepository.Object;
+
             // Create the Datafiles folder
-            Directory.CreateDirectory(datafilesPath);
+            //Directory.CreateDirectory(datafilesPath);
 
-            // WF2_Transcribe expects a workfolder for this meeting to already exist.
-            string workfolderName = govbody.LongName + "_" + meetingDate;
-            string workFolderPath = Path.Combine(datafilesPath, workfolderName);
-            Directory.CreateDirectory(workFolderPath);
-
-            //  It expects the workfolder to contain the file for the recording to be processed.
-            string sourceFilePath = Path.Combine(workFolderPath, meetings[0].SourceFilename);
-            File.WriteAllText(sourceFilePath, "Sample Source File Contents");
-
-            // Mock the DBOperations that it will call
+            // Mock the DBOperations calls that it will make.
             var mockDbOp = new Mock<IDBOperations>();
-            mockDbOp.Setup(a => a.FindMeetings(SourceType.Recording, WorkStatus.Received, true)).Returns(meetings);
-            mockDbOp.Setup(a => a.WriteChanges());
-            mockDbOp.Setup(a => a.GetWorkFolderName(It.IsAny<Meeting>())).Returns(workfolderName);
+            mockDbOp
+                .Setup(a => a.FindMeetings(SourceType.Recording, WorkStatus.Received, true))
+                .Returns(meetings);
+            //mockDbOp.Setup(a => a.WriteChanges());
             IDBOperations dBOperations = mockDbOp.Object;
 
-            // Mock RecordingProcess.Process(..)
-            // This is the method that will be called to do the actual processing
+            // Mock the RecordingProcess calls that it will make.
             var mockRecordingProcess = new Mock<IRecordingProcess>();
-            mockRecordingProcess.Setup(a => a.Process(sourceFilePath, workFolderPath, "en"));
+            //mockRecordingProcess.Setup(a => a.Process(sourceFilePath, workFolderPath, "en"));
             recordingProcess = mockRecordingProcess.Object;
 
 
@@ -123,7 +121,7 @@ namespace GM.WorkflowApp.Tests
             // 
             //################################################################################. 
 
-            //// WF2_Transcribe should have written the results to the processedFile
+            //// WF3_Transcribe should have written the results to the processedFile
             //string processedFile = Path.Combine(workFolderPath, WorkfileNames.processedTranscript);
             //Assert.True(File.Exists(processedFile), "Processed results were written to file.");
 
@@ -132,7 +130,7 @@ namespace GM.WorkflowApp.Tests
             //Assert.True(results == processingResults, "Processed results are correct");
 
             // Clean up the temporary Datafiles folder and all its contents.
-            GMFileAccess.DeleteDirectoryAndContents(datafilesPath);
+            //GMFileAccess.DeleteDirectoryAndContents(datafilesPath);
         }
     }
 }
