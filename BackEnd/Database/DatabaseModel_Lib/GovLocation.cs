@@ -27,25 +27,27 @@ namespace GM.DatabaseModel
     /// </summary>
     public class GovLocation
     {
+        public GovLocation()
+        {
+            CreateCollections();
+        }
         public long Id { get; set; }
-
         public string Code { get; set; }
-
         public string Name { get; set; }
-
         public GovEntityTypes GovEntityType { get; set; }
-
         public List<Language> Languages { get; set; }
-
         /// <summary>
         /// The list of government bodies associated with this entity
         /// </summary>
         public List<GovBody> GovBodies { get; set; }
-
         /// <summary>
         /// Our parent GovEntity
         /// </summary>
         public long GovLocationId;
-
+        private void CreateCollections()
+        {
+            Languages = new List<Language>();
+            GovBodies = new List<GovBody>();
+        }
     }
 }

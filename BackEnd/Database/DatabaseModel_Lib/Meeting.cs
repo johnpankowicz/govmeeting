@@ -27,6 +27,10 @@ namespace GM.DatabaseModel
     /// </summary>
     public class Meeting
     {
+        public Meeting()
+        {
+            CreateCollections();
+        }
         public long Id { get; set; }
         public string Name { get; set; }
         public DateTime Date { get; set; }
@@ -39,7 +43,10 @@ namespace GM.DatabaseModel
         public SourceType SourceType { get; set; }
         public WorkStatus WorkStatus { get; set; }
         public bool Approved { get; set; }
-
+        private void CreateCollections()
+        {
+            Sections = new List<Section>();
+        }
         /*
          * If we were to say: public virtual List<Talk> ....
          * then EF would lazy load these as they are accessed.
