@@ -68,20 +68,12 @@ namespace GM.WorkflowApp.Tests
 
             // Mock some sample database records.
             // We expect WF1_RetrieveOnlineFiles to search for all GovBody's with scheduled meetings.
-            List<ScheduledMeeting> scheduled = new List<ScheduledMeeting>()
-            {
-                new ScheduledMeeting()
-                {
-                    Date = scheduledDateTime
-                }
-            };
             List<GovBody> govbodies = new List<GovBody>()
             {
                 new GovBody()
                 {
                     Id = 10,
                     LongName = "USA_ME",
-                    ScheduledMeetings = scheduled
                 },
                 new GovBody()
                 {
@@ -89,6 +81,12 @@ namespace GM.WorkflowApp.Tests
                     LongName = "USA_NJ_Summit"
                 }
             };
+
+            govbodies[0].ScheduledMeetings.Add(new ScheduledMeeting()
+            {
+                Date = scheduledDateTime
+            });
+
             // We expect WF1_RetrieveOnlineFiles to add a new meeting to this empty list
             List<Meeting> meetings = new List<Meeting>();
 
