@@ -35,7 +35,7 @@ namespace GM.WebApp
                     {
                         // If development, include SECRETS/appsettings.Development.json in the configuration.
                         // This file contains the keys for using reCaptcha and Google external authorization.
-                        string secretsFolder = GMFileAccess.GetProjectSiblingFolder("SECRETS");
+                        string secretsFolder = GMFileAccess.GetSolutionSiblingFolder("SECRETS");
                         string devSettingFile = secretsFolder + "/" + $"appsettings.{env.EnvironmentName}.json";
                         if (File.Exists(devSettingFile))
                         {

@@ -33,7 +33,7 @@ namespace GM.WorkflowApp
         {
             // https://pioneercode.com/post/dependency-injection-logging-and-configuration-in-a-dot-net-core-console-app
 
-            string secrets = GMFileAccess.FindParentFolderWithName("SECRETS");
+            string secrets = GMFileAccess.GetSolutionSiblingFolder("SECRETS");
             string credentialsFilePath = Path.Combine(secrets, "TranscribeAudio.json");
             Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", credentialsFilePath);
 
@@ -103,7 +103,7 @@ namespace GM.WorkflowApp
 
             string devSettingFile = $"appsettings.{environmentName}.json";
             // Find path to the SECRETS folder
-            string secrets = GMFileAccess.FindParentFolderWithName("SECRETS");
+            string secrets = GMFileAccess.GetSolutionSiblingFolder("SECRETS");
             // If it exists look there for environment settings file.
             if (secrets != null)
             {
@@ -124,9 +124,9 @@ namespace GM.WorkflowApp
             services.Configure<AppSettings>(myOptions =>
             {
                 // Modify paths to be full paths.
-                myOptions.DatafilesPath = GMFileAccess.GetProjectSiblingFolder(myOptions.DatafilesPath);
-                myOptions.TestdataPath = GMFileAccess.GetProjectSiblingFolder(myOptions.TestdataPath);
-                myOptions.GoogleApplicationCredentials = GMFileAccess.GetProjectSiblingFolder(myOptions.GoogleApplicationCredentials);
+                myOptions.DatafilesPath = GMFileAccess.GetSolutionSiblingFolder(myOptions.DatafilesPath);
+                myOptions.TestdataPath = GMFileAccess.GetSolutionSiblingFolder(myOptions.TestdataPath);
+                myOptions.GoogleApplicationCredentials = GMFileAccess.GetSolutionSiblingFolder(myOptions.GoogleApplicationCredentials);
             });
 
             // add services

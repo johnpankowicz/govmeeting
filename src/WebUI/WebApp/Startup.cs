@@ -47,7 +47,8 @@ namespace GM.WebApp
             //####################################
             // Set a variable in the gdc which is be used in NLog.config for the
             // base path of our app: ${gdc:item=appbasepath} 
-            string logfilesPath = GMFileAccess.GetFullPath(Configuration["AppSettings:LogfilesPath"]);
+            string logfilesPath = GMFileAccess.GetSolutionSiblingFolder(Configuration["Logging:LogfilesPath"]);
+            //string logfilesPath = GMFileAccess.GetFullPath(Configuration["AppSettings:LogfilesPath"]);
             GlobalDiagnosticsContext.Set("logfilesPath", logfilesPath);
 
             //####################################
@@ -63,16 +64,15 @@ namespace GM.WebApp
             services.Configure<AppSettings>(myOptions =>
             {
                 logger.Info("Modify the configuration path options to be full paths.");
-                logger.Info("LogfilesPath = " + myOptions.LogfilesPath);
                 logger.Info("DatafilesPath = " + myOptions.DatafilesPath);
                 logger.Info("TestdataPath = " + myOptions.TestdataPath);
 
                 logger.Info("Start modifying.");
                 // Modify the configuration path options to be full paths.
-                myOptions.LogfilesPath = GMFileAccess.GetFullPath(myOptions.LogfilesPath);
-                myOptions.DatafilesPath = GMFileAccess.GetProjectSiblingFolder(myOptions.DatafilesPath);
-                myOptions.TestdataPath = GMFileAccess.GetProjectSiblingFolder(myOptions.TestdataPath);
-                logger.Info("Done modifying.");
+                myOptions.DatafilesPath = GMFileAccess.GetSolutionSiblingFolder(myOptions.DatafilesPath);
+                myOptions.TestdataPath = GMFileAccess.GetSolutionSiblingFolder(myOptions.TestdataPath);
+                logger.Info("new DatafilesPath = " + myOptions.DatafilesPath);
+                logger.Info("new TestdataPath = " + myOptions.TestdataPath);
             });
 
             //####################################
@@ -108,13 +108,13 @@ namespace GM.WebApp
                 options.ViewLocationExpanders.Add(new FeatureLocationExpander());
             });
 
-            //logger.Info("Add SPA static files");
-            //// In production, the Angular files will be served from this directory
-            //services.AddSpaStaticFiles(configuration =>
-            //{
-            //    configuration.RootPath = "../../frontend/clientapp/dist";
-            //    //configuration.RootPath = "ClientApp/dist";
-            //});
+            //####################################
+            logger.Info("Add SPA static files");
+            // In production, the Angular files will be served from this directory
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/dist";
+            });
 
             //####################################
             logger.Info("Add Application services");
@@ -161,6 +161,10 @@ namespace GM.WebApp
             // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/static-files?view=aspnetcore-3.1
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            if (!env.IsDevelopment())
+            {
+                app.UseSpaStaticFiles();
+            }
 
             //####################################
             logger.Info("Configure datafiles PhysicalFileProvider. Path = " + datafilesPath);
@@ -220,7 +224,7 @@ namespace GM.WebApp
                 // see https://go.microsoft.com/fwlink/?linkid=864501
 
                 //spa.Options.SourcePath = "../../frontend/clientapp";
-                //spa.Options.SourcePath = "ClientApp";
+                spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment())
                 {

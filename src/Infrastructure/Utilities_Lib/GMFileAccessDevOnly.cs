@@ -9,56 +9,47 @@ namespace GM.Utilities
 {
     public static partial class GMFileAccess
     {
-        public static string GetTestdataFolder()
-        {
-            return FindParentFolderWithName("TESTDATA");
-        }
-
-        public static string GetClientAppFolder()
-        {
-            return Path.Combine(GetGovmeetingSolutionFolder(), "frontend", "clientapp");
-        }
-
-        public static string GetWebAppFolder()
-        {
-            return Path.Combine(GetGovmeetingSolutionFolder(), "BackEnd", "WebApp");
-        }
-
-        public static string GetWorkflowAppFolder()
-        {
-            return Path.Combine(GetGovmeetingSolutionFolder(), "BackEnd", "WorkflowApp");
-        }
-
-        public static string GetGovmeetingSolutionFolder()
-        {
-            return FindParentFolderContaining("govmeeting.sln");
-        }
-
-        /* GetProjectSiblingFolder is for creating/finding sibling folders to the project.
-        * These include: _TESTDATA, DATAFILES, SECRETS.
+        /* GetSolutionSiblingFolder is for creating/finding sibling folders to the project.
+        * These include: TESTDATA, DATAFILES, SECRETS.
         * These folders must be outside the project folder so that they are not 
         * included in the code repository.
-        * The names are coming from appsettings.json. The name could be just
-        * the folder name in development. But in production, it will be a rooted path.
+        * The names come from appsettings.json. In Development, this name is a
+        * sibling of the solution folder. But in production, it will be a rooted path.
         * In production, we just return the path.
         */
-        public static string GetProjectSiblingFolder(string name)
+        public static string GetSolutionSiblingFolder(string folder)
         {
-            if (Path.IsPathRooted(name))
+            if (Path.IsPathRooted(folder))
             {
-                return name;
+                return folder;
             }
-            string projectFolder = FindParentFolderContaining("govmeeting.sln");
-            string path = Path.Combine(projectFolder, "../" + name);
-            path = Path.GetFullPath(path);
-            return path;
+            string parentOfSolution = Directory.GetParent(GetSolutionFolder()).FullName;
+            return Path.Combine(parentOfSolution, folder);
         }
+
+        public static string GetTestdataFolder() =>
+            GetSolutionSiblingFolder("TESTDATA");
+
+        public static string GetSecretsFolder() =>
+            GetSolutionSiblingFolder("SECRETS");
+
+        public static string GetSolutionFolder() =>
+            FindParentFolderContaining("govmeeting.sln");
+
+        public static string GetWebAppFolder() =>
+            Path.Combine(GetSolutionFolder(), "src", "WebUI", "WebApp");
+
+        public static string GetClientAppFolder() =>
+            Path.Combine(GetWebAppFolder(), "ClientApp");
+
+        public static string GetWorkflowAppFolder() =>
+            Path.Combine(GetSolutionFolder(), "src", "Workflow", "WorkflowApp");
 
         public static void SetGoogleCredentialsEnvironmentVariable()
         {
             // Find path to the SECRETS folder
             string credentialsFilePath;
-            string secrets = FindParentFolderWithName("SECRETS");
+            string secrets = GetSecretsFolder();
             // If it exists look there for Google Application Credentials.
             if (secrets != null)
             {

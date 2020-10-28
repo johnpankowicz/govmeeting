@@ -86,27 +86,10 @@ namespace GM.Utilities
             }
         }
 
-        //public static bool DeleteDirectoryAndContents(string folder)
-        //{
-        //    if (Directory.Exists(folder))
-        //    {
-        //        DirectoryInfo di = new DirectoryInfo(folder);
-
-        //        di.Delete(true);
-        //        return true;
-        //    }
-        //    else
-        //    {
-        //        return false;
-        //    }
-
-        //}
-
         public static bool DeleteDirectoryAndContents(string folderName)
         {
             return (DeleteDirectoryContents(folderName, true));
         }
-
 
         public static bool DeleteDirectoryContents(string folderName, bool deleteSelf = false)
         {
@@ -163,14 +146,6 @@ namespace GM.Utilities
             return (maxTries > 0);
         }
 
-        //public static bool DeleteDirectoryContents(string folderName, bool deleteSelf = false)
-        //{
-        //    if (!Directory.Exists(folderName)) { return false; }
-
-        //    DeleteAllFilesInDirectory(folderName);
-        //    DeleteAllFoldersInDirectory(folderName, deleteSelf);
-        //    return true;
-        //}
 
         public static bool DeleteAllFilesInDirectory(string folderName)
         {
@@ -248,21 +223,17 @@ namespace GM.Utilities
 
         public static string FindParentFolderWithName(string folder)
         {
-            string current = Directory.GetCurrentDirectory();
-            current = Path.GetDirectoryName(current); // start with parent of current folder
-            string test;
-
-            while (current != null)
-            {              
-                test = Path.Combine(current, folder);
-                if (Directory.Exists(test))
+            folder = folder.ToLower();
+            DirectoryInfo di = new DirectoryInfo(Directory.GetCurrentDirectory());
+            while (di.Name.ToLower() != folder)
+            {
+                di = di.Parent;
+                if (di.Parent == null)
                 {
-                    return test;
+                    return "";
                 }
-                current = Path.GetDirectoryName(current);
             }
-
-            return null;
+            return di.FullName;
         }
 
     }
