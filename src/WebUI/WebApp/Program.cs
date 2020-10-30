@@ -25,30 +25,35 @@ namespace GM.WebApp
         // CreateDefaultBuilder would normally add both appsettings.json and the appsettings for our current environment.
         // But our appsettings.Development.json is in the secrets folder, so we need to specifically add it here.
         // When we deploy to production, we upload appsettings.Production.json from the secrets folder.
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
+        public static IHostBuilder CreateWebHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>()
                 .ConfigureAppConfiguration((hostingContext, config) =>
+                //.UseStartup<Startup>()
+                //.ConfigureAppConfiguration((hostingContext, config) =>
                 {
-                    var env = hostingContext.HostingEnvironment;
-                    if (env.IsDevelopment())
+                var env = hostingContext.HostingEnvironment;
+                if (env.IsDevelopment())
+                {
+                    // If development, include SECRETS/appsettings.Development.json in the configuration.
+                    // This file contains the keys for using reCaptcha and Google external authorization.
+                    string secretsFolder = GMFileAccess.GetSolutionSiblingFolder("SECRETS");
+                    string devSettingFile = secretsFolder + "/" + $"appsettings.{env.EnvironmentName}.json";
+                    if (File.Exists(devSettingFile))
                     {
-                        // If development, include SECRETS/appsettings.Development.json in the configuration.
-                        // This file contains the keys for using reCaptcha and Google external authorization.
-                        string secretsFolder = GMFileAccess.GetSolutionSiblingFolder("SECRETS");
-                        string devSettingFile = secretsFolder + "/" + $"appsettings.{env.EnvironmentName}.json";
-                        if (File.Exists(devSettingFile))
-                        {
-                            config.AddJsonFile(devSettingFile, optional: true, reloadOnChange: true);
-                        }
+                        config.AddJsonFile(devSettingFile, optional: true, reloadOnChange: true);
                     }
-                })
-                .ConfigureLogging(logging =>
-                {
-                    logging.ClearProviders();
-                    logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
-                })
-                .UseNLog();  // NLog: setup NLog for Dependency injection
+                }
+            })
+            .ConfigureLogging(logging =>
+            {
+                logging.ClearProviders();
+                logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+            })
+            .UseNLog();  // NLog: setup NLog for Dependency injection
+        });
 
     }
 }

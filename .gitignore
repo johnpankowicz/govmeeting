@@ -25,12 +25,12 @@ bld/
 /Properties/launchSettings.json
 
 # Govmeeting
-# track the subfolders but not the files in WebApp/wwwroot
-**/WebApp/wwwroot/*
-!**/WebApp/wwwroot/css/
-!**/WebApp/wwwroot/js/
-!**/WebApp/wwwroot/lib/
-!**/WebApp/wwwroot/assets/
+## track the subfolders but not the files in WebApp/wwwroot
+#**/WebApp/wwwroot/*
+#!**/WebApp/wwwroot/css/
+#!**/WebApp/wwwroot/js/
+#!**/WebApp/wwwroot/lib/
+#!**/WebApp/wwwroot/assets/
 **/stubdata/LARGE/
 # SECRETS files. Just in case they get copied by accident into repo folder.
 appsettings.Development.json

@@ -139,8 +139,7 @@ namespace GM.WebApp
         {
             string datafilesPath = config.Value.DatafilesPath;
 
-            // for testing
-            logger.Info("2 + 2 is " + dbInitializer.GetFour());
+            logger.Info("Test dbInitializer: 2 + 2 is " + dbInitializer.GetFour());
 
             logger.Info("Environment is " + env.EnvironmentName);
             logger.Info("WebRootPath is " + env.WebRootPath);
