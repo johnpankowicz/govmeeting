@@ -97,22 +97,10 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
     DashMainComponent,
     ShoutoutsComponent,
     RegisterComponent,
-    // GovInfoComponent,
-    // BillsComponent,
-    // MeetingsComponent,
-    // NewsComponent,
     PopupComponent,
-    // NotesComponent,
-    // MinutesComponent,
-    // AlertsComponent,
-    // WorkitemsComponent,
-    // IssuesComponent,
-    // OfficialsComponent,
-    // CalendarComponent,
   ],
   exports: [
     DemoMaterialModule
-    // FeaturesModule
 
     // The exports below are for testing the component standalone in app.component.html
     // SmallCardsComponent,
