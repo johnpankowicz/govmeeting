@@ -65,8 +65,6 @@ import { AmchartsModule } from './features/charts/charts.module';
 import { WorkareaComponent } from './work_experiments/workarea/workarea.component';
 import { PopupComponent } from './work_experiments/popup/popup.component';
 import { DataFakeService } from './work_experiments/datafake/data-fake.service';
-import { ConversationModule } from './work_experiments/conversation/conversation.module';
-import { ConversationService } from './work_experiments/conversation/conversation.service';
 import { loadConfiguration } from './work_experiments/configuration/loadConfiguration';
 import { ConfigService } from './work_experiments/configuration/config.service';
 import { ShoutoutsComponent } from './work_experiments/shoutouts/shoutouts';
@@ -99,7 +97,6 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
     AppRoutingModule,
     DashboardModule,
     ChatModule,
-    ConversationModule,
     AboutProjectModule,
     DatafakeModule,
     SidenavMenuModule,
@@ -174,7 +171,6 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
     // { provide: ViewTranscriptService, useClass: ViewTranscriptServiceStub },
 
     ChatService,
-    ConversationService,
     DataFactoryService,
     DataFakeService,
     UserSettingsService,

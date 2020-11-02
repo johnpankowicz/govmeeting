@@ -1,3 +1,6 @@
+// NOTE: This is prior code for proofreading the transcription.
+// It is being replaced by the EditTranscript module.
+
 import { FixasrView, AsrSegment } from '../fixasr-view';
 
 export let fixasrShortSample: FixasrView = {

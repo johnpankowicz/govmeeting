@@ -1,3 +1,6 @@
+// NOTE: This is prior code for adding tags.
+// It is being replaced by the EditTranscript module.
+
 import { Addtags, Talk } from '../addtags-view';
 
 export let addtagsSample: Addtags = {
