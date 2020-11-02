@@ -9,9 +9,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgMaterialMultilevelMenuModule } from 'ng-material-multilevel-menu';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-// import { map } from 'rxjs/operators';
-// import { Observable, ObservableInput, of } from 'rxjs';
-// import { catchError } from 'rxjs/operators/catchError.js';
 
 // APP
 import { AppRoutingModule } from './app-routing.module';
@@ -22,6 +19,7 @@ import { AppData } from './appdata';
 // dashboard
 import { DashboardModule } from './dashboard/dashboard.module';
 import { DashMainComponent } from './dashboard/dash-main/dash-main';
+import { FeaturesModule } from './features/features.module';
 
 // sidenav
 import { SidenavMenuModule } from './sidenav/sidenav-menu-module';
@@ -47,22 +45,11 @@ import { ViewTranscriptModule } from './features/viewtranscript/viewtranscript.m
 import { ViewTranscriptService } from './features/viewtranscript/viewtranscript.service';
 import { ViewTranscriptServiceStub } from './features/viewtranscript/viewtranscript.service-stub';
 import { ChatService } from './features/chat/chat.service';
-import { NotesComponent } from './features/notes/notes.component';
-import { MinutesComponent } from './features/minutes/minutes.component';
-import { AlertsComponent } from './features/alerts/alerts.component';
-import { WorkitemsComponent } from './features/workitems/workitems.component';
-import { IssuesComponent } from './features/issues/issues.component';
-import { OfficialsComponent } from './features/officials/officials.component';
-import { GovInfoComponent } from './features/gov-info/gov-info.component';
-import { BillsComponent } from './features/bills/bills.component';
 import { DatafakeModule } from './work_experiments/datafake/datafake.module';
 import { DataFactoryService } from './work_experiments/datafake/data-factory.service';
-import { MeetingsComponent } from './features/meetings/meetings.component';
-import { NewsComponent } from './features/news/news.component';
 import { AmchartsModule } from './features/charts/charts.module';
 
 // EXPERIMENTS
-import { WorkareaComponent } from './work_experiments/workarea/workarea.component';
 import { PopupComponent } from './work_experiments/popup/popup.component';
 import { DataFakeService } from './work_experiments/datafake/data-fake.service';
 import { loadConfiguration } from './work_experiments/configuration/loadConfiguration';
@@ -103,28 +90,29 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
     VirtualMeetingModule,
     HeaderModule,
     AmchartsModule,
+    FeaturesModule
   ],
   declarations: [
     AppComponent,
     DashMainComponent,
     ShoutoutsComponent,
     RegisterComponent,
-    GovInfoComponent,
-    BillsComponent,
-    MeetingsComponent,
-    NewsComponent,
+    // GovInfoComponent,
+    // BillsComponent,
+    // MeetingsComponent,
+    // NewsComponent,
     PopupComponent,
-    NotesComponent,
-    MinutesComponent,
-    AlertsComponent,
-    WorkitemsComponent,
-    IssuesComponent,
-    OfficialsComponent,
-    WorkareaComponent,
+    // NotesComponent,
+    // MinutesComponent,
+    // AlertsComponent,
+    // WorkitemsComponent,
+    // IssuesComponent,
+    // OfficialsComponent,
     // CalendarComponent,
   ],
   exports: [
-    DemoMaterialModule,
+    DemoMaterialModule
+    // FeaturesModule
 
     // The exports below are for testing the component standalone in app.component.html
     // SmallCardsComponent,

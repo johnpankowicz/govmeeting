@@ -15,7 +15,7 @@ import { UserSettingsService, UserSettings, LocationType } from './common/user-s
 const NoLog = true; // set to false for console logging
 
 @Component({
-  selector: 'gm-root',
+  selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
