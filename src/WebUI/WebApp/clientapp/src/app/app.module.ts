@@ -19,7 +19,17 @@ import { AppData } from './appdata';
 // dashboard
 import { DashboardModule } from './dashboard/dashboard.module';
 import { DashMainComponent } from './dashboard/dash-main/dash-main';
+
+// features
+// These modules are used in the dashboard mat-cards
+// You can change which cards are displayed by editing dashboard/dash-main/dash-main.html.
 import { FeaturesModule } from './features/features.module';
+import { EditTranscriptModule } from './features/edittranscript/edittranscript.module';
+import { ViewTranscriptModule } from './features/viewtranscript/viewtranscript.module';
+import { VirtualMeetingModule } from './features/virtual-meeting/virtual-meeting-module';
+import { ChatModule } from './features/chat/chat.module';
+import { AmchartsModule } from './features/charts/charts.module';
+import { DatafakeModule } from './work_experiments/datafake/datafake.module';
 
 // sidenav
 import { SidenavMenuModule } from './sidenav/sidenav-menu-module';
@@ -33,21 +43,13 @@ import { ErrorHandlingService } from './common/error-handling/error-handling.ser
 import { UserSettingsService, UserSettings, LocationType } from './common/user-settings.service';
 import { DemoMaterialModule } from './common/material';
 
-// features
-// These modules/components are used in the dashboard mat-cards
-// You can change which cards are displayed by editing dashboard/dash-main/dash-main.html.
-import { ChatModule } from './features/chat/chat.module';
-import { VirtualMeetingModule } from './features/virtual-meeting/virtual-meeting-module';
-import { EditTranscriptModule } from './features/edittranscript/edittranscript.module';
+// services
 import { EdittranscriptService } from './features/edittranscript/edittranscript.service';
 import { EdittranscriptServiceStub } from './features/edittranscript/edittranscript.service-stub';
-import { ViewTranscriptModule } from './features/viewtranscript/viewtranscript.module';
 import { ViewTranscriptService } from './features/viewtranscript/viewtranscript.service';
 import { ViewTranscriptServiceStub } from './features/viewtranscript/viewtranscript.service-stub';
 import { ChatService } from './features/chat/chat.service';
-import { DatafakeModule } from './work_experiments/datafake/datafake.module';
 import { DataFactoryService } from './work_experiments/datafake/data-factory.service';
-import { AmchartsModule } from './features/charts/charts.module';
 
 // EXPERIMENTS
 import { PopupComponent } from './work_experiments/popup/popup.component';
