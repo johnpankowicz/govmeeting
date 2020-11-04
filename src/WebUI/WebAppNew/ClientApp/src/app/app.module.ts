@@ -78,16 +78,16 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
     HttpClientModule,
 
     // /////////////// internal //////////////
-     ViewTranscriptModule,
-     EditTranscriptModule,
+    ViewTranscriptModule,
+    EditTranscriptModule,
     SharedModule,
     FlexLayoutModule,
     AboutProjectModule,
-     AppRoutingModule,
-     DashboardModule,
-     ChatModule,
-     AboutProjectModule,
-     DatafakeModule,
+    AppRoutingModule,
+    DashboardModule,
+    ChatModule,
+    AboutProjectModule,
+    DatafakeModule,
     SidenavMenuModule,
     VirtualMeetingModule,
     HeaderModule,
@@ -102,56 +102,56 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
     PopupComponent,
   ],
   exports: [
-    // DemoMaterialModule
+     DemoMaterialModule
 
-    // // The exports below are for testing the component standalone in app.component.html
-    // // SmallCardsComponent,
-    // // SmallCardComponent,
-    // // SidenavHeaderComponent,
-    // // SidenavComponent,
-    // // LargeCardComponent,
-    // // PieChartComponent,
-    // // BarChartComponent
+     // The exports below are for testing the component standalone in app.component.html
+     // SmallCardsComponent,
+     // SmallCardComponent,
+     // SidenavHeaderComponent,
+     // SidenavComponent,
+     // LargeCardComponent,
+     // PieChartComponent,
+     // BarChartComponent
   ],
   providers: [
-    // // {
-    // // EXPERIMENTAL - trying to find a way to load config from a file and use
-    // //   the settings here in app.module.ts
-    // // This loads the ConfigureService with the contents of assets/config.json
-    // // Using APP_INITIALIZER forces the app to wait until the loading is complete.
-    // //   provide: APP_INITIALIZER,
-    // //   useFactory: loadConfiguration,
-    // //   deps: [
-    // //     HttpClient,
-    // //     ConfigService
-    // //   ],
-    // //   multi: true
-    // // },
-    // ErrorHandlingService,
-    // AppData,
-    // {
-    //   provide: AppData,
-    //   // This method works for reading config setting from index.html. We can define APP_DATA in index.html.
-    //   // useValue: window['APP_DATA']    // Get settings from html
-    //   useValue: { isAspServerRunning, isBeta, isLargeEditData },
-    // },
-    // {
-    //   provide: EdittranscriptService,
-    //   useClass: isAspServerRunning ? EdittranscriptService : EdittranscriptServiceStub,
-    // },
+     // {
+     // EXPERIMENTAL - trying to find a way to load config from a file and use
+     //   the settings here in app.module.ts
+     // This loads the ConfigureService with the contents of assets/config.json
+     // Using APP_INITIALIZER forces the app to wait until the loading is complete.
+     //   provide: APP_INITIALIZER,
+     //   useFactory: loadConfiguration,
+     //   deps: [
+     //     HttpClient,
+     //     ConfigService
+     //   ],
+     //   multi: true
+     // },
+     ErrorHandlingService,
+     AppData,
+     {
+       provide: AppData,
+       // This method works for reading config setting from index.html. We can define APP_DATA in index.html.
+       // useValue: window['APP_DATA']    // Get settings from html
+       useValue: { isAspServerRunning, isBeta, isLargeEditData },
+     },
+     {
+       provide: EdittranscriptService,
+       useClass: isAspServerRunning ? EdittranscriptService : EdittranscriptServiceStub,
+     },
 
-    // // If you use the stubs for these services, they will not call the Asp.Net server,
-    // // but will instead return static data.
-    // {
-    //   provide: ViewTranscriptService,
-    //   useClass: isAspServerRunning ? ViewTranscriptService : ViewTranscriptServiceStub,
-    // },
-    // // { provide: ViewTranscriptService, useClass: ViewTranscriptServiceStub },
+     // If you use the stubs for these services, they will not call the Asp.Net server,
+     // but will instead return static data.
+     {
+       provide: ViewTranscriptService,
+       useClass: isAspServerRunning ? ViewTranscriptService : ViewTranscriptServiceStub,
+     },
+     // { provide: ViewTranscriptService, useClass: ViewTranscriptServiceStub },
 
-    // ChatService,
-    // DataFactoryService,
-    // DataFakeService,
-    // UserSettingsService,
+     ChatService,
+     DataFactoryService,
+     DataFakeService,
+     UserSettingsService,
   ],
   bootstrap: [AppComponent],
 })
