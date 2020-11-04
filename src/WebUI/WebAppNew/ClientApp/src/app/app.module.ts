@@ -10,58 +10,58 @@ import { NgMaterialMultilevelMenuModule } from 'ng-material-multilevel-menu';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
-// // APP
-// import { AppRoutingModule } from './app-routing.module';
-// import { AboutProjectModule } from './about-project/about-project.module';
+// APP
+import { AppRoutingModule } from './app-routing.module';
+import { AboutProjectModule } from './about-project/about-project.module';
 import { AppComponent } from './app.component';
-// import { AppData } from './appdata';
+import { AppData } from './appdata';
 
-// // dashboard
-// import { DashboardModule } from './dashboard/dashboard.module';
-// import { DashMainComponent } from './dashboard/dash-main/dash-main';
+// dashboard
+import { DashboardModule } from './dashboard/dashboard.module';
+import { DashMainComponent } from './dashboard/dash-main/dash-main';
 
-// // features
-// // These modules are used in the dashboard mat-cards
-// // You can change which cards are displayed by editing dashboard/dash-main/dash-main.html.
-// import { FeaturesModule } from './features/features.module';
-// import { EditTranscriptModule } from './features/edittranscript/edittranscript.module';
-// import { ViewTranscriptModule } from './features/viewtranscript/viewtranscript.module';
-// import { VirtualMeetingModule } from './features/virtual-meeting/virtual-meeting-module';
-// import { ChatModule } from './features/chat/chat.module';
-// import { AmchartsModule } from './features/charts/charts.module';
-// import { DatafakeModule } from './work_experiments/datafake/datafake.module';
+// features
+// These modules are used in the dashboard mat-cards
+// You can change which cards are displayed by editing dashboard/dash-main/dash-main.html.
+import { FeaturesModule } from './features/features.module';
+import { EditTranscriptModule } from './features/edittranscript/edittranscript.module';
+import { ViewTranscriptModule } from './features/viewtranscript/viewtranscript.module';
+import { VirtualMeetingModule } from './features/virtual-meeting/virtual-meeting-module';
+import { ChatModule } from './features/chat/chat.module';
+import { AmchartsModule } from './features/charts/charts.module';
+import { DatafakeModule } from './work_experiments/datafake/datafake.module';
 
-// // sidenav
+// sidenav
 import { SidenavMenuModule } from './sidenav/sidenav-menu-module';
 
-// // header
-// import { HeaderModule } from './header/header.module';
+// header
+import { HeaderModule } from './header/header.module';
 
-// // common
-// import { SharedModule } from './common/common.module';
-// import { ErrorHandlingService } from './common/error-handling/error-handling.service';
-// import { UserSettingsService, UserSettings, LocationType } from './common/user-settings.service';
-// import { DemoMaterialModule } from './common/material';
+ // common
+ import { SharedModule } from './common/common.module';
+ import { ErrorHandlingService } from './common/error-handling/error-handling.service';
+ import { UserSettingsService, UserSettings, LocationType } from './common/user-settings.service';
+ import { DemoMaterialModule } from './common/material';
 
-// // services
-// import { EdittranscriptService } from './features/edittranscript/edittranscript.service';
-// import { EdittranscriptServiceStub } from './features/edittranscript/edittranscript.service-stub';
-// import { ViewTranscriptService } from './features/viewtranscript/viewtranscript.service';
-// import { ViewTranscriptServiceStub } from './features/viewtranscript/viewtranscript.service-stub';
-// import { ChatService } from './features/chat/chat.service';
-// import { DataFactoryService } from './work_experiments/datafake/data-factory.service';
+ // services
+import { EdittranscriptService } from './features/edittranscript/edittranscript.service';
+import { EdittranscriptServiceStub } from './features/edittranscript/edittranscript.service-stub';
+import { ViewTranscriptService } from './features/viewtranscript/viewtranscript.service';
+import { ViewTranscriptServiceStub } from './features/viewtranscript/viewtranscript.service-stub';
+import { ChatService } from './features/chat/chat.service';
+import { DataFactoryService } from './work_experiments/datafake/data-factory.service';
 
-// // EXPERIMENTS
-// import { PopupComponent } from './work_experiments/popup/popup.component';
-// import { DataFakeService } from './work_experiments/datafake/data-fake.service';
-// import { loadConfiguration } from './work_experiments/configuration/loadConfiguration';
-// import { ConfigService } from './work_experiments/configuration/config.service';
-// import { ShoutoutsComponent } from './work_experiments/shoutouts/shoutouts';
-// import { RegisterComponent } from './work_experiments/register/register';
+// EXPERIMENTS
+import { PopupComponent } from './work_experiments/popup/popup.component';
+import { DataFakeService } from './work_experiments/datafake/data-fake.service';
+import { loadConfiguration } from './work_experiments/configuration/loadConfiguration';
+import { ConfigService } from './work_experiments/configuration/config.service';
+import { ShoutoutsComponent } from './work_experiments/shoutouts/shoutouts';
+import { RegisterComponent } from './work_experiments/register/register';
 
-// const isAspServerRunning = false; // Is the Asp.Nnet server running?
-// const isBeta = false; // Is this the beta release version?
-// const isLargeEditData = false; // Are we using the large data for EditTranscript? (Little Falls, etc.)
+const isAspServerRunning = false; // Is the Asp.Nnet server running?
+const isBeta = false; // Is this the beta release version?
+const isLargeEditData = false; // Are we using the large data for EditTranscript? (Little Falls, etc.)
 
 @NgModule({
   imports: [
