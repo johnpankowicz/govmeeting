@@ -1,3 +1,4 @@
+using GM.Utilities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -5,6 +6,7 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NLog;
 
 namespace WebAppNew
 {
@@ -20,6 +22,13 @@ namespace WebAppNew
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //####################################
+            // Set a variable in the gdc which is be used in NLog.config for the
+            // base path of our app: ${gdc:item=appbasepath} 
+            string logfilesPath = GMFileAccess.GetSolutionSiblingFolder(Configuration["Logging:LogfilesPath"]);
+            //string logfilesPath = GMFileAccess.GetFullPath(Configuration["AppSettings:LogfilesPath"]);
+            GlobalDiagnosticsContext.Set("logfilesPath", logfilesPath);
+
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
