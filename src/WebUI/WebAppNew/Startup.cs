@@ -12,6 +12,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NLog;
 using GM.WebApp.StartupCustomizations;
+using System.Net.Security;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 
 namespace WebAppNew
 {
@@ -77,6 +80,7 @@ namespace WebAppNew
             logger.Info("Add Controllers with Views");
             services.AddControllersWithViews();
 
+            services.AddRazorPages();
 
             //####################################
             logger.Info("Enable Feature Folders");
@@ -99,6 +103,7 @@ namespace WebAppNew
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                // app.UseDatabaseErrorPage();
             }
             else
             {
@@ -109,6 +114,7 @@ namespace WebAppNew
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
             if (!env.IsDevelopment())
             {
                 app.UseSpaStaticFiles();
@@ -116,11 +122,28 @@ namespace WebAppNew
 
             app.UseRouting();
 
+            app.Use(next => context =>
+            {
+                var endpoint = context.GetEndpoint();
+                if (endpoint == null)
+                {
+                    return next(context);
+                }
+
+                var route = (endpoint is RouteEndpoint routeEndpoint) ? routeEndpoint.RoutePattern : null;
+                var metadata = endpoint.Metadata;
+
+                return next(context);
+            });
+
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+                //endpoints.MapRazorPages();
+                //endpoints.MapHealthChecks("/health").RequireAuthorization();
             });
 
             app.UseSpa(spa =>
