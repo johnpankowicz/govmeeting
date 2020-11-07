@@ -28,76 +28,38 @@ namespace WebAppNew
         NLog.Logger logger;
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //####################################
-            // Set a variable in the gdc which is be used in NLog.config for the
-            // base path of our app: ${gdc:item=appbasepath} 
-            string logfilesPath = GMFileAccess.GetSolutionSiblingFolder(Configuration["Logging:LogfilesPath"]);
-            //string logfilesPath = GMFileAccess.GetFullPath(Configuration["AppSettings:LogfilesPath"]);
-            GlobalDiagnosticsContext.Set("logfilesPath", logfilesPath);
+            ConfigureLoggingService();
+            logger.Info("ConfigureLoggingService");
 
-            //####################################
-            // Create an instance of NLog.Logger manually here since it is not available
-            // from dependency injection yet.
-            logger = LogManager.LoadConfiguration("nlog.config").GetCurrentClassLogger();
-            logger.Info("Just set value in GDC for NLog and created NLog.Logger instance");
+            ConfigureAppsettings(services);
+            logger.Info("ConfigureAppsettings");
 
-            //####################################
-            logger.Info("Configure AppSettings options");
-            services.AddOptions();
-            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
-            services.Configure<AppSettings>(myOptions =>
-            {
-                logger.Info("Modify the configuration path options to be full paths.");
-                // Modify the configuration path options to be full paths.
-                myOptions.DatafilesPath = GMFileAccess.GetSolutionSiblingFolder(myOptions.DatafilesPath);
-                myOptions.TestdataPath = GMFileAccess.GetSolutionSiblingFolder(myOptions.TestdataPath);
-                logger.Info("DatafilesPath: {0}, TestdataPath: {2}",
-                    myOptions.DatafilesPath, myOptions.TestdataPath);
-            });
+            ConfigureDbContext(services);
+            logger.Info("ConfigureDbContext");
 
-            //####################################
-            logger.Info("Add ApplicationDbContext");
-            services.AddTransient<DBOperations>();
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration["AppSettings:ConnectionString"]
-                    //sqlServerOptions => sqlServerOptions.MigrationsAssembly("DatabaseAccess_Lib")
-                    //sqlServerOptions => sqlServerOptions.MigrationsAssembly("WebApp")
-                    ));
+            services.AddHealthChecks();
+            logger.Info("AddHealthChecks");
 
-            /////// TODO - uncomment
-            //####################################
+            ConfigureAuthenticationServices(services, logger);
             logger.Info("Add Add Authentication");
-            // ConfigureAuthenticationServices(services, logger);
 
-
-            //####################################
-            // Add the MVC Controller services that are common to both Web API and MVC,
-            // and also add the services required for rendering Razor views. 
-            logger.Info("Add Controllers with Views");
             services.AddControllersWithViews();
+            logger.Info("Add services for Web API, MVC & Razor Views");
 
             services.AddRazorPages();
+            logger.Info("Add services for Razor Pages");
 
-            //####################################
+            services.Configure<RazorViewEngineOptions>(options => options.ViewLocationExpanders.Add(new FeatureLocationExpander()));
             logger.Info("Enable Feature Folders");
             // https://scottsauber.com/2016/04/25/feature-folder-structure-in-asp-net-core/
-            services.Configure<RazorViewEngineOptions>(options =>
-            {
-                options.ViewLocationExpanders.Add(new FeatureLocationExpander());
-            });
 
-            // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
+            services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/dist");
+            logger.Info("AddSpaStaticFiles");
+            // Angular files will be served from this directory in production. 
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -108,7 +70,7 @@ namespace WebAppNew
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                // The default HSTS value is 30 days. You may want to change this for production, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -121,6 +83,8 @@ namespace WebAppNew
             }
 
             app.UseRouting();
+
+            // START OF ENDPOINT ZONE
 
             app.Use(next => context =>
             {
@@ -136,14 +100,15 @@ namespace WebAppNew
                 return next(context);
             });
 
+            // END OF ENDPOINT ZONE
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
-                //endpoints.MapRazorPages();
-                //endpoints.MapHealthChecks("/health").RequireAuthorization();
+                endpoints.MapRazorPages();
+                endpoints.MapHealthChecks("/health").RequireAuthorization();
             });
 
             app.UseSpa(spa =>
@@ -159,6 +124,46 @@ namespace WebAppNew
                     spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
             });
+        }
+
+        private void ConfigureLoggingService()
+        {
+            // Set a variable in the gdc which is be used in NLog.config for the
+            // base path of our app: ${gdc:item=appbasepath} 
+            string logfilesPath = GMFileAccess.GetSolutionSiblingFolder(Configuration["Logging:LogfilesPath"]);
+            //string logfilesPath = GMFileAccess.GetFullPath(Configuration["AppSettings:LogfilesPath"]);
+            GlobalDiagnosticsContext.Set("logfilesPath", logfilesPath);
+
+            // Create an instance of NLog.Logger manually here since it is not available
+            // from dependency injection yet.
+            logger = LogManager.LoadConfiguration("nlog.config").GetCurrentClassLogger();
+        }
+
+        private void ConfigureAppsettings(IServiceCollection services)
+        {
+            services.AddOptions();
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<AppSettings>(myOptions =>
+            {
+                logger.Info("Modify the configuration path options to be full paths.");
+                // Modify the configuration path options to be full paths.
+                myOptions.DatafilesPath = GMFileAccess.GetSolutionSiblingFolder(myOptions.DatafilesPath);
+                myOptions.TestdataPath = GMFileAccess.GetSolutionSiblingFolder(myOptions.TestdataPath);
+                logger.Info("DatafilesPath: {0}, TestdataPath: {2}",
+                    myOptions.DatafilesPath, myOptions.TestdataPath);
+            });
+        }
+
+        private void ConfigureDbContext(IServiceCollection services)
+        {
+            logger.Info("Add ApplicationDbContext");
+            services.AddTransient<DBOperations>();
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration["AppSettings:ConnectionString"]
+                    //sqlServerOptions => sqlServerOptions.MigrationsAssembly("DatabaseAccess_Lib")
+                    //sqlServerOptions => sqlServerOptions.MigrationsAssembly("WebApp")
+                    ));
         }
     }
 }
