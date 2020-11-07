@@ -65,7 +65,7 @@ namespace WebAppNew
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                // app.UseDatabaseErrorPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -85,6 +85,9 @@ namespace WebAppNew
             app.UseRouting();
 
             // START OF ENDPOINT ZONE
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.Use(next => context =>
             {
