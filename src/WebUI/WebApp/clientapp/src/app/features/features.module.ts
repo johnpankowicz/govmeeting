@@ -14,12 +14,11 @@ import { MinutesComponent } from '../features/minutes/minutes.component';
 import { AlertsComponent } from '../features/alerts/alerts.component';
 import { WorkareaComponent } from '../work_experiments/workarea/workarea.component';
 
-
 @NgModule({
   imports: [
     /////////////// external //////////////
     // RouterModule.forRoot([]),
-    CommonModule
+    CommonModule,
   ],
   declarations: [
     GovInfoComponent,
@@ -36,7 +35,7 @@ import { WorkareaComponent } from '../work_experiments/workarea/workarea.compone
 
     // For counties
     NotesComponent,
-    MinutesComponent
+    MinutesComponent,
   ],
   exports: [
     GovInfoComponent,
@@ -53,8 +52,7 @@ import { WorkareaComponent } from '../work_experiments/workarea/workarea.compone
 
     // For counties
     NotesComponent,
-    MinutesComponent
-
-]
+    MinutesComponent,
+  ],
 })
 export class FeaturesModule {}

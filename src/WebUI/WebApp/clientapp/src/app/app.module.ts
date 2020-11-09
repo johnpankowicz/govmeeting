@@ -37,13 +37,13 @@ import { SidenavMenuModule } from './sidenav/sidenav-menu-module';
 // header
 import { HeaderModule } from './header/header.module';
 
- // common
- import { SharedModule } from './common/common.module';
- import { ErrorHandlingService } from './common/error-handling/error-handling.service';
- import { UserSettingsService, UserSettings, LocationType } from './common/user-settings.service';
- import { DemoMaterialModule } from './common/material';
+// common
+import { SharedModule } from './common/common.module';
+import { ErrorHandlingService } from './common/error-handling/error-handling.service';
+import { UserSettingsService, UserSettings, LocationType } from './common/user-settings.service';
+import { DemoMaterialModule } from './common/material';
 
- // services
+// services
 import { EdittranscriptService } from './features/edittranscript/edittranscript.service';
 import { EdittranscriptServiceStub } from './features/edittranscript/edittranscript.service-stub';
 import { ViewTranscriptService } from './features/viewtranscript/viewtranscript.service';
@@ -92,66 +92,60 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
     VirtualMeetingModule,
     HeaderModule,
     AmchartsModule,
-    FeaturesModule
+    FeaturesModule,
   ],
-  declarations: [
-    AppComponent,
-    DashMainComponent,
-    ShoutoutsComponent,
-    RegisterComponent,
-    PopupComponent,
-  ],
+  declarations: [AppComponent, DashMainComponent, ShoutoutsComponent, RegisterComponent, PopupComponent],
   exports: [
-     DemoMaterialModule
+    DemoMaterialModule,
 
-     // The exports below are for testing the component standalone in app.component.html
-     // SmallCardsComponent,
-     // SmallCardComponent,
-     // SidenavHeaderComponent,
-     // SidenavComponent,
-     // LargeCardComponent,
-     // PieChartComponent,
-     // BarChartComponent
+    // The exports below are for testing the component standalone in app.component.html
+    // SmallCardsComponent,
+    // SmallCardComponent,
+    // SidenavHeaderComponent,
+    // SidenavComponent,
+    // LargeCardComponent,
+    // PieChartComponent,
+    // BarChartComponent
   ],
   providers: [
-     // {
-     // EXPERIMENTAL - trying to find a way to load config from a file and use
-     //   the settings here in app.module.ts
-     // This loads the ConfigureService with the contents of assets/config.json
-     // Using APP_INITIALIZER forces the app to wait until the loading is complete.
-     //   provide: APP_INITIALIZER,
-     //   useFactory: loadConfiguration,
-     //   deps: [
-     //     HttpClient,
-     //     ConfigService
-     //   ],
-     //   multi: true
-     // },
-     ErrorHandlingService,
-     AppData,
-     {
-       provide: AppData,
-       // This method works for reading config setting from index.html. We can define APP_DATA in index.html.
-       // useValue: window['APP_DATA']    // Get settings from html
-       useValue: { isAspServerRunning, isBeta, isLargeEditData },
-     },
-     {
-       provide: EdittranscriptService,
-       useClass: isAspServerRunning ? EdittranscriptService : EdittranscriptServiceStub,
-     },
+    // {
+    // EXPERIMENTAL - trying to find a way to load config from a file and use
+    //   the settings here in app.module.ts
+    // This loads the ConfigureService with the contents of assets/config.json
+    // Using APP_INITIALIZER forces the app to wait until the loading is complete.
+    //   provide: APP_INITIALIZER,
+    //   useFactory: loadConfiguration,
+    //   deps: [
+    //     HttpClient,
+    //     ConfigService
+    //   ],
+    //   multi: true
+    // },
+    ErrorHandlingService,
+    AppData,
+    {
+      provide: AppData,
+      // This method works for reading config setting from index.html. We can define APP_DATA in index.html.
+      // useValue: window['APP_DATA']    // Get settings from html
+      useValue: { isAspServerRunning, isBeta, isLargeEditData },
+    },
+    {
+      provide: EdittranscriptService,
+      useClass: isAspServerRunning ? EdittranscriptService : EdittranscriptServiceStub,
+    },
 
-     // If you use the stubs for these services, they will not call the Asp.Net server,
-     // but will instead return static data.
-     {
-       provide: ViewTranscriptService,
-       useClass: isAspServerRunning ? ViewTranscriptService : ViewTranscriptServiceStub,
-     },
-     // { provide: ViewTranscriptService, useClass: ViewTranscriptServiceStub },
+    // If you use the stubs for these services, they will not call the Asp.Net server,
+    // but will instead return static data.
+    {
+      provide: ViewTranscriptService,
+      useClass: isAspServerRunning ? ViewTranscriptService : ViewTranscriptServiceStub,
+    },
+    // { provide: ViewTranscriptService, useClass: ViewTranscriptServiceStub },
 
-     ChatService,
-     DataFactoryService,
-     DataFakeService,
-     UserSettingsService,
+    ChatService,
+    DataFactoryService,
+    DataFakeService,
+    UserSettingsService,
   ],
   bootstrap: [AppComponent],
 })

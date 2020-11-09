@@ -1,13 +1,15 @@
 <!--<h1> Hello World </h1>-->
 
 <mat-sidenav-container class="sidenav-container" [hasBackdrop]="options.value.hasBackdrop">
-  <mat-sidenav class="sidenav"
-               #sidenav
-               [mode]="options.value.mode"
-               [opened]="!mediaQueryList.matches"
-               [fixedInViewport]="options.value.fixed"
-               [fixedTopGap]="options.value.top"
-               [fixedBottomGap]="options.value.bottom">
+  <mat-sidenav
+    class="sidenav"
+    #sidenav
+    [mode]="options.value.mode"
+    [opened]="!mediaQueryList.matches"
+    [fixedInViewport]="options.value.fixed"
+    [fixedTopGap]="options.value.top"
+    [fixedBottomGap]="options.value.bottom"
+  >
     <!-- <gm-sidenav-menu defaultLocation="Boothbay Harbor"></gm-sidenav-menu> -->
     <gm-sidenav-menu></gm-sidenav-menu>
   </mat-sidenav>
