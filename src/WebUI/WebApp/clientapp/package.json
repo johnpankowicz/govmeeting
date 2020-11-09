@@ -20,8 +20,9 @@
     "ci:test": "ng test --sourceMap=false --browsers=ChromeHeadless --watch=false",
     "ci:lint": "run-s format lint",
     "ci:build": "run-s clean build:prod",
-    "ci:cypress": "start-server-and-test ci:start-server 4200 cypress",
-    "ci:start-server": "angular-http-server --path ./dist/clientapp -p 4200"
+    "ci:xcypress": "start-server-and-test ci:start-server 4200 cypress",
+    "ci:start-server": "angular-http-server --path ./dist/clientapp -p 4200",
+    "ci:cypress": "ls /home/runner/work/govmeeting/govmeeting/src/WebUI/WebApp/clientapp/dist/clientapp/"
   },
   "private": true,
   "dependencies": {

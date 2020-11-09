@@ -40,7 +40,7 @@ namespace GM.Utilities
             Path.Combine(GetSolutionFolder(), "src", "WebUI", "WebApp");
 
         public static string GetClientAppFolder() =>
-            Path.Combine(GetWebAppFolder(), "ClientApp");
+            Path.Combine(GetWebAppFolder(), "clientapp");
 
         public static string GetWorkflowAppFolder() =>
             Path.Combine(GetSolutionFolder(), "src", "Workflow", "WorkflowApp");

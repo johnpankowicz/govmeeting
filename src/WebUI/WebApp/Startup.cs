@@ -66,7 +66,7 @@ namespace GM.WebApp
             logger.Info("Enable Feature Folders");
             // https://scottsauber.com/2016/04/25/feature-folder-structure-in-asp-net-core/
 
-            services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/dist");
+            services.AddSpaStaticFiles(configuration => configuration.RootPath = "clientapp/dist");
             logger.Info("AddSpaStaticFiles");
             // Angular files will be served from this directory in production. 
         }
@@ -118,7 +118,7 @@ namespace GM.WebApp
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
                 // see https://go.microsoft.com/fwlink/?linkid=864501
 
-                spa.Options.SourcePath = "ClientApp";
+                spa.Options.SourcePath = "clientapp";
 
                 if (env.IsDevelopment())
                 {
