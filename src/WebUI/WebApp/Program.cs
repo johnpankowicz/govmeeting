@@ -31,6 +31,5 @@ namespace GM.WebUI.WebApp
                 })
                 .UseNLog();  // NLog: setup NLog for Dependency injection
             });
-
     }
 }

@@ -2,7 +2,6 @@ using GM.Application.AppCore.Common;
 using GM.Application.AppCore.Interfaces;
 using GM.Application.Configuration;
 using GM.Infrastructure.InfraCore.Data;
-using GM.Infrastructure.InfraCore.Data;
 using GM.Infrastructure.InfraCore.Identity;
 using GM.Utilities;
 using GM.WebUI.WebApp.Services;
@@ -22,6 +21,7 @@ using NLog;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
+using System.Reflection;
 
 namespace GM.WebUI.WebApp
 {
@@ -64,6 +64,7 @@ namespace GM.WebUI.WebApp
             logger.Info("Configure Authentication");
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            logger.Info("Clear JWT ClaimTypeMap");
 
             ConfigureIdentity(services);
             logger.Info("Configure Identity");
@@ -73,6 +74,10 @@ namespace GM.WebUI.WebApp
 
             services.AddControllersWithViews();
             logger.Info("Add services for Web API, MVC & Razor Views");
+
+            //services.AddOpenApiDocument();
+            services.AddSwaggerDocument();
+            logger.Info("Add services for Swagger Document");
 
             services.AddRazorPages();
             logger.Info("Add services for Razor Pages");
@@ -88,8 +93,16 @@ namespace GM.WebUI.WebApp
             // get the current user for auditing
             services.AddScoped<ICurrentUserService, CurrentUserService>();
 
-            services.AddCQR();
+            Assembly executingAssembly = Assembly.GetExecutingAssembly();
+            services.AddCQR(executingAssembly);
             logger.Info("Configure CQR Services");
+
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddTransient<ISmsSender, AuthMessageSender>();
+            logger.Info("Add email and sms");
+
+            services.AddScoped<ValidateReCaptchaAttribute>();
+            logger.Info("Add ValidateReCaptchaAttribute");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -146,6 +159,9 @@ namespace GM.WebUI.WebApp
                 endpoints.MapRazorPages();
                 endpoints.MapHealthChecks("/health").RequireAuthorization();
             });
+
+            app.UseOpenApi();
+            app.UseSwaggerUi3();
 
             app.UseSpa(spa =>
             {

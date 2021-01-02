@@ -19,7 +19,7 @@ namespace GM.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Govbodies.GovLocation", b =>
+            modelBuilder.Entity("GM.Application.AppCore.Entities.GovLocations.GovLocation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -35,6 +35,9 @@ namespace GM.Infrastructure.Migrations
                     b.Property<int?>("ParentLocationId")
                         .HasColumnType("int");
 
+                    b.Property<string>("RecordingsUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
@@ -45,7 +48,7 @@ namespace GM.Infrastructure.Migrations
                     b.ToTable("GovLocations");
                 });
 
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Govbodies.Govbody", b =>
+            modelBuilder.Entity("GM.Application.AppCore.Entities.Govbodies.Govbody", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -80,7 +83,27 @@ namespace GM.Infrastructure.Migrations
                     b.ToTable("Govbodies");
                 });
 
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Meetings.Language", b =>
+            modelBuilder.Entity("GM.Application.AppCore.Entities.Govbodies.ScheduledMeeting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("GovbodyId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GovbodyId");
+
+                    b.ToTable("ScheduledMeeting");
+                });
+
+            modelBuilder.Entity("GM.Application.AppCore.Entities.Meetings.Language", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -100,7 +123,7 @@ namespace GM.Infrastructure.Migrations
                     b.ToTable("Languages");
                 });
 
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Meetings.Meeting", b =>
+            modelBuilder.Entity("GM.Application.AppCore.Entities.Meetings.Meeting", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -141,27 +164,7 @@ namespace GM.Infrastructure.Migrations
                     b.ToTable("Meetings");
                 });
 
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Meetings.ScheduledMeeting", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("GovbodyId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GovbodyId");
-
-                    b.ToTable("ScheduledMeeting");
-                });
-
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Meetings.Section", b =>
+            modelBuilder.Entity("GM.Application.AppCore.Entities.Meetings.Section", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -187,7 +190,7 @@ namespace GM.Infrastructure.Migrations
                     b.ToTable("Sections");
                 });
 
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Meetings.Talk", b =>
+            modelBuilder.Entity("GM.Application.AppCore.Entities.Meetings.Talk", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -218,7 +221,7 @@ namespace GM.Infrastructure.Migrations
                     b.ToTable("Talks");
                 });
 
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Meetings.TopicDiscussion", b =>
+            modelBuilder.Entity("GM.Application.AppCore.Entities.Meetings.TopicDiscussion", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -246,7 +249,7 @@ namespace GM.Infrastructure.Migrations
                     b.ToTable("TopicDiscussions");
                 });
 
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Speakers.Speaker", b =>
+            modelBuilder.Entity("GM.Application.AppCore.Entities.Speakers.Speaker", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -264,7 +267,7 @@ namespace GM.Infrastructure.Migrations
                     b.ToTable("Speakers");
                 });
 
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Topics.Category", b =>
+            modelBuilder.Entity("GM.Application.AppCore.Entities.Topics.Category", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -284,7 +287,7 @@ namespace GM.Infrastructure.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Topics.Topic", b =>
+            modelBuilder.Entity("GM.Application.AppCore.Entities.Topics.Topic", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -307,7 +310,7 @@ namespace GM.Infrastructure.Migrations
                     b.ToTable("Topics");
                 });
 
-            modelBuilder.Entity("GM.Infrastructure.InfraCore.Data.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("GM.Infrastructure.InfraCore.Identity.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -503,82 +506,82 @@ namespace GM.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Govbodies.GovLocation", b =>
+            modelBuilder.Entity("GM.Application.AppCore.Entities.GovLocations.GovLocation", b =>
                 {
-                    b.HasOne("GM.ApplicationCore.Entities.Govbodies.GovLocation", "ParentLocation")
+                    b.HasOne("GM.Application.AppCore.Entities.GovLocations.GovLocation", "ParentLocation")
                         .WithMany()
                         .HasForeignKey("ParentLocationId");
                 });
 
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Govbodies.Govbody", b =>
+            modelBuilder.Entity("GM.Application.AppCore.Entities.Govbodies.Govbody", b =>
                 {
-                    b.HasOne("GM.ApplicationCore.Entities.Govbodies.GovLocation", "ParentLocation")
+                    b.HasOne("GM.Application.AppCore.Entities.GovLocations.GovLocation", "ParentLocation")
                         .WithMany("Govbodies")
                         .HasForeignKey("ParentLocationId");
                 });
 
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Meetings.Language", b =>
+            modelBuilder.Entity("GM.Application.AppCore.Entities.Govbodies.ScheduledMeeting", b =>
                 {
-                    b.HasOne("GM.ApplicationCore.Entities.Govbodies.GovLocation", null)
+                    b.HasOne("GM.Application.AppCore.Entities.Govbodies.Govbody", null)
+                        .WithMany("ScheduledMeetings")
+                        .HasForeignKey("GovbodyId");
+                });
+
+            modelBuilder.Entity("GM.Application.AppCore.Entities.Meetings.Language", b =>
+                {
+                    b.HasOne("GM.Application.AppCore.Entities.GovLocations.GovLocation", null)
                         .WithMany("Languages")
                         .HasForeignKey("GovLocationId");
                 });
 
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Meetings.Meeting", b =>
+            modelBuilder.Entity("GM.Application.AppCore.Entities.Meetings.Meeting", b =>
                 {
-                    b.HasOne("GM.ApplicationCore.Entities.Govbodies.Govbody", null)
+                    b.HasOne("GM.Application.AppCore.Entities.Govbodies.Govbody", null)
                         .WithMany("Meetings")
                         .HasForeignKey("GovbodyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Meetings.ScheduledMeeting", b =>
+            modelBuilder.Entity("GM.Application.AppCore.Entities.Meetings.Section", b =>
                 {
-                    b.HasOne("GM.ApplicationCore.Entities.Govbodies.Govbody", null)
-                        .WithMany("ScheduledMeetings")
-                        .HasForeignKey("GovbodyId");
-                });
-
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Meetings.Section", b =>
-                {
-                    b.HasOne("GM.ApplicationCore.Entities.Meetings.Meeting", null)
-                        .WithMany("Items")
+                    b.HasOne("GM.Application.AppCore.Entities.Meetings.Meeting", null)
+                        .WithMany("Sections")
                         .HasForeignKey("MeetingId1");
                 });
 
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Meetings.Talk", b =>
+            modelBuilder.Entity("GM.Application.AppCore.Entities.Meetings.Talk", b =>
                 {
-                    b.HasOne("GM.ApplicationCore.Entities.Speakers.Speaker", "Speaker")
+                    b.HasOne("GM.Application.AppCore.Entities.Speakers.Speaker", "Speaker")
                         .WithMany()
                         .HasForeignKey("SpeakerId");
 
-                    b.HasOne("GM.ApplicationCore.Entities.Meetings.TopicDiscussion", null)
+                    b.HasOne("GM.Application.AppCore.Entities.Meetings.TopicDiscussion", null)
                         .WithMany("Talks")
                         .HasForeignKey("TopicDiscussionId1");
                 });
 
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Meetings.TopicDiscussion", b =>
+            modelBuilder.Entity("GM.Application.AppCore.Entities.Meetings.TopicDiscussion", b =>
                 {
-                    b.HasOne("GM.ApplicationCore.Entities.Meetings.Section", null)
+                    b.HasOne("GM.Application.AppCore.Entities.Meetings.Section", null)
                         .WithMany("TopicDiscussions")
                         .HasForeignKey("SectionId1");
 
-                    b.HasOne("GM.ApplicationCore.Entities.Topics.Topic", "Topic")
+                    b.HasOne("GM.Application.AppCore.Entities.Topics.Topic", "Topic")
                         .WithMany()
                         .HasForeignKey("TopicId");
                 });
 
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Topics.Category", b =>
+            modelBuilder.Entity("GM.Application.AppCore.Entities.Topics.Category", b =>
                 {
-                    b.HasOne("GM.ApplicationCore.Entities.Topics.Topic", null)
+                    b.HasOne("GM.Application.AppCore.Entities.Topics.Topic", null)
                         .WithMany("Categories")
                         .HasForeignKey("TopicId");
                 });
 
-            modelBuilder.Entity("GM.ApplicationCore.Entities.Topics.Topic", b =>
+            modelBuilder.Entity("GM.Application.AppCore.Entities.Topics.Topic", b =>
                 {
-                    b.HasOne("GM.ApplicationCore.Entities.Govbodies.Govbody", null)
+                    b.HasOne("GM.Application.AppCore.Entities.Govbodies.Govbody", null)
                         .WithMany("Topics")
                         .HasForeignKey("GovbodyId");
                 });
@@ -594,7 +597,7 @@ namespace GM.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("GM.Infrastructure.InfraCore.Data.Identity.ApplicationUser", null)
+                    b.HasOne("GM.Infrastructure.InfraCore.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -603,7 +606,7 @@ namespace GM.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("GM.Infrastructure.InfraCore.Data.Identity.ApplicationUser", null)
+                    b.HasOne("GM.Infrastructure.InfraCore.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -618,7 +621,7 @@ namespace GM.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("GM.Infrastructure.InfraCore.Data.Identity.ApplicationUser", null)
+                    b.HasOne("GM.Infrastructure.InfraCore.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -627,7 +630,7 @@ namespace GM.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("GM.Infrastructure.InfraCore.Data.Identity.ApplicationUser", null)
+                    b.HasOne("GM.Infrastructure.InfraCore.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
