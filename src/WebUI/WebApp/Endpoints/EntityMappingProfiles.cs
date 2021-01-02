@@ -14,14 +14,22 @@ namespace GM.WebUI.WebApp.Endpoints
     {
         public EntityMappingProfiles()
         {
+            CreateMap<RegisterGovLocation_Cmd, GovLocation>();
+            CreateMap<GovLocation, GovLocation_Dto>();
+            CreateMap<GovLocation, GovLocationDetails_Dto>();
 
-            CreateMap<CreateGovLocationCommand, GovLocation>();     // for POST endpoint
-            //CreateMap<CreateGovLocationDto, GovLocation>();
-            CreateMap<GovLocation, CreateGovLocationDto>();         // for GET endpoint
+            CreateMap<RegisterGovbody_Cmd, Govbody>();
+            CreateMap<Govbody, Govbody_Dto>();
+            CreateMap<Govbody, GovbodyDetails_Dto>();
+            CreateMap<GovbodyDetails_Dto, Govbody>();
 
-            CreateMap<CreateGovbodyCommand, Govbody>();
-            //CreateMap<GovbodyDto, Govbody>();
-            CreateMap<Govbody, GovbodyDto>();
+            CreateMap<ElectedOfficial_Dto, ElectedOfficial>();
+            CreateMap<AppointedOfficial_Dto, AppointedOfficial>();
+            CreateMap<ElectedOfficial, ElectedOfficial_Dto>();
+            CreateMap<AppointedOfficial, AppointedOfficial_Dto>();
+
+
+            //CreateMap<GetLocalGovbody_Query, RegisterGovbodyDto>();
 
             CreateMap<Topic, TopicDto>();
             CreateMap<TopicDto, Topic>();
