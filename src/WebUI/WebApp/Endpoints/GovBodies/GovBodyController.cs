@@ -40,15 +40,15 @@ namespace GM.WebUI.WebApp.Endpoints.Govbodies
         //            _govlocationRepository = govlocationRepository;
         //        }
 
-        // POST: /Govbody/Register
-        [HttpPost]
-        public void Register(CreateGovbodyDto model)
-        {
+        //// POST: /Govbody/Register
+        //[HttpPost]
+        //public void Register(CreateGovbodyDto model)
+        //{
 
-            //_govlocationRepository.AddAsync(govlocation);
-            //_govbodyRepository.
-            //await _basketRepository.AddAsync(userBasket);
-        }
+        //    //_govlocationRepository.AddAsync(govlocation);
+        //    //_govbodyRepository.
+        //    //await _basketRepository.AddAsync(userBasket);
+        //}
 
 
         ////public DBOperations dbOps { get; set; }
