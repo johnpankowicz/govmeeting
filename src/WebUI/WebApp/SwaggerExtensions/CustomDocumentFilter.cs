@@ -1,6 +1,5 @@
 ﻿//using Swashbuckle.AspNetCore.SwaggerGen;
-using Swashbuckle.Swagger;
-using System.Linq;
+//using Swashbuckle.Swagger;
 
 namespace GM.WebUI.WebApp.SwaggerExtensions
 {
@@ -20,43 +19,48 @@ namespace GM.WebUI.WebApp.SwaggerExtensions
      */
 
 
-    public class CustomDocumentFilter : IDocumentFilter
-    {
-        public void Apply(SwaggerDocument swaggerDoc, SchemaRegistry schemaRegistry, System.Web.Http.Description.IApiExplorer apiExplorer)
-        {
-            //make operations alphabetic
-            var paths = swaggerDoc.paths.OrderBy(e => e.Key).ToList();
-            swaggerDoc.paths = paths.ToDictionary(e => e.Key, e => e.Value);
+    /* swaggerdocument & idocumentfilter are not found. I was able to resolve them by installing
+     * Swagger.Core, but I got a warning that this package was compatable with .Net 4 but not .Net Core/
+     * Therefore I commented out this class.
+     */
 
-            ////controller comments do not get added to swagger docs. This is how to add them.
-            //AddControllerDescriptions(swaggerDoc, apiExplorer);
+    //public class CustomDocumentFilter : IDocumentFilter
+    //{
+    //    public void Apply(SwaggerDocument swaggerDoc, SchemaRegistry schemaRegistry, System.Web.Http.Description.IApiExplorer apiExplorer)
+    //    {
+    //        //make operations alphabetic
+    //        var paths = swaggerDoc.paths.OrderBy(e => e.Key).ToList();
+    //        swaggerDoc.paths = paths.ToDictionary(e => e.Key, e => e.Value);
 
-        }
+    //        ////controller comments do not get added to swagger docs. This is how to add them.
+    //        //AddControllerDescriptions(swaggerDoc, apiExplorer);
 
-        //private static void AddControllerDescriptions(SwaggerDocument swaggerDoc, System.Web.Http.Description.IApiExplorer apiExplorer)
-        //{
-        //    var doc = new YourPortal.Areas.HelpPage.XmlDocumentationProvider(GetXmlCommentsPath());
+    //    }
 
-        //    List<Tag> lst = new List<Tag>();
-        //    var desc = apiExplorer.ApiDescriptions;
-        //    ILookup<HttpControllerDescriptor, ApiDescription> apiGroups = desc.ToLookup(api => api.ActionDescriptor.ControllerDescriptor);
-        //    foreach (var apiGroup in apiGroups)
-        //    {
-        //        string tagName = apiGroup.Key.ControllerName;
-        //        var tag = new Tag { name = tagName };
-        //        var apiDoc = doc.GetDocumentation(apiGroup.Key);
-        //        if (!String.IsNullOrWhiteSpace(apiDoc))
-        //            tag.description = apiDoc;
-        //        lst.Add(tag);
+    //    //private static void AddControllerDescriptions(SwaggerDocument swaggerDoc, System.Web.Http.Description.IApiExplorer apiExplorer)
+    //    //{
+    //    //    var doc = new YourPortal.Areas.HelpPage.XmlDocumentationProvider(GetXmlCommentsPath());
 
-        //    }
-        //    if (lst.Count() > 0)
-        //        swaggerDoc.tags = lst.ToList();
-        //}
-        //private static string GetXmlCommentsPath()
-        //{
-        //    return System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/YourPortal.xml");
-        //}
-    }
+    //    //    List<Tag> lst = new List<Tag>();
+    //    //    var desc = apiExplorer.ApiDescriptions;
+    //    //    ILookup<HttpControllerDescriptor, ApiDescription> apiGroups = desc.ToLookup(api => api.ActionDescriptor.ControllerDescriptor);
+    //    //    foreach (var apiGroup in apiGroups)
+    //    //    {
+    //    //        string tagName = apiGroup.Key.ControllerName;
+    //    //        var tag = new Tag { name = tagName };
+    //    //        var apiDoc = doc.GetDocumentation(apiGroup.Key);
+    //    //        if (!String.IsNullOrWhiteSpace(apiDoc))
+    //    //            tag.description = apiDoc;
+    //    //        lst.Add(tag);
+
+    //    //    }
+    //    //    if (lst.Count() > 0)
+    //    //        swaggerDoc.tags = lst.ToList();
+    //    //}
+    //    //private static string GetXmlCommentsPath()
+    //    //{
+    //    //    return System.Web.Hosting.HostingEnvironment.MapPath("~/App_Data/YourPortal.xml");
+    //    //}
+    //}
 }
 

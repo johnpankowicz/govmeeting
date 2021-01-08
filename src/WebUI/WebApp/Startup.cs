@@ -92,6 +92,14 @@ namespace GM.WebUI.WebApp
 
             services.AddCQR();
             logger.Info("Configure CQR Services");
+
+            logger.Info("Add email and sms");
+
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddTransient<ISmsSender, AuthMessageSender>();
+
+            logger.Info("Add ValidateReCaptchaAttribute");
+            services.AddScoped<ValidateReCaptchaAttribute>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
