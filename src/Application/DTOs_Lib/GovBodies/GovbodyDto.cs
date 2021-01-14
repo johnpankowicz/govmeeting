@@ -15,7 +15,7 @@ namespace GM.Application.DTOs.Govbodies
             }
             public string Name { get; set; }
             public string LongName { get; set; }
-            public GovLocationDto ParentLocation { get; set; }
+            public GovLocation_Dto ParentLocation { get; set; }
             public List<ViewMeetingDto> Meetings { get; set; }
             public List<ViewMeetingTopicDto> Topics { get; set; }
             public List<ScheduledMeetingDto> ScheduledMeetings { get; set; }

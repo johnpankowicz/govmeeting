@@ -7,20 +7,37 @@ using System.Threading.Tasks;
 
 namespace GM.WebUI.WebApp.Endpoints.GovLocations
 {
-    public class CreateGovLocationCommand : CreateGovLocationDto, IRequest<int?>
+    /// <summary>
+    /// 
+    /// </summary>
+    public class CreateGovLocationCommand : GovLocation_Dto, IRequest<int?>
     {
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class CreateGovLocationCommandHandler : 
         IRequestHandler<CreateGovLocationCommand, int?>
 
     {
         private readonly ApplicationDbContext _context;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
         public CreateGovLocationCommandHandler(ApplicationDbContext context)
         {
             _context = context;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task<int?> Handle(CreateGovLocationCommand request, CancellationToken cancellationToken)
         {
             var entity = new GovLocation(request.Name, request.Type, request.Code);

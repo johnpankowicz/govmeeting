@@ -2,9 +2,9 @@
 
 namespace GM.WebUI.WebApp.Endpoints.GovLocations
 {
-    public class CreateGovLocationCommandVaildator : AbstractValidator<CreateGovLocationCommand>
+    public class CreateGovLocationValidator : AbstractValidator<CreateGovLocationCommand>
     {
-        public CreateGovLocationCommandVaildator()
+        public CreateGovLocationValidator()
         {
             RuleFor(v => v.Name).NotNull();
 

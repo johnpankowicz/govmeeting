@@ -6,6 +6,6 @@ namespace GM.Application.DTOs.Govbodies
     {
         public string Name { get; set; }
         public string LongName { get; set; }
-        public GovLocationDto ParentLocation { get; set; }
+        public GovLocation_Dto ParentLocation { get; set; }
     }
 }

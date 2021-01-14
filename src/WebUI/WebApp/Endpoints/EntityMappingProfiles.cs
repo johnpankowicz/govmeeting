@@ -16,8 +16,7 @@ namespace GM.WebUI.WebApp.Endpoints
         {
 
             CreateMap<CreateGovLocationCommand, GovLocation>();     // for POST endpoint
-            //CreateMap<CreateGovLocationDto, GovLocation>();
-            CreateMap<GovLocation, CreateGovLocationDto>();         // for GET endpoint
+            CreateMap<GovLocation, GovLocation_Dto>();         // for GET endpoint
 
             CreateMap<CreateGovbodyCommand, Govbody>();
             //CreateMap<GovbodyDto, Govbody>();
