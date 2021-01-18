@@ -8,18 +8,18 @@ namespace GM.WebUI.WebApp.Endpoints.GovLocations
     public class GovLocationController : ApiController
     {
         /// <summary>
-        /// Create new GovLocation record in the database
+        /// Register GovLocation
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<int>> Create(CreateGovLocationCommand command)
+        public async Task<ActionResult<int>> Register(RegisterGovLocationCommand command)
         {
             return await Mediator.Send(command);
         }
 
         /// <summary>
-        /// 
+        /// Get GovLocations for current user
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -29,14 +29,25 @@ namespace GM.WebUI.WebApp.Endpoints.GovLocations
         }
 
         /// <summary>
-        /// 
+        /// Get GovLocation by Id
         /// </summary>
+        /// <param name="id">Id of GovLocation</param>
         /// <returns></returns>
-        [HttpGet]
-        public async Task<GovLocationWithGovbodies_Dto> GetMyLocalLocationWithGovbodies()
+        [HttpGet("{id}")]
+        public async Task<GovLocationDetails_Dto> GetGovLocation(int id)
         {
-            return await Mediator.Send(new GetMyLocalGovLocationWithGovbodies_Query());
+            return await Mediator.Send(new GetGovLocation_Query());
         }
+
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <returns></returns>
+        //[HttpGet]
+        //public async Task<GovLocationWithGovbodies_Dto> GetMyLocalLocationWithGovbodies()
+        //{
+        //    return await Mediator.Send(new GetLocalGovLocationWithGovbodies_Query());
+        //}
 
     }
 }

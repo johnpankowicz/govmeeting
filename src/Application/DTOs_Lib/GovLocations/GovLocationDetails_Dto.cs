@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace GM.Application.DTOs.GovLocations
 {
-    public class GovLocationWithGovbodies_Dto
+    public class GovLocationDetails_Dto
     {
         public string Name { get; set; }
         public GovlocTypes Type { get; set; }
