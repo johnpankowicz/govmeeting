@@ -13,7 +13,7 @@ namespace GM.WebUI.WebApp.Endpoints.GovLocations
         /// <param name="command"></param>
         /// <returns>Id of new GovLocation</returns>
         [HttpPost]
-        public async Task<ActionResult<int>> Register(RegisterGovLocationCommand command)
+        public async Task<ActionResult<int>> Register(RegisterGovLocation_Cmd command)
         {
             return await Mediator.Send(command);
         }
@@ -43,11 +43,6 @@ namespace GM.WebUI.WebApp.Endpoints.GovLocations
         public async Task<GovLocationDetails_Dto> GetGovLocation(int id)
         {
             return await Mediator.Send(new GetGovLocation_Query());
-        }
-
-        public async Task<IEnumerable<WeatherForecast>> GetWeather()
-        {
-            return await Mediator.Send(new GetWeatherForecastsQuery());
         }
 
     }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 // Copied from Jason Taylor Clean Architecture as an example of using CQR
 
-namespace GM.WebUI.WebApp.Endpoints.GovLocations
+namespace GM.WebUI.WebApp.Endpoints.HealthCheck
 {
     public class GetWeatherForecastsQuery : IRequest<IEnumerable<WeatherForecast>>
     {

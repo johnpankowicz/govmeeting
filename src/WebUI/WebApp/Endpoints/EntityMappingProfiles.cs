@@ -14,11 +14,11 @@ namespace GM.WebUI.WebApp.Endpoints
     {
         public EntityMappingProfiles()
         {
-            CreateMap<RegisterGovLocationCommand, GovLocation>();
+            CreateMap<RegisterGovLocation_Cmd, GovLocation>();
             CreateMap<GovLocation, GovLocation_Dto>();
             CreateMap<GovLocation, GovLocationDetails_Dto>();
 
-            CreateMap<RegisterGovbody_Command, Govbody>();
+            CreateMap<RegisterGovbody_Cmd, Govbody>();
             CreateMap<Govbody, Govbody_Dto>();
             CreateMap<Govbody, GovbodyDetails_Dto>();
             CreateMap<GovbodyDetails_Dto, Govbody>();
