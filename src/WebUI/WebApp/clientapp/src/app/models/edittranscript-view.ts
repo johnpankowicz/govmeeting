@@ -1,3 +1,5 @@
+import { AutoMap } from '@automapper/classes';
+
 // This is the JSON format of the text to be tagged
 
 export class EditTranscript {
@@ -18,6 +20,7 @@ export class Talk {
 }
 
 export class Word {
+
   word: string;
   confidence: number;
   starttime: number;
