@@ -19,16 +19,9 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 export interface IApiClient {
     video(filename: string | null): Observable<FileResponse>;
     viewMeetingGet(meetingId: number): Observable<ViewMeeting_Dto>;
-    viewMeetingPut(meetingId: number, meetingId: number, govbodyName: string | null, locationName: string | null, date: string | null, topics: ViewMeetingTopic_Dto[] | null, speakers: ViewMeetingSpeaker_Dto[] | null, sections: ViewMeetingSection_Dto[] | null): Observable<boolean>;
+    viewMeetingPut(meetingId: number, govbodyName: string | null, locationName: string | null, date: string | null, topics: ViewMeetingTopic_Dto[] | null, speakers: ViewMeetingSpeaker_Dto[] | null, sections: ViewMeetingSection_Dto[] | null): Observable<boolean>;
     editMeetingGet(meetingId: number, part: number): Observable<EditMeeting_Dto>;
     editMeetingPost(value: EditMeeting_Dto, meetingId: number, part: number): Observable<boolean>;
-    /**
-     * Get server status
-     * @param testId Send any interger.
-     * @return It should return the integer times 2.
-     */
-    healthCheckGet(testId: number): Observable<string>;
-    healthCheckGet(): Observable<WeatherForecast[]>;
 }
 
 @Injectable()
@@ -143,11 +136,8 @@ export class ApiClient implements IApiClient {
         return _observableOf<ViewMeeting_Dto>(<any>null);
     }
 
-    viewMeetingPut(meetingId: number, meetingId: number, govbodyName: string | null, locationName: string | null, date: string | null, topics: ViewMeetingTopic_Dto[] | null, speakers: ViewMeetingSpeaker_Dto[] | null, sections: ViewMeetingSection_Dto[] | null): Observable<boolean> {
-        let url_ = this.baseUrl + "/api/ViewMeeting/{meetingId}?";
-        if (meetingId === undefined || meetingId === null)
-            throw new Error("The parameter 'meetingId' must be defined.");
-        url_ = url_.replace("{meetingId}", encodeURIComponent("" + meetingId));
+    viewMeetingPut(meetingId: number, govbodyName: string | null, locationName: string | null, date: string | null, topics: ViewMeetingTopic_Dto[] | null, speakers: ViewMeetingSpeaker_Dto[] | null, sections: ViewMeetingSection_Dto[] | null): Observable<boolean> {
+        let url_ = this.baseUrl + "/api/ViewMeeting?";
         if (meetingId === undefined || meetingId === null)
             throw new Error("The parameter 'meetingId' must be defined and cannot be null.");
         else
@@ -348,115 +338,6 @@ export class ApiClient implements IApiClient {
             }));
         }
         return _observableOf<boolean>(<any>null);
-    }
-
-    /**
-     * Get server status
-     * @param testId Send any interger.
-     * @return It should return the integer times 2.
-     */
-    healthCheckGet(testId: number): Observable<string> {
-        let url_ = this.baseUrl + "/api/HealthCheck/{testId}";
-        if (testId === undefined || testId === null)
-            throw new Error("The parameter 'testId' must be defined.");
-        url_ = url_.replace("{testId}", encodeURIComponent("" + testId));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHealthCheckGet(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processHealthCheckGet(<any>response_);
-                } catch (e) {
-                    return <Observable<string>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<string>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processHealthCheckGet(response: HttpResponseBase): Observable<string> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : jsonParse(_responseText, this.jsonParseReviver);
-            result200 = resultData200 !== undefined ? resultData200 : <any>null;
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<string>(<any>null);
-    }
-
-    healthCheckGet(): Observable<WeatherForecast[]> {
-        let url_ = this.baseUrl + "/api/HealthCheck";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processHealthCheckGet(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processHealthCheckGet(<any>response_);
-                } catch (e) {
-                    return <Observable<WeatherForecast[]>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<WeatherForecast[]>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processHealthCheckGet(response: HttpResponseBase): Observable<WeatherForecast[]> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        let _mappings: { source: any, target: any }[] = [];
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : jsonParse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(WeatherForecast.fromJS(item, _mappings));
-            }
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<WeatherForecast[]>(<any>null);
     }
 }
 
@@ -799,7 +680,7 @@ export class GovbodyClient implements IGovbodyClient {
 }
 
 export interface IClient {
-    weatherForecast(): Observable<WeatherForecast2[]>;
+    weatherForecast(): Observable<WeatherForecast[]>;
 }
 
 @Injectable()
@@ -813,7 +694,7 @@ export class Client implements IClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    weatherForecast(): Observable<WeatherForecast2[]> {
+    weatherForecast(): Observable<WeatherForecast[]> {
         let url_ = this.baseUrl + "/WeatherForecast";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -832,14 +713,14 @@ export class Client implements IClient {
                 try {
                     return this.processWeatherForecast(<any>response_);
                 } catch (e) {
-                    return <Observable<WeatherForecast2[]>><any>_observableThrow(e);
+                    return <Observable<WeatherForecast[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<WeatherForecast2[]>><any>_observableThrow(response_);
+                return <Observable<WeatherForecast[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processWeatherForecast(response: HttpResponseBase): Observable<WeatherForecast2[]> {
+    protected processWeatherForecast(response: HttpResponseBase): Observable<WeatherForecast[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -854,7 +735,7 @@ export class Client implements IClient {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(WeatherForecast2.fromJS(item, _mappings));
+                    result200!.push(WeatherForecast.fromJS(item, _mappings));
             }
             return _observableOf(result200);
             }));
@@ -863,7 +744,7 @@ export class Client implements IClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<WeatherForecast2[]>(<any>null);
+        return _observableOf<WeatherForecast[]>(<any>null);
     }
 }
 
@@ -1357,52 +1238,6 @@ export interface IEditMeetingWord_Dto {
     speakerTag: number;
 }
 
-export class WeatherForecast implements IWeatherForecast {
-    date!: moment.Moment;
-    temperatureC!: number;
-    temperatureF!: number;
-    summary!: string | undefined;
-
-    constructor(data?: IWeatherForecast) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any, _mappings?: any) {
-        if (_data) {
-            this.date = _data["date"] ? moment.parseZone(_data["date"].toString()) : <any>undefined;
-            this.temperatureC = _data["temperatureC"];
-            this.temperatureF = _data["temperatureF"];
-            this.summary = _data["summary"];
-        }
-    }
-
-    static fromJS(data: any, _mappings?: any): WeatherForecast | null {
-        data = typeof data === 'object' ? data : {};
-        return createInstance<WeatherForecast>(data, _mappings, WeatherForecast);
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["date"] = this.date ? this.date.toISOString(true) : <any>undefined;
-        data["temperatureC"] = this.temperatureC;
-        data["temperatureF"] = this.temperatureF;
-        data["summary"] = this.summary;
-        return data; 
-    }
-}
-
-export interface IWeatherForecast {
-    date: moment.Moment;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string | undefined;
-}
-
 export class GovLocation_Dto implements IGovLocation_Dto {
     id!: number;
     name!: string | undefined;
@@ -1706,13 +1541,13 @@ export interface IGovbody_Dto {
     parentLocationId: number;
 }
 
-export class WeatherForecast2 implements IWeatherForecast2 {
+export class WeatherForecast implements IWeatherForecast {
     date!: moment.Moment;
     temperatureC!: number;
     temperatureF!: number;
     summary!: string | undefined;
 
-    constructor(data?: IWeatherForecast2) {
+    constructor(data?: IWeatherForecast) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -1730,9 +1565,9 @@ export class WeatherForecast2 implements IWeatherForecast2 {
         }
     }
 
-    static fromJS(data: any, _mappings?: any): WeatherForecast2 | null {
+    static fromJS(data: any, _mappings?: any): WeatherForecast | null {
         data = typeof data === 'object' ? data : {};
-        return createInstance<WeatherForecast2>(data, _mappings, WeatherForecast2);
+        return createInstance<WeatherForecast>(data, _mappings, WeatherForecast);
     }
 
     toJSON(data?: any) {
@@ -1745,7 +1580,7 @@ export class WeatherForecast2 implements IWeatherForecast2 {
     }
 }
 
-export interface IWeatherForecast2 {
+export interface IWeatherForecast {
     date: moment.Moment;
     temperatureC: number;
     temperatureF: number;

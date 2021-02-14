@@ -38,11 +38,11 @@ namespace Example.Api.Client.CSharp.Contracts
         System.Threading.Tasks.Task<ViewMeeting_Dto> GetAsync(int meetingId, System.Threading.CancellationToken cancellationToken);
     
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<bool> PutAsync(int meetingId, int meetingId, string govbodyName, string locationName, string date, System.Collections.Generic.IEnumerable<ViewMeetingTopic_Dto> topics, System.Collections.Generic.IEnumerable<ViewMeetingSpeaker_Dto> speakers, System.Collections.Generic.IEnumerable<ViewMeetingSection_Dto> sections);
+        System.Threading.Tasks.Task<bool> PutAsync(int meetingId, string govbodyName, string locationName, string date, System.Collections.Generic.IEnumerable<ViewMeetingTopic_Dto> topics, System.Collections.Generic.IEnumerable<ViewMeetingSpeaker_Dto> speakers, System.Collections.Generic.IEnumerable<ViewMeetingSection_Dto> sections);
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<bool> PutAsync(int meetingId, int meetingId, string govbodyName, string locationName, string date, System.Collections.Generic.IEnumerable<ViewMeetingTopic_Dto> topics, System.Collections.Generic.IEnumerable<ViewMeetingSpeaker_Dto> speakers, System.Collections.Generic.IEnumerable<ViewMeetingSection_Dto> sections, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<bool> PutAsync(int meetingId, string govbodyName, string locationName, string date, System.Collections.Generic.IEnumerable<ViewMeetingTopic_Dto> topics, System.Collections.Generic.IEnumerable<ViewMeetingSpeaker_Dto> speakers, System.Collections.Generic.IEnumerable<ViewMeetingSection_Dto> sections, System.Threading.CancellationToken cancellationToken);
     
     }
     
@@ -62,31 +62,6 @@ namespace Example.Api.Client.CSharp.Contracts
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<bool> PostAsync(int meetingId, int part, EditMeeting_Dto value, System.Threading.CancellationToken cancellationToken);
-    
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCode("NSwag", "13.10.2.0 (NJsonSchema v10.3.4.0 (Newtonsoft.Json v12.0.0.0))")]
-    public partial interface IHealthCheckClient
-    {
-        /// <summary>Get server status</summary>
-        /// <param name="testId">Send any interger.</param>
-        /// <returns>It should return the integer times 2.</returns>
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> GetAsync(int testId);
-    
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <summary>Get server status</summary>
-        /// <param name="testId">Send any interger.</param>
-        /// <returns>It should return the integer times 2.</returns>
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<string> GetAsync(int testId, System.Threading.CancellationToken cancellationToken);
-    
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<WeatherForecast>> GetWeatherAsync();
-    
-        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
-        /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<WeatherForecast>> GetWeatherAsync(System.Threading.CancellationToken cancellationToken);
     
     }
     
@@ -157,11 +132,11 @@ namespace Example.Api.Client.CSharp.Contracts
     public partial interface IWeatherForecastClient
     {
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<WeatherForecast2>> GetAsync();
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<WeatherForecast>> GetAsync();
     
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <exception cref="SwaggerException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<WeatherForecast2>> GetAsync(System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<System.Collections.ObjectModel.ObservableCollection<WeatherForecast>> GetAsync(System.Threading.CancellationToken cancellationToken);
     
     }
 
@@ -412,33 +387,6 @@ namespace Example.Api.Client.CSharp.Contracts
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.4.0 (Newtonsoft.Json v12.0.0.0)")]
-    public partial class WeatherForecast 
-    {
-        [Newtonsoft.Json.JsonProperty("date", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.DateTime Date { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("temperatureC", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int TemperatureC { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("temperatureF", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public int TemperatureF { get; set; }
-    
-        [Newtonsoft.Json.JsonProperty("summary", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Summary { get; set; }
-    
-        public string ToJson() 
-        {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
-        }
-    
-        public static WeatherForecast FromJson(string data)
-        {
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<WeatherForecast>(data);
-        }
-    
-    }
-    
-    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.4.0 (Newtonsoft.Json v12.0.0.0)")]
     public partial class RegisterGovLocation_Cmd : GovLocation_Dto
     {
         public string ToJson() 
@@ -622,7 +570,7 @@ namespace Example.Api.Client.CSharp.Contracts
     }
     
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "10.3.4.0 (Newtonsoft.Json v12.0.0.0)")]
-    public partial class WeatherForecast2 
+    public partial class WeatherForecast 
     {
         [Newtonsoft.Json.JsonProperty("date", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.DateTime Date { get; set; }
@@ -641,9 +589,9 @@ namespace Example.Api.Client.CSharp.Contracts
             return Newtonsoft.Json.JsonConvert.SerializeObject(this);
         }
     
-        public static WeatherForecast2 FromJson(string data)
+        public static WeatherForecast FromJson(string data)
         {
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<WeatherForecast2>(data);
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<WeatherForecast>(data);
         }
     
     }
