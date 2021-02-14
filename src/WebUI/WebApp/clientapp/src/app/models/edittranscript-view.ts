@@ -20,7 +20,6 @@ export class Talk {
 }
 
 export class Word {
-
   word: string;
   confidence: number;
   starttime: number;

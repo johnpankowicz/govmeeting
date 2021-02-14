@@ -154,7 +154,7 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
     ViewMeetingClient,
     EditMeetingClient,
     GovLocationClient,
-    GovbodyClient
+    GovbodyClient,
   ],
   bootstrap: [AppComponent],
 })

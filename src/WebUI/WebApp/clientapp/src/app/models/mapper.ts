@@ -10,7 +10,6 @@ import { createMetadataMap } from '@automapper/pojos';
 //  pluginInitializer: classes,
 //});
 
-
 export interface User {
   firstName: string;
   lastName: string;
@@ -95,8 +94,6 @@ createMetadataMap<UserDto>('UserDto', 'User', {
 //  return mapper.map<User, UserDto>(user, 'UserDto', 'User');
 //}
 
-
-
 //export const mapper = createMapper({
 //  name: 'someName',
 //  pluginInitializer: classes,
@@ -107,7 +104,6 @@ createMetadataMap<UserDto>('UserDto', 'User', {
 //  .forMember((d) => d.topics, mapFrom((s) => s.topics))
 //  //.forMember((d) => d.talks, mapFrom((s) => s.talks))
 //  ;
-
 
 //mapper
 //  .createMap(EditTranscript, EditMeeting_Dto, {

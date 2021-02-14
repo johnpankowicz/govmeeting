@@ -24,9 +24,12 @@ export class EdittranscriptServiceStub {
   isLargeEditData: boolean;
   url: string;
 
-  public constructor(private appData: AppData, private http: HttpClient,
+  public constructor(
+    private appData: AppData,
+    private http: HttpClient,
     private errHandling: ErrorHandlingService,
-    private editTranscript: EditMeetingClient) {
+    private editTranscript: EditMeetingClient
+  ) {
     NoLog || console.log(this.ClassName + 'constructor');
     this.isLargeEditData = appData.isLargeEditData;
   }
