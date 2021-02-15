@@ -109,7 +109,7 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="NSwag" BeforeTargets="AfterBuild" Condition="'$(TF_BUILD)'!='True'">
+  <Target Name="NSwag" BeforeTargets="AfterBuild" Condition="'$(CI)'!='True'">
     <Message Text="Run NSwag to generate C# and Typescript APIs" Importance="high" />
     <Exec ConsoleToMSBuild="true" ContinueOnError="true" Command="$(NSwagExe_Core31) run nswag.json /variables:Configuration=$(Configuration),CSharpOutputPath=$(MSBuildThisFileDirectory)..\Client.CSharp,TypescriptOutputPath=$(MSBuildThisFileDirectory)..\Client.Typescript">
       <Output TaskParameter="ExitCode" PropertyName="NSwagExitCode" />
