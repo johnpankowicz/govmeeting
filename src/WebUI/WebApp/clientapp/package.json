@@ -8,17 +8,23 @@
     "start": "ng serve",
     "build": "ng build",
     "build:prod": "ng build --prod",
-    "format": "prettier src --check",
-    "format:fix": "prettier src --write",
+
+    "prettier": "prettier src --check",
     "lint": "ng lint",
+    "format": "run-s prettier lint",
+
+    "prettier:fix": "prettier src --write",
     "lint:fix": "ng lint --fix",
+    "format:fix": "run-s prettier:fix lint:fix",
+
     "test": "jest --watch",
     "test:once": "jest",
     "e2e": "cypress run",
     "karma": "ng test",
     "protractor": "ng e2e",
+
     "ci:test": "ng test --sourceMap=false --browsers=ChromeHeadless --watch=false",
-    "ci:lint": "run-s format lint",
+    "ci:format": "run-s prettier lint",
     "ci:build": "run-s clean build:prod",
     "ci:cypress": "start-server-and-test ci:start-server 4200 cypress",
     "ci:start-server": "angular-http-server --path ./dist -p 4200"

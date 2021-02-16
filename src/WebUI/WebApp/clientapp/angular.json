@@ -35,7 +35,6 @@
               "faker",
               "factory.ts"
             ]
-
           },
           "configurations": {
             "production": {
@@ -87,14 +86,14 @@
               "./node_modules/prismjs/themes/prism-okaidia.css"
             ],
             "scripts": [],
-            "assets": [ "src/assets" ]
+            "assets": ["src/assets"]
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [ "tsconfig.app.json", "tsconfig.spec.json" ],
-            "exclude": [ "**/node_modules/**" ]
+            "tsConfig": ["tsconfig.app.json", "tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**"]
           }
         },
         "server": {
@@ -137,8 +136,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": "e2e/tsconfig.e2e.json",
-            "exclude": [ "**/node_modules/**" ]
+            "tsConfig": "e2e/tsconfig.json",
+            "exclude": ["**/node_modules/**"]
           }
         }
       }
