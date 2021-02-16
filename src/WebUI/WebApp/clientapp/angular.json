@@ -26,7 +26,16 @@
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "./node_modules/prismjs/themes/prism-okaidia.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "core-js",
+              "raf",
+              "xlsx",
+              "@babel/runtime",
+              "faker",
+              "factory.ts"
+            ]
+
           },
           "configurations": {
             "production": {
