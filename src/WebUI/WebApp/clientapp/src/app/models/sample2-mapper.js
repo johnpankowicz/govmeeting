@@ -21,21 +21,32 @@ var Sample2Mapper = /** @class */ (function () {
             title: String,
             salary: Number
         });
-        pojos_1.createMetadataMap("JobDto", {
-            title: String,
-            salary: Number
-        });
+        pojos_1.createMetadataMap("JobDto", "Job");
+        //createMetadataMap<JobDto>("JobDto", {
+        //  title: String,
+        //  salary: Number
+        //});
         pojos_1.createMetadataMap("Bio", {
+            jobs: "Job",
             avatarUrl: String
         });
-        pojos_1.createMetadataMap("BioDto", {
-            avatarUrl: String
+        pojos_1.createMetadataMap("BioDto", "Bio", {
+            jobs: "JobDto",
         });
+        //createMetadataMap<BioDto>("BioDto", {
+        //  jobs: "JobDto",
+        //  avatarUrl: String
+        //});
+        this.mapper.createMap("Job", "JobDto");
         this.mapper
             .createMap("Bio", "BioDto", {
             namingConventions: new core_1.CamelCaseNamingConvention()
         })
-            .forMember(function (destination) { return destination.birthday; }, core_1.mapFrom(function (source) { return source.birthday.toDateString(); })).forMember(function (destination) { return destination.jobs; }, core_1.mapFrom(function (source) { return source.jobs; }));
+            .forMember(function (destination) { return destination.birthday; }, core_1.mapFrom(function (source) { return source.birthday.toDateString(); }));
+        //.forMember(
+        //  destination => destination.jobs,
+        //  mapFrom(source => source.jobs)
+        //    );
     };
     Sample2Mapper.prototype.mapUser = function () {
         pojos_1.createMetadataMap("User", {

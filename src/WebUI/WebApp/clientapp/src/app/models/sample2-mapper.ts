@@ -67,18 +67,28 @@ export class Sample2Mapper {
       salary: Number
     });
 
-    createMetadataMap<JobDto>("JobDto", {
-      title: String,
-      salary: Number
-    });
+    createMetadataMap<JobDto>("JobDto", "Job");
+
+    //createMetadataMap<JobDto>("JobDto", {
+    //  title: String,
+    //  salary: Number
+    //});
 
     createMetadataMap<Bio>("Bio", {
+      jobs: "Job",
       avatarUrl: String
     });
 
-    createMetadataMap<BioDto>("BioDto", {
-      avatarUrl: String
+    createMetadataMap<BioDto>("BioDto", "Bio", {
+      jobs: "JobDto",
     });
+
+    //createMetadataMap<BioDto>("BioDto", {
+    //  jobs: "JobDto",
+    //  avatarUrl: String
+    //});
+
+    this.mapper.createMap<Job, JobDto>("Job", "JobDto");
 
     this.mapper
       .createMap<Bio, BioDto>("Bio", "BioDto", {
@@ -87,10 +97,11 @@ export class Sample2Mapper {
       .forMember(
         destination => destination.birthday,
         mapFrom(source => source.birthday.toDateString())
-      ).forMember(
-        destination => destination.jobs,
-        mapFrom(source => source.jobs)
       );
+      //.forMember(
+      //  destination => destination.jobs,
+      //  mapFrom(source => source.jobs)
+  //    );
   }
 
   mapUser() {
