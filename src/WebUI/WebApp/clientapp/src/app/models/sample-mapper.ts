@@ -111,15 +111,21 @@ export class SampleMapper {
 
     this.mapUser()
 
-    const user: User = this.getUserDto();
+    const user: User = this.getUser();
 
     const vm = this.mapper.map(user, "UserDto", "User");
 
     const dto = this.mapper.map(vm, "User", "UserDto");
 
+    const user2: User = this.getUser();
+
+    const users: User[] = [user, user2];
+
+    //const userDtos = this.mapper.mapArray(users, UserDto);
+
   }
 
-  getUserDto(): User {
+  getUser(): User {
     const user = {
       bio: {
         job: {
