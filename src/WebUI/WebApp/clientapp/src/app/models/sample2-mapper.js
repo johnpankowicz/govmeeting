@@ -1,8 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Sample2Mapper = void 0;
+exports.Sample2Mapper = exports.GenderType = void 0;
 var pojos_1 = require("@automapper/pojos");
 var core_1 = require("@automapper/core");
+var GenderType;
+(function (GenderType) {
+    GenderType[GenderType["unspecified"] = 0] = "unspecified";
+    GenderType[GenderType["male"] = 1] = "male";
+    GenderType[GenderType["female"] = 2] = "female";
+})(GenderType = exports.GenderType || (exports.GenderType = {}));
 var Sample2Mapper = /** @class */ (function () {
     function Sample2Mapper() {
         this.mapper = core_1.createMapper({
@@ -48,7 +54,8 @@ var Sample2Mapper = /** @class */ (function () {
             firstName: String,
             lastName: String,
             username: String,
-            bio: "Bio"
+            bio: "Bio",
+            gender: Number
         });
         // "UserDto" is same as "User" but with different bio.
         pojos_1.createMetadataMap("UserDto", "User", {
@@ -78,7 +85,8 @@ var Sample2Mapper = /** @class */ (function () {
             firstName: "Chau",
             lastName: "Tran",
             username: "ctran",
-            password: "123456"
+            password: "123456",
+            gender: GenderType.male
         };
         return user;
     };

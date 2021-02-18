@@ -13,7 +13,7 @@ export interface Job {
 export interface Bio {
   jobs: Job[];
   birthday: Date;
-  avatarUrl: string;
+  avatarUrl: string | undefined;
 }
 
 export interface User {
@@ -22,6 +22,7 @@ export interface User {
   username: string;
   password: string;
   bio: Bio;
+  gender: GenderType;
 }
 
 export interface JobDto {
@@ -32,7 +33,7 @@ export interface JobDto {
 export interface BioDto {
   jobs: JobDto[];
   birthday: string;
-  avatarUrl: string;
+  avatarUrl: string | undefined;
 }
 
 export interface UserDto {
@@ -41,7 +42,15 @@ export interface UserDto {
   fullName: string;
   username: string;
   bio: BioDto;
+  gender: GenderType;
 }
+
+export enum GenderType {
+  unspecified = 0,
+  male = 1,
+  female = 2,
+}
+
 
 export class Sample2Mapper {
 
@@ -102,7 +111,8 @@ export class Sample2Mapper {
       firstName: String,
       lastName: String,
       username: String,
-      bio: "Bio"
+      bio: "Bio",
+      gender: Number
     });
 
     // "UserDto" is same as "User" but with different bio.
@@ -138,7 +148,8 @@ export class Sample2Mapper {
       firstName: "Chau",
       lastName: "Tran",
       username: "ctran",
-      password: "123456"
+      password: "123456",
+      gender: GenderType.male
     } as User;
     return user;
   }
