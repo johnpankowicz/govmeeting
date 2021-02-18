@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Sample2Mapper = exports.GenderType = void 0;
+exports.SampleMapper = exports.GenderType = void 0;
 var pojos_1 = require("@automapper/pojos");
 var core_1 = require("@automapper/core");
 var GenderType;
@@ -9,20 +9,20 @@ var GenderType;
     GenderType[GenderType["male"] = 1] = "male";
     GenderType[GenderType["female"] = 2] = "female";
 })(GenderType = exports.GenderType || (exports.GenderType = {}));
-var Sample2Mapper = /** @class */ (function () {
-    function Sample2Mapper() {
+var SampleMapper = /** @class */ (function () {
+    function SampleMapper() {
         this.mapper = core_1.createMapper({
             name: "blah",
             pluginInitializer: pojos_1.pojos
         });
     }
-    Sample2Mapper.prototype.useMapper = function () {
+    SampleMapper.prototype.useMapper = function () {
         this.mapBio();
         this.mapUser();
         var user = this.getUser();
         var userDto = this.mapper.map(user, "UserDto", "User");
     };
-    Sample2Mapper.prototype.mapBio = function () {
+    SampleMapper.prototype.mapBio = function () {
         // Map "Job"
         pojos_1.createMetadataMap("Job", {
             title: String,
@@ -48,7 +48,7 @@ var Sample2Mapper = /** @class */ (function () {
         })
             .forMember(function (destination) { return destination.birthday; }, core_1.mapFrom(function (source) { return source.birthday.toDateString(); }));
     };
-    Sample2Mapper.prototype.mapUser = function () {
+    SampleMapper.prototype.mapUser = function () {
         // Map "User"
         pojos_1.createMetadataMap("User", {
             firstName: String,
@@ -66,7 +66,7 @@ var Sample2Mapper = /** @class */ (function () {
             .createMap("User", "UserDto")
             .forMember(function (destination) { return destination.fullName; }, core_1.mapFrom(function (source) { return source.firstName + " " + source.lastName; }));
     };
-    Sample2Mapper.prototype.getUser = function () {
+    SampleMapper.prototype.getUser = function () {
         var user = {
             bio: {
                 jobs: [
@@ -90,7 +90,7 @@ var Sample2Mapper = /** @class */ (function () {
         };
         return user;
     };
-    return Sample2Mapper;
+    return SampleMapper;
 }());
-exports.Sample2Mapper = Sample2Mapper;
-//# sourceMappingURL=sample2-mapper.js.map
+exports.SampleMapper = SampleMapper;
+//# sourceMappingURL=sample-mapper.js.map

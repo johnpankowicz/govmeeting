@@ -1,5 +1,3 @@
-//import "reflect-metadata";
-
 import { createMetadataMap, pojos } from "@automapper/pojos";
 import {
   createMapper,
@@ -7,48 +5,52 @@ import {
   mapFrom
 } from "@automapper/core";
 
-//// Import stylesheets
-//import "./style.css";
+export interface Job {
+  title: string;
+  salary: number;
+}
 
-//// Write TypeScript code!
-//const appDiv: HTMLElement = document.getElementById("app");
-//appDiv.innerHTML = `<h1>TypeScript Starter</h1>`;
+export interface Bio {
+  jobs: Job[];
+  birthday: Date;
+  avatarUrl: string | undefined;
+}
 
-//const output = document.getElementById("output");
+export interface User {
+  firstName: string;
+  lastName: string;
+  username: string;
+  password: string;
+  bio: Bio;
+  gender: GenderType;
+}
 
-  export interface Job {
-    title: string;
-    salary: number;
-  }
+export interface JobDto {
+  title: string;
+  salary: number;
+}
 
-  export interface Bio {
-    job: Job;
-    birthday: Date;
-    avatarUrl: string;
-  }
+export interface BioDto {
+  jobs: JobDto[];
+  birthday: string;
+  avatarUrl: string | undefined;
+}
 
-  export interface User {
-    firstName: string;
-    lastName: string;
-    username: string;
-    password: string;
-    bio: Bio;
-  }
+export interface UserDto {
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  username: string;
+  bio: BioDto;
+  gender: GenderType;
+}
 
-  export interface BioDto {
-    jobTitle: string;
-    jobSalary: number;
-    birthday: string;
-    avatarUrl: string;
-  }
+export enum GenderType {
+  unspecified = 0,
+  male = 1,
+  female = 2,
+}
 
-  export interface UserDto {
-    firstName: string;
-    lastName: string;
-    fullName: string;
-    username: string;
-    bio: BioDto;
-  }
 
 export class SampleMapper {
 
@@ -57,23 +59,42 @@ export class SampleMapper {
     pluginInitializer: pojos
   });
 
+  useMapper() {
+
+    this.mapBio();
+
+    this.mapUser()
+
+    const user: User = this.getUser();
+
+    const userDto = this.mapper.map(user, "UserDto", "User");
+
+  }
   mapBio() {
+    // Map "Job"
     createMetadataMap<Job>("Job", {
       title: String,
       salary: Number
     });
 
+    // "JobDto" contains same properties as "Job"
+    createMetadataMap<JobDto>("JobDto", "Job");
+
+    // Map "Bio"
     createMetadataMap<Bio>("Bio", {
-      job: "Job",
+      jobs: "Job",
       avatarUrl: String
     });
 
-    createMetadataMap<BioDto>("BioDto", {
-      jobTitle: String,
-      jobSalary: String,
-      avatarUrl: String
+    // "BioDto" is same as "Bio" but with different jobs.
+    createMetadataMap<BioDto>("BioDto", "Bio", {
+      jobs: "JobDto",
     });
 
+    // Map "Job" to "JobDto" - all properties use conventions mapping.
+    this.mapper.createMap<Job, JobDto>("Job", "JobDto");
+
+    // Map "Bio" to "BioDto" - birthday is Date in Bio, but string in BioDto
     this.mapper
       .createMap<Bio, BioDto>("Bio", "BioDto", {
         namingConventions: new CamelCaseNamingConvention()
@@ -85,18 +106,21 @@ export class SampleMapper {
   }
 
   mapUser() {
+    // Map "User"
     createMetadataMap<User>("User", {
       firstName: String,
       lastName: String,
       username: String,
-      bio: "Bio"
+      bio: "Bio",
+      gender: Number
     });
 
+    // "UserDto" is same as "User" but with different bio.
     createMetadataMap<UserDto>("UserDto", "User", {
-      fullName: String,
       bio: "BioDto"
     });
 
+    // Map User to UserDto. UserDto contains fullname.
     this.mapper
       .createMap<User, UserDto>("User", "UserDto")
       .forMember(
@@ -105,49 +129,28 @@ export class SampleMapper {
       );
   }
 
-  useMapper() {
-
-    this.mapBio();
-
-    this.mapUser()
-
-    const user: User = this.getUser();
-
-    const vm = this.mapper.map(user, "UserDto", "User");
-
-    const dto = this.mapper.map(vm, "User", "UserDto");
-
-    const user2: User = this.getUser();
-
-    const users: User[] = [user, user2];
-
-    //const userDtos = this.mapper.mapArray(users, UserDto);
-
-  }
-
   getUser(): User {
     const user = {
       bio: {
-        job: {
+        jobs: [
+          {
           title: "dev",
           salary: 1234567
-        },
+          },
+          {
+            title: "mgr",
+            salary: 7654321
+          }
+        ],
         birthday: new Date(),
         avatarUrl: "url.com"
       },
       firstName: "Chau",
       lastName: "Tran",
       username: "ctran",
-      password: "123456"
+      password: "123456",
+      gender: GenderType.male
     } as User;
     return user;
   }
 }
-
-      //  output.innerHTML = `
-      //    <h4>User</h4>
-      //    <pre>${JSON.stringify(user, null, 2)}</pre>
-      //    <br>
-      //    <h4>UserDto</h4>
-      //    <pre>${JSON.stringify(vm, null, 2)}</pre>
-      //  `;

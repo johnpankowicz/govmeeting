@@ -62,9 +62,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="clientapp\src\app\models\govbody-mapper.ts" />
     <None Remove="clientapp\src\app\models\mapper.ts" />
     <None Remove="clientapp\src\app\models\sample-data\govbody-view.ts" />
-    <None Remove="clientapp\src\app\models\sample2-mapper.ts" />
+    <None Remove="clientapp\src\app\models\sample-mapper.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -88,9 +89,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="clientapp\src\app\models\govbody-mapper.ts" />
     <TypeScriptCompile Include="clientapp\src\app\models\govbody-view.ts" />
     <TypeScriptCompile Include="clientapp\src\app\models\mapper.ts" />
-    <TypeScriptCompile Include="clientapp\src\app\models\sample2-mapper.ts" />
+    <TypeScriptCompile Include="clientapp\src\app\models\sample-mapper.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -3,8 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { sample } from 'rxjs/operators';
 import { IGovbodyDetails } from '../../models/govbody-view';
 
-//import { SampleMapper } from '../../models/sample-mapper';
-import { Sample2Mapper } from '../../models/sample2-mapper';
+import { SampleMapper } from '../../models/sample-mapper';
 
 @Component({
   selector: 'gm-register-gov-body',
@@ -15,7 +14,7 @@ export class RegisterGovBodyComponent {
   @Output() register = new EventEmitter<IGovbodyDetails>();
 
   form: FormGroup;
-  sampleMapper = new Sample2Mapper;
+  sampleMapper = new SampleMapper;
 
   constructor(fb: FormBuilder) {
 
