@@ -62,34 +62,30 @@ export class Sample2Mapper {
 
   }
   mapBio() {
+    // Map "Job"
     createMetadataMap<Job>("Job", {
       title: String,
       salary: Number
     });
 
+    // "JobDto" contains same properties as "Job"
     createMetadataMap<JobDto>("JobDto", "Job");
 
-    //createMetadataMap<JobDto>("JobDto", {
-    //  title: String,
-    //  salary: Number
-    //});
-
+    // Map "Bio"
     createMetadataMap<Bio>("Bio", {
       jobs: "Job",
       avatarUrl: String
     });
 
+    // "BioDto" is same as "Bio" but with different jobs.
     createMetadataMap<BioDto>("BioDto", "Bio", {
       jobs: "JobDto",
     });
 
-    //createMetadataMap<BioDto>("BioDto", {
-    //  jobs: "JobDto",
-    //  avatarUrl: String
-    //});
-
+    // Map "Job" to "JobDto" - all properties use conventions mapping.
     this.mapper.createMap<Job, JobDto>("Job", "JobDto");
 
+    // Map "Bio" to "BioDto" - birthday is Date in Bio, but string in BioDto
     this.mapper
       .createMap<Bio, BioDto>("Bio", "BioDto", {
         namingConventions: new CamelCaseNamingConvention()
@@ -98,13 +94,10 @@ export class Sample2Mapper {
         destination => destination.birthday,
         mapFrom(source => source.birthday.toDateString())
       );
-      //.forMember(
-      //  destination => destination.jobs,
-      //  mapFrom(source => source.jobs)
-  //    );
   }
 
   mapUser() {
+    // Map "User"
     createMetadataMap<User>("User", {
       firstName: String,
       lastName: String,
@@ -112,11 +105,12 @@ export class Sample2Mapper {
       bio: "Bio"
     });
 
+    // "UserDto" is same as "User" but with different bio.
     createMetadataMap<UserDto>("UserDto", "User", {
-      fullName: String,
       bio: "BioDto"
     });
 
+    // Map User to UserDto. UserDto contains fullname.
     this.mapper
       .createMap<User, UserDto>("User", "UserDto")
       .forMember(

@@ -17,48 +17,44 @@ var Sample2Mapper = /** @class */ (function () {
         var userDto = this.mapper.map(user, "UserDto", "User");
     };
     Sample2Mapper.prototype.mapBio = function () {
+        // Map "Job"
         pojos_1.createMetadataMap("Job", {
             title: String,
             salary: Number
         });
+        // "JobDto" contains same properties as "Job"
         pojos_1.createMetadataMap("JobDto", "Job");
-        //createMetadataMap<JobDto>("JobDto", {
-        //  title: String,
-        //  salary: Number
-        //});
+        // Map "Bio"
         pojos_1.createMetadataMap("Bio", {
             jobs: "Job",
             avatarUrl: String
         });
+        // "BioDto" is same as "Bio" but with different jobs.
         pojos_1.createMetadataMap("BioDto", "Bio", {
             jobs: "JobDto",
         });
-        //createMetadataMap<BioDto>("BioDto", {
-        //  jobs: "JobDto",
-        //  avatarUrl: String
-        //});
+        // Map "Job" to "JobDto" - all properties use conventions mapping.
         this.mapper.createMap("Job", "JobDto");
+        // Map "Bio" to "BioDto" - birthday is Date in Bio, but string in BioDto
         this.mapper
             .createMap("Bio", "BioDto", {
             namingConventions: new core_1.CamelCaseNamingConvention()
         })
             .forMember(function (destination) { return destination.birthday; }, core_1.mapFrom(function (source) { return source.birthday.toDateString(); }));
-        //.forMember(
-        //  destination => destination.jobs,
-        //  mapFrom(source => source.jobs)
-        //    );
     };
     Sample2Mapper.prototype.mapUser = function () {
+        // Map "User"
         pojos_1.createMetadataMap("User", {
             firstName: String,
             lastName: String,
             username: String,
             bio: "Bio"
         });
+        // "UserDto" is same as "User" but with different bio.
         pojos_1.createMetadataMap("UserDto", "User", {
-            fullName: String,
             bio: "BioDto"
         });
+        // Map User to UserDto. UserDto contains fullname.
         this.mapper
             .createMap("User", "UserDto")
             .forMember(function (destination) { return destination.fullName; }, core_1.mapFrom(function (source) { return source.firstName + " " + source.lastName; }));
