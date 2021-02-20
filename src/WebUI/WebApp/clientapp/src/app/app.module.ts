@@ -52,7 +52,8 @@ import { ChatService } from './features/chat/chat.service';
 import { DataFactoryService } from './work_experiments/datafake/data-factory.service';
 
 // Swagger API
-import { ViewMeetingClient, EditMeetingClient, GovLocationClient, GovbodyClient } from './apis/swagger-api';
+//import { ViewMeetingClient, EditMeetingClient, GovLocationClient, GovbodyClient } from './apis/swagger-api';
+import { GovLocationClient, GovbodyClient } from './apis/api.generated.clients';
 
 // EXPERIMENTS
 import { PopupComponent } from './work_experiments/popup/popup.component';
@@ -134,14 +135,15 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
     },
     {
       provide: EdittranscriptService,
-      useClass: isAspServerRunning ? EdittranscriptService : EdittranscriptServiceStub,
+      useClass: isAspServerRunning ? EdittranscriptService : EdittranscriptServiceStub
     },
 
     // If you use the stubs for these services, they will not call the Asp.Net server,
     // but will instead return static data.
     {
       provide: ViewTranscriptService,
-      useClass: isAspServerRunning ? ViewTranscriptService : ViewTranscriptServiceStub,
+      //useClass: isAspServerRunning ? ViewTranscriptService : ViewTranscriptServiceStub,
+      useClass: ViewTranscriptService
     },
     // { provide: ViewTranscriptService, useClass: ViewTranscriptServiceStub },
 
@@ -151,10 +153,10 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
     UserSettingsService,
 
     // Swagger API
-    ViewMeetingClient,
-    EditMeetingClient,
+    //ViewMeetingClient,
+    //EditMeetingClient,
     GovLocationClient,
-    GovbodyClient,
+    GovbodyClient
   ],
   bootstrap: [AppComponent],
 })
