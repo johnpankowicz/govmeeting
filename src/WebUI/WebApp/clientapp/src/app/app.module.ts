@@ -10,6 +10,8 @@ import { NgMaterialMultilevelMenuModule } from 'ng-material-multilevel-menu';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
+import { FetchDataComponent } from './fetch-data/fetch-data.component';
+
 // APP
 import { AppRoutingModule } from './app-routing.module';
 import { AboutProjectModule } from './about-project/about-project.module';
@@ -71,7 +73,7 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
   imports: [
     // /////////////// external //////////////
     RouterModule.forRoot([]),
-    RouterModule,
+    //RouterModule,
     CommonModule,
     BrowserAnimationsModule,
     DemoMaterialModule,
@@ -98,7 +100,14 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
     AmchartsModule,
     FeaturesModule,
   ],
-  declarations: [AppComponent, DashMainComponent, ShoutoutsComponent, RegisterComponent, PopupComponent],
+  declarations: [
+    AppComponent,
+    DashMainComponent,
+    ShoutoutsComponent,
+    RegisterComponent,
+    PopupComponent,
+    FetchDataComponent,
+  ],
   exports: [
     DemoMaterialModule,
 
@@ -135,15 +144,15 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
     },
     {
       provide: EdittranscriptService,
-      useClass: isAspServerRunning ? EdittranscriptService : EdittranscriptServiceStub
+      useClass: isAspServerRunning ? EdittranscriptService : EdittranscriptServiceStub,
     },
 
     // If you use the stubs for these services, they will not call the Asp.Net server,
     // but will instead return static data.
     {
       provide: ViewTranscriptService,
-      //useClass: isAspServerRunning ? ViewTranscriptService : ViewTranscriptServiceStub,
-      useClass: ViewTranscriptService
+      useClass: isAspServerRunning ? ViewTranscriptService : ViewTranscriptServiceStub,
+    //  useClass: ViewTranscriptService,
     },
     // { provide: ViewTranscriptService, useClass: ViewTranscriptServiceStub },
 
@@ -156,7 +165,7 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
     //ViewMeetingClient,
     //EditMeetingClient,
     GovLocationClient,
-    GovbodyClient
+    GovbodyClient,
   ],
   bootstrap: [AppComponent],
 })

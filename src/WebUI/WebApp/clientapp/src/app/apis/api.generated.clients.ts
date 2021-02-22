@@ -361,6 +361,7 @@ export class GovLocationClient implements IGovLocationClient {
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
     constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+    //constructor(@Inject(HttpClient) http: HttpClient,  @Inject('API_BASE_URL') baseUrl: string) {
         this.http = http;
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }

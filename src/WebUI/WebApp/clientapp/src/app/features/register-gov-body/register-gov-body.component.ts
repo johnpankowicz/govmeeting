@@ -33,7 +33,7 @@ export class RegisterGovBodyComponent implements OnInit {
   }
 
   ngOnInit() {
-  //  this.observable = this.registerService.getMyGovLocations();
+    this.observable = this.registerService.getMyGovLocations();
   }
 
   submit(form: IGovbodyDetails_Vm, valid: boolean) {
