@@ -5,7 +5,7 @@ import { RegisterGovBodyService } from './register-gov-body.service'
 import { IGovbodyDetails_Vm, IGovLocation_Vm, IOfficial_Vm } from '../../models/govbody-view';
 import { Observable } from 'rxjs';
 
-import {  IGovLocation_Dto } from '../../apis/api.generated.clients'
+import { IGovLocation_Dto} from '../../apis/api.generated.clients'
 
 @Component({
   selector: 'gm-register-gov-body',
@@ -18,6 +18,8 @@ export class RegisterGovBodyComponent implements OnInit {
   form: FormGroup;
   registerService: RegisterGovBodyService;
   observable: Observable<IGovLocation_Dto[]>;
+  myGovlocations: IGovLocation_Dto[];
+
 
   constructor(fb: FormBuilder, _registerService: RegisterGovBodyService) {
   
@@ -28,12 +30,17 @@ export class RegisterGovBodyComponent implements OnInit {
       recordingsUrl: [null, []],
       transcriptsUrl: [null, []],
     });
-
     this.registerService = _registerService;
   }
 
   ngOnInit() {
     this.observable = this.registerService.getMyGovLocations();
+    this.observable.subscribe(
+      (result) => {
+        this.myGovlocations = result;
+      },
+      (error) => console.error(error)
+    );
   }
 
   submit(form: IGovbodyDetails_Vm, valid: boolean) {
