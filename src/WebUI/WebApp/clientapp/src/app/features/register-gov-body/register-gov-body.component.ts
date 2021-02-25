@@ -17,8 +17,8 @@ export class RegisterGovBodyComponent implements OnInit {
 
   form: FormGroup;
   registerService: RegisterGovBodyService;
-  observable: Observable<IGovLocation_Dto[]>;
-  myGovlocations: IGovLocation_Dto[];
+  //observable: Observable<IGovLocation_Dto[]>;
+  myGovlocations: IGovLocation_Vm[];
 
 
   constructor(fb: FormBuilder, _registerService: RegisterGovBodyService) {
@@ -34,13 +34,14 @@ export class RegisterGovBodyComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.observable = this.registerService.getMyGovLocations();
-    this.observable.subscribe(
-      (result) => {
-        this.myGovlocations = result;
-      },
-      (error) => console.error(error)
-    );
+    this.registerService.testMapper();
+  //  this.myGovlocations = this.registerService.getMyGovLocations();
+  //  observable.subscribe(
+  //    (result) => {
+  //      this.myGovlocations = result;
+  //    },
+  //    (error) => console.error(error)
+  //  );
   }
 
   submit(form: IGovbodyDetails_Vm, valid: boolean) {

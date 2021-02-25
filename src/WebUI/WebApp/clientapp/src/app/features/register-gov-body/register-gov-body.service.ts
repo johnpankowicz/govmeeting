@@ -16,6 +16,12 @@ export class RegisterGovBodyService {
   govbodyClient: GovbodyClient;
   govLocationClient: GovLocationClient;
 
+  myGovlocationsDto: IGovLocation_Dto[];
+  myGovlocationsVm: IGovLocation_Vm[];
+
+  observe: Observable<IGovLocation_Dto[]> = null;
+  my1: IGovLocation_Vm;
+
   constructor(
     //_mapper: GovbodyMapper,
     _govbodyClient: GovbodyClient,
@@ -34,9 +40,27 @@ export class RegisterGovBodyService {
   //  //const userDto = this.mapper.mapper.map(user, "UserDto", "User");
   //}
 
-  getMyGovLocations(): Observable<IGovLocation_Dto[]> {
-    return this.govLocationClient.getMyGovLocations();
+  testMapper() {
+    let g1: IGovLocation_Dto = { id: 1, name: "me", type: 0, parentLocationId: 2 };
+    let g2: IGovLocation_Vm = this.mapper.mapper.map(g1, "IGovLocation_Vm", "IGovLocation_Dto");
+    let x = 2;
   }
+
+  //getMyGovLocations(): IGovLocation_Vm[] {
+  //  this.observe = this.govLocationClient.getMyGovLocations();
+  //  this.observe.subscribe(
+  //    (result) => {
+  //      this.myGovlocationsDto = result;
+  //      this.my1 = this.mapper.mapper.map<IGovLocation_Dto, IGovLocation_Vm>(this.myGovlocationsDto[0], "IGovLocation_Vm", "IGovLocation_Dto");
+  //      //this.my1 = this.mapper.mapper.map(this.myGovlocationsDto[0], "IGovLocation_Dto", "IGovLocation_Vm");
+  //      this.myGovlocationsVm = this.mapper.mapper.map<IGovLocation_Dto[], IGovLocation_Vm[]>(this.myGovlocationsDto, "IGovLocation_Vm", "IGovLocation_Dto");
+  //    },
+
+  //    (error) => console.error(error)
+  //  );
+
+  //  return this.myGovlocationsVm;
+  //}
 
 
   registerGovbody(govbody: IGovbodyDetails_Vm) {

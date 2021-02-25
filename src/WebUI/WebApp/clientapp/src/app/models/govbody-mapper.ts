@@ -39,7 +39,7 @@ export class GovbodyMapper{
       title: String
     });
 
-    createMetadataMap<IOfficial_Dto>("Official_Dto", "Officioal_Vm")
+    createMetadataMap<IOfficial_Dto>("Official_Dto", "Official_Vm")
 
     createMetadataMap<IGovLocation_Vm>("IGovLocation_Vm", {
       id: Number,
@@ -59,6 +59,9 @@ export class GovbodyMapper{
       transcriptsUrl: String
     });
 
-    createMetadataMap<IGovbodyDetails_Dto>("IGovbodyDetails_Dto", "IGovbodyDetails_Vm")
+    createMetadataMap<IGovbodyDetails_Dto>("IGovbodyDetails_Dto", "IGovbodyDetails_Vm");
+
+    this.mapper.createMap<IGovLocation_Dto, IGovLocation_Vm>("IGovLocation_Dto", "IGovLocation_Vm");
+
   }
 }
