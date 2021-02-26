@@ -24,6 +24,14 @@ import {
   IAppointedOfficial_Dto
 } from '../apis/api.generated.clients';
 
+export class IGovLocationArray_Dto {
+  locations: IGovLocation_Dto[];
+}
+
+export class IGovLocationArray_Vm {
+  locations: IGovLocation_Vm[];
+}
+
 export class GovbodyMapper{
 
   mapper: Mapper;
@@ -50,6 +58,15 @@ export class GovbodyMapper{
 
     createMetadataMap<IGovLocation_Dto>("IGovLocation_Dto", "IGovLocation_Vm")
 
+    createMetadataMap<IGovLocationArray_Dto>("IGovLocationArray_Dto", {
+      locations: "IGovLocation_Dto"
+    });
+
+    createMetadataMap<IGovLocationArray_Vm>("IGovLocationArray_Vm", {
+      locations: "IGovLocation_Vm"
+    });
+
+
     createMetadataMap<IGovbodyDetails_Vm>("IGovbodyDetails_Vm", {
       name: String,
       parentLocationId: Number,
@@ -63,5 +80,6 @@ export class GovbodyMapper{
 
     this.mapper.createMap<IGovLocation_Dto, IGovLocation_Vm>("IGovLocation_Dto", "IGovLocation_Vm");
 
+    this.mapper.createMap<IGovLocationArray_Dto, IGovLocationArray_Vm>("IGovLocationArray_Dto", "IGovLocationArray_Vm");
   }
 }

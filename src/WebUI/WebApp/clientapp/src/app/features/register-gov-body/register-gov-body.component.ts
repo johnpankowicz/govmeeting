@@ -34,8 +34,11 @@ export class RegisterGovBodyComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.registerService.testMapper();
-  //  this.myGovlocations = this.registerService.getMyGovLocations();
+  //  this.registerService.testMapper();
+
+    //this.myGovlocations = this.registerService.getMyGovLocations();
+    this.registerService.getMyGovLocations();
+
   //  observable.subscribe(
   //    (result) => {
   //      this.myGovlocations = result;
