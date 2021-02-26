@@ -42,13 +42,25 @@ export class GovbodyMapper{
       pluginInitializer: pojos
     });
 
+    this.mapOfficial();
+
+    this.mapGovLocation();
+
+    this.mapGovLocationArray();
+
+    this.mapGovbodyDetails();
+  }
+
+  mapOfficial() {
     createMetadataMap<IOfficial_Vm>("Official_Vm", {
       name: String,
       title: String
     });
 
     createMetadataMap<IOfficial_Dto>("Official_Dto", "Official_Vm")
+  }
 
+  mapGovLocation(){
     createMetadataMap<IGovLocation_Vm>("IGovLocation_Vm", {
       id: Number,
       name: String,
@@ -56,8 +68,25 @@ export class GovbodyMapper{
       parentLocationId: Number
     });
 
-    createMetadataMap<IGovLocation_Dto>("IGovLocation_Dto", "IGovLocation_Vm")
+    createMetadataMap<IGovLocation_Dto>("IGovLocation_Dto", "IGovLocation_Vm");
 
+    this.mapper.createMap<IGovLocation_Dto, IGovLocation_Vm>("IGovLocation_Dto", "IGovLocation_Vm");
+  }
+
+  mapGovbodyDetails() {
+      createMetadataMap<IGovbodyDetails_Vm>("IGovbodyDetails_Vm", {
+        name: String,
+        parentLocationId: Number,
+        officials: "IOfficial_Vm",
+        officers: "IOfficial_Vm",
+        recordingsUrl: String,
+        transcriptsUrl: String
+      });
+
+      createMetadataMap<IGovbodyDetails_Dto>("IGovbodyDetails_Dto", "IGovbodyDetails_Vm");
+  }
+
+  mapGovLocationArray() {
     createMetadataMap<IGovLocationArray_Dto>("IGovLocationArray_Dto", {
       locations: "IGovLocation_Dto"
     });
@@ -65,20 +94,6 @@ export class GovbodyMapper{
     createMetadataMap<IGovLocationArray_Vm>("IGovLocationArray_Vm", {
       locations: "IGovLocation_Vm"
     });
-
-
-    createMetadataMap<IGovbodyDetails_Vm>("IGovbodyDetails_Vm", {
-      name: String,
-      parentLocationId: Number,
-      officials: "IOfficial_Vm",
-      officers: "IOfficial_Vm",
-      recordingsUrl: String,
-      transcriptsUrl: String
-    });
-
-    createMetadataMap<IGovbodyDetails_Dto>("IGovbodyDetails_Dto", "IGovbodyDetails_Vm");
-
-    this.mapper.createMap<IGovLocation_Dto, IGovLocation_Vm>("IGovLocation_Dto", "IGovLocation_Vm");
 
     this.mapper.createMap<IGovLocationArray_Dto, IGovLocationArray_Vm>("IGovLocationArray_Dto", "IGovLocationArray_Vm");
   }
