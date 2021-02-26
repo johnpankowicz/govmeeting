@@ -44,13 +44,8 @@ export class RegisterGovBodyService {
   //  //const userDto = this.mapper.mapper.map(user, "UserDto", "User");
   //}
 
-  //testMapper() {
-  //  let g1: IGovLocation_Dto = { id: 1, name: "me", type: 0, parentLocationId: 2 };
-  //  let g2: IGovLocation_Vm = this.mapper.mapper.map(g1, "IGovLocation_Vm", "IGovLocation_Dto");
-  //  let x = 2;
-  //}
 
-  getMyGovLocations(): IGovLocationArray_Vm {
+  getMyGovLocations(): IGovLocation_Vm[] {
     this.observe = this.govLocationClient.getMyGovLocations();
     this.observe.subscribe(
       (result) => {
@@ -64,7 +59,7 @@ export class RegisterGovBodyService {
       (error) => console.error(error)
     );
 
-    return this.mygovVm;
+    return this.mygovVm.locations;
   }
 
 

@@ -16,12 +16,12 @@ export class RegisterGovBodyComponent implements OnInit {
   @Output() register = new EventEmitter<IGovbodyDetails_Vm>();
 
   form: FormGroup;
-  registerService: RegisterGovBodyService;
+  gBService: RegisterGovBodyService;
   //observable: Observable<IGovLocation_Dto[]>;
   myGovlocations: IGovLocation_Vm[];
 
 
-  constructor(fb: FormBuilder, _registerService: RegisterGovBodyService) {
+  constructor(fb: FormBuilder, _gBService: RegisterGovBodyService) {
   
     this.form = fb.group({
       name: [null, [Validators.required]],
@@ -30,21 +30,15 @@ export class RegisterGovBodyComponent implements OnInit {
       recordingsUrl: [null, []],
       transcriptsUrl: [null, []],
     });
-    this.registerService = _registerService;
+    this.gBService = _gBService;
   }
 
   ngOnInit() {
   //  this.registerService.testMapper();
 
     //this.myGovlocations = this.registerService.getMyGovLocations();
-    this.registerService.getMyGovLocations();
+    this.myGovlocations = this.gBService.getMyGovLocations();
 
-  //  observable.subscribe(
-  //    (result) => {
-  //      this.myGovlocations = result;
-  //    },
-  //    (error) => console.error(error)
-  //  );
   }
 
   submit(form: IGovbodyDetails_Vm, valid: boolean) {

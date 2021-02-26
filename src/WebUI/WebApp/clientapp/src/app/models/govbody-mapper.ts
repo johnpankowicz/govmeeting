@@ -23,6 +23,7 @@ import {
   IElectedOfficial_Dto,
   IAppointedOfficial_Dto
 } from '../apis/api.generated.clients';
+import { Injectable } from "@angular/core";
 
 export class IGovLocationArray_Dto {
   locations: IGovLocation_Dto[];
@@ -32,6 +33,9 @@ export class IGovLocationArray_Vm {
   locations: IGovLocation_Vm[];
 }
 
+@Injectable({
+  providedIn: 'root'
+})
 export class GovbodyMapper{
 
   mapper: Mapper;
@@ -97,4 +101,23 @@ export class GovbodyMapper{
 
     this.mapper.createMap<IGovLocationArray_Dto, IGovLocationArray_Vm>("IGovLocationArray_Dto", "IGovLocationArray_Vm");
   }
-}
+
+  /////////////////////////// TESTS CALLED FROM govbody-mapper.spec.tx ///////////////////
+
+  testGovLocationMapper(): boolean {
+    let g1: IGovLocation_Dto = { id: 1, name: "me", type: 0, parentLocationId: 2 };
+    let g2: IGovLocation_Vm = this.mapper.map(g1, "IGovLocation_Vm", "IGovLocation_Dto");
+    return true;
+  }
+
+  //testGovbodyDetailsMapper(): boolean {
+  //  let g1: IGovbodyDetails_Dto = {
+  //    name: "me", parentLocationId: 1,
+  //    electedOfficials: [{ name: "Joe", title: "Mayor" }, { name: "Sam", title: "Councilman" }],
+  //    appointedOfficials: [{ name: "Sally", title: "Manager" }, { name: "Jake", title: "Clerk" }],
+  //    recordingsUrl: "http://us.org",
+  //    transcriptsUrl: "http://them.org"
+  //    }
+  //  return true;
+  //  };
+  }
