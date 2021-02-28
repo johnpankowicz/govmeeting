@@ -3,7 +3,7 @@ import { GovbodyMapper, IGovLocationArray_Dto, IGovLocationArray_Vm } from '../.
 import { GovbodyClient, GovLocationClient } from '../../apis/api.generated.clients';
 import { GovbodyDetails_Dto, GovLocation_Dto, Official_Dto } from '../../apis/api.generated.clients'
 import { RegisterGovbody_Cmd } from '../../apis/api.generated.clients'
-import { IGovbodyDetails_Vm, IGovLocation_Vm, IOfficial_Vm } from '../../models/govbody-view';
+import { IGovbody_Vm, IGovbodyDetails_Vm, IGovLocation_Vm, IOfficial_Vm } from '../../models/govbody-view';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 import { map } from 'rxjs/operators';
@@ -54,16 +54,26 @@ export class RegisterGovBodyService {
     return vms;
   }
 
-  public registerGovbody(govbody: IGovbodyDetails_Vm) {
-  // API: register(command: RegisterGovbody_Cmd): Observable<number> {
+  public getGovbodies(govLocationId: number): Observable<IGovbody_Vm[]> {
+    return this.govbodyClient.getGovbodies(govLocationId).pipe(
+      map(n => this.mapGovbodies(n))
+    );
+  }
+
+  mapGovbodies(n) {
+    let vms: IGovbody_Vm[] = [];
+    n.forEach((value, index) => {
+      vms.push(this.mapper.mapper.map(value, "IGovbody_Vm", "Govbody_Dto"));
+    });
+    return vms;
+  }
+
+ public registerGovbody(govbody: IGovbodyDetails_Vm) {
+    // API: register(command: RegisterGovbody_Cmd): Observable<number> {
 
     let govbodyRegCmd: RegisterGovbody_Cmd;
     // TODO map vm to cmd
     this.govbodyClient.register(govbodyRegCmd)
-  }
-
-  public getGovbodies(govLocationId: number) {
-    this.govbodyClient.getGovbodies(govLocationId);
   }
 
   public getGovbody(govBodyId: number) {

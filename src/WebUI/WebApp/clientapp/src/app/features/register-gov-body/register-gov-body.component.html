@@ -1,6 +1,6 @@
 Select Location:
-<select [(ngModel)]="selectedOrg" (change)="selectLocation($event.target.value)">
-  <option [ngValue]="loc" *ngFor="let loc of observeVm$ | async">{{loc.name}} </option>
+<select [(ngModel)]="selectedLocation" (change)="selectLocation($event.target.value)">
+  <option [ngValue]="loc" *ngFor="let loc of locations$ | async">{{loc.name}} </option>
 </select>
 
 

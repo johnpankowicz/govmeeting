@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 //import { sample } from 'rxjs/operators';
 import { RegisterGovBodyService } from './register-gov-body.service'
-import { IGovbodyDetails_Vm, IGovLocation_Vm, IOfficial_Vm } from '../../models/govbody-view';
+import { IGovbody_Vm, IGovbodyDetails_Vm, IGovLocation_Vm, IOfficial_Vm } from '../../models/govbody-view';
 import { Observable, of } from 'rxjs';
 
 import { GovLocation_Dto} from '../../apis/api.generated.clients'
@@ -18,12 +18,11 @@ export class RegisterGovBodyComponent implements OnInit {
 
   form: FormGroup;
   gBService: RegisterGovBodyService;
-  //observable: Observable<IGovLocation_Dto[]>;
-  myGovlocations: IGovLocation_Vm[];
 
-  observeVm$: Observable<IGovLocation_Vm[]> = null;
+  locations$: Observable<IGovLocation_Vm[]> = null;
+  govbodies$: Observable<IGovbody_Vm[]> = null;
 
-  public selectedOLocation;
+  selectedLocation: IGovLocation_Vm;
 
   constructor(fb: FormBuilder, _gBService: RegisterGovBodyService) {
   
@@ -38,11 +37,13 @@ export class RegisterGovBodyComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.observeVm$ = this.gBService.getMyGovLocations();
+    this.locations$ = this.gBService.getMyGovLocations();
   }
+
   selectLocation(filterVal: any) {
     let x = 0;
     console.log("selectLocation");
+    this.govbodies$ = this.gBService.getGovbodies(this.selectedLocation.id);
   }
 
 
