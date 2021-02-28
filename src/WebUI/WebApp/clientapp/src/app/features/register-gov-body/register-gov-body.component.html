@@ -1,17 +1,7 @@
-<!--<ul class="govloc_list" *ngIf="(observeVm$ | async).length">
-  <li class="govloc_list" *ngFor="let loc of observeVm$ | async">
-    {{ loc.id }} - {{ loc.name }} - {{ loc.type }} - {{ loc.parentLocationId }}
-  </li>
-</ul>-->
-
 Select Location:
 <select [(ngModel)]="selectedOrg" (change)="selectLocation($event.target.value)">
   <option [ngValue]="loc" *ngFor="let loc of observeVm$ | async">{{loc.name}} </option>
 </select>
-
-<!--<select [(ngModel)]="selectedOrg" (change)="selectLocation($event.target.value)">
-  <option *ngFor="let org of observeVm$ | async" [ngValue]="org">{{org.name}}</option>
-</select>-->
 
 
 <form [formGroup]="form" (ngSubmit)="submit(form.value, form.valid)">

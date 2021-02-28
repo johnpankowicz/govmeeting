@@ -39,33 +39,12 @@ export class RegisterGovBodyComponent implements OnInit {
 
   ngOnInit() {
     this.observeVm$ = this.gBService.getMyGovLocations();
-
-
-    //this.transformNumbers();
-
-    //  this.registerService.testMapper();
-    //this.myGovlocations = this.gBService.getMyGovLocations();
   }
   selectLocation(filterVal: any) {
     let x = 0;
+    console.log("selectLocation");
   }
 
-  returnNumbersObservable(): Observable<number[]> {
-    //return of([1], [2], [3], [4], [5], [6]);
-    return of([1, 2, 3]);
-  }
-
-  transformNumbers() {
-    this.returnNumbersObservable().pipe(
-      //filter(n => n[0] % 2 === 0),
-      //  map(n => [n[0] * 2, n[1]*3, n[2] * 5])
-      //map(n => ["a", "b"])
-      map(n => "a string")
-    )
-      .subscribe(
-        result => console.log(result)
-      );
-  }
 
   submit(form: IGovbodyDetails_Vm, valid: boolean) {
     this.form.markAllAsTouched();
