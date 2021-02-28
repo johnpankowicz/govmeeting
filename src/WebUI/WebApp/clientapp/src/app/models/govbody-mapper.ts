@@ -16,17 +16,17 @@ import {
 } from './govbody-view';
 
 import {
-  IGovLocation_Dto,
-  IGovbodyDetails_Dto,
+  GovLocation_Dto,
+  GovbodyDetails_Dto,
   GovlocTypes,
-  IOfficial_Dto,
-  IElectedOfficial_Dto,
-  IAppointedOfficial_Dto
+  Official_Dto,
+  ElectedOfficial_Dto,
+  AppointedOfficial_Dto
 } from '../apis/api.generated.clients';
 import { Injectable } from "@angular/core";
 
 export class IGovLocationArray_Dto {
-  locations: IGovLocation_Dto[];
+  locations: GovLocation_Dto[];
 }
 
 export class IGovLocationArray_Vm {
@@ -61,7 +61,7 @@ export class GovbodyMapper{
       title: String
     });
 
-    createMetadataMap<IOfficial_Dto>("Official_Dto", "Official_Vm")
+    createMetadataMap<Official_Dto>("Official_Dto", "Official_Vm")
   }
 
   mapGovLocation(){
@@ -72,9 +72,9 @@ export class GovbodyMapper{
       parentLocationId: Number
     });
 
-    createMetadataMap<IGovLocation_Dto>("IGovLocation_Dto", "IGovLocation_Vm");
+    createMetadataMap<GovLocation_Dto>("GovLocation_Dto", "IGovLocation_Vm");
 
-    this.mapper.createMap<IGovLocation_Dto, IGovLocation_Vm>("IGovLocation_Dto", "IGovLocation_Vm");
+    this.mapper.createMap<GovLocation_Dto, IGovLocation_Vm>("GovLocation_Dto", "IGovLocation_Vm");
   }
 
   mapGovbodyDetails() {
@@ -87,12 +87,14 @@ export class GovbodyMapper{
         transcriptsUrl: String
       });
 
-      createMetadataMap<IGovbodyDetails_Dto>("IGovbodyDetails_Dto", "IGovbodyDetails_Vm");
-  }
+    createMetadataMap<GovbodyDetails_Dto>("GovbodyDetails_Dto", "IGovbodyDetails_Vm");
+
+    this.mapper.createMap<GovbodyDetails_Dto, IGovbodyDetails_Vm>("GovbodyDetails_Dto", "IGovbodyDetails_Vm");
+}
 
   mapGovLocationArray() {
     createMetadataMap<IGovLocationArray_Dto>("IGovLocationArray_Dto", {
-      locations: "IGovLocation_Dto"
+      locations: "GovLocation_Dto"
     });
 
     createMetadataMap<IGovLocationArray_Vm>("IGovLocationArray_Vm", {
@@ -105,19 +107,20 @@ export class GovbodyMapper{
   /////////////////////////// TESTS CALLED FROM govbody-mapper.spec.tx ///////////////////
 
   testGovLocationMapper(): boolean {
-    let g1: IGovLocation_Dto = { id: 1, name: "me", type: 0, parentLocationId: 2 };
-    let g2: IGovLocation_Vm = this.mapper.map(g1, "IGovLocation_Vm", "IGovLocation_Dto");
+    let g1: GovLocation_Dto = { id: 1, name: "me", type: 0, parentLocationId: 2 };
+    let g2: IGovLocation_Vm = this.mapper.map(g1, "IGovLocation_Vm", "GovLocation_Dto");
     return true;
   }
 
-  //testGovbodyDetailsMapper(): boolean {
-  //  let g1: IGovbodyDetails_Dto = {
-  //    name: "me", parentLocationId: 1,
-  //    electedOfficials: [{ name: "Joe", title: "Mayor" }, { name: "Sam", title: "Councilman" }],
-  //    appointedOfficials: [{ name: "Sally", title: "Manager" }, { name: "Jake", title: "Clerk" }],
-  //    recordingsUrl: "http://us.org",
-  //    transcriptsUrl: "http://them.org"
-  //    }
-  //  return true;
-  //  };
+  testGovbodyDetailsMapper(): boolean {
+    let g1: GovbodyDetails_Dto = {
+      name: "me", parentLocationId: 1,
+      electedOfficials: [{ name: "Joe", title: "Mayor" }, { name: "Sam", title: "Councilman" }],
+      appointedOfficials: [{ name: "Sally", title: "Manager" }, { name: "Jake", title: "Clerk" }],
+      recordingsUrl: "http://us.org",
+      transcriptsUrl: "http://them.org"
+    }
+    let g2: IGovbodyDetails_Vm = this.mapper.map(g1, "IGovbodyDetails_Vm", "GovbodyDetails_Dto");
+    return true;
+    };
   }
