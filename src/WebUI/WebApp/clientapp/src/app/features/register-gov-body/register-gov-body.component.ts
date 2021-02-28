@@ -51,7 +51,7 @@ export class RegisterGovBodyComponent implements OnInit {
   selectBody(filterVal: any) {
     let x = 0;
     console.log("selectBody");
-    this.bodyDetails$ = this.gBService.getGovbody(this.selectedBody.id);
+  //  this.bodyDetails$ = this.gBService.getGovbody(this.selectedBody.id);
   }
 
 

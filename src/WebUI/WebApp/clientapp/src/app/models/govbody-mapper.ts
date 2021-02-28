@@ -144,7 +144,7 @@ export class GovbodyMapper{
     };
 
   testGovbodyMapper(): boolean {
-    let g1: Govbody_Dto = { name: "me", parentLocationId: 2 };
+    let g1: Govbody_Dto = { id: 1, name: "me", parentLocationId: 2 };
     let g2: IGovbody_Vm = this.mapper.map(g1, "IGovbody_Vm", "Govbody_Dto");
     return true;
   }
