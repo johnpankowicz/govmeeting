@@ -2,15 +2,21 @@ Select Location:
 <select [(ngModel)]="selectedLocation" (change)="selectLocation($event.target.value)">
   <option [ngValue]="loc" *ngFor="let loc of locations$ | async">{{loc.name}} </option>
 </select>
+<br />
+
+<span *ngIf="bodies$">
+    Select Govbody:
+    <select  [(ngModel)]="selectedBody" (change)="selectBody($event.target.value)">
+      <option [ngValue]="bod" *ngFor="let bod of bodies$ | async">{{bod.name}} </option>
+</select>
+</span>
 <br/>
 
-Select Govbody:
-<select [(ngModel)]="selectedBody" (change)="selectBody($event.target.value)">
-  <option [ngValue]="bod" *ngFor="let bod of bodies$ | async">{{bod.name}} </option>
-</select>
-
-
-<form [formGroup]="form" (ngSubmit)="submit(form.value, form.valid)">
+<form
+    *ngIf="bodyDetails$ | async; else loading"
+    [formGroup]="form"
+    (ngSubmit)="submit(form.value, form.valid)"
+ >
   <label for="name">
     Name*
     <span class="error" *ngIf="hasError('name', 'required')">Required</span>
@@ -32,3 +38,7 @@ Select Govbody:
   <input id="transcriptsUrl" formControlName="transcriptsUrl" required type="text" />
   <button type="submit">Save</button>
 </form>
+
+<ng-template #loading>
+  Loading Govbody...
+</ng-template>

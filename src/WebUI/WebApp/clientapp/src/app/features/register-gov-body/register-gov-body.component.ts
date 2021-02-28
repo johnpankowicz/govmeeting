@@ -6,7 +6,7 @@ import { IGovbody_Vm, IGovbodyDetails_Vm, IGovLocation_Vm, IOfficial_Vm } from '
 import { Observable, of } from 'rxjs';
 
 import { GovLocation_Dto} from '../../apis/api.generated.clients'
-import { filter, map } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'gm-register-gov-body',
@@ -22,6 +22,8 @@ export class RegisterGovBodyComponent implements OnInit {
   locations$: Observable<IGovLocation_Vm[]> = null;
   bodies$: Observable<IGovbody_Vm[]> = null;
   bodyDetails$: Observable<IGovbodyDetails_Vm> = null;
+
+  bodyDetails: IGovbodyDetails_Vm;
 
   selectedLocation: IGovLocation_Vm;
   selectedBody: IGovbody_Vm;
@@ -51,7 +53,12 @@ export class RegisterGovBodyComponent implements OnInit {
   selectBody(filterVal: any) {
     let x = 0;
     console.log("selectBody");
-  //  this.bodyDetails$ = this.gBService.getGovbody(this.selectedBody.id);
+    this.bodyDetails$ = this.gBService.getGovbody(this.selectedBody.id)
+      .pipe(tap(bod => this.form.patchValue(bod)));
+
+  //  this.gBService.getGovbody(this.selectedBody.id).subscribe((data) => {
+  //    this.bodyDetails = data;
+  //  });
   }
 
 
