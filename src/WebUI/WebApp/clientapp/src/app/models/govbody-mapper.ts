@@ -102,6 +102,7 @@ export class GovbodyMapper{
 
   mapGovbody() {
     createMetadataMap<IGovbody_Vm>("IGovbody_Vm", {
+      id: Number,
       name: String,
       parentLocationId: Number,
     });
