@@ -46,7 +46,7 @@ export class RegisterGovBodyService {
     );
   }
 
-  mapMyGovLocations(n) {
+  mapMyGovLocations(n): IGovLocation_Vm[] {
     let vms: IGovLocation_Vm[] = [];
     n.forEach((value, index) => {
       vms.push(this.mapper.mapper.map(value, "IGovLocation_Vm", "GovLocation_Dto"));
@@ -60,7 +60,7 @@ export class RegisterGovBodyService {
     );
   }
 
-  mapGovbodies(n) {
+  mapGovbodies(n): IGovbody_Vm[] {
     let vms: IGovbody_Vm[] = [];
     n.forEach((value, index) => {
       vms.push(this.mapper.mapper.map(value, "IGovbody_Vm", "Govbody_Dto"));
@@ -68,16 +68,21 @@ export class RegisterGovBodyService {
     return vms;
   }
 
- public registerGovbody(govbody: IGovbodyDetails_Vm) {
+  public getGovbody(govbodyId: number): Observable<IGovbodyDetails_Vm> {
+    return this.govbodyClient.getGovbody(govbodyId).pipe(
+      map(n => this.mapGovbodyDetails(n))
+    );
+  }
+
+  mapGovbodyDetails(n): IGovbodyDetails_Vm {
+      return this.mapper.mapper.map(n, "IGovbodyDetails_Vm", "GovbodyDetails_Dto");
+  }
+
+public registerGovbody(govbody: IGovbodyDetails_Vm) {
     // API: register(command: RegisterGovbody_Cmd): Observable<number> {
 
     let govbodyRegCmd: RegisterGovbody_Cmd;
     // TODO map vm to cmd
     this.govbodyClient.register(govbodyRegCmd)
-  }
-
-  public getGovbody(govBodyId: number) {
-    // API: getGovbody(id: number): Observable<GovbodyDetails_Dto>
-    this.govbodyClient.getGovbody(govBodyId);
   }
 }

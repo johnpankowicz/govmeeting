@@ -21,7 +21,7 @@ export class RegisterGovBodyComponent implements OnInit {
 
   locations$: Observable<IGovLocation_Vm[]> = null;
   bodies$: Observable<IGovbody_Vm[]> = null;
-  body$: Observable<IGovbody_Vm> = null;
+  bodyDetails$: Observable<IGovbodyDetails_Vm> = null;
 
   selectedLocation: IGovLocation_Vm;
   selectedBody: IGovbody_Vm;
@@ -51,7 +51,7 @@ export class RegisterGovBodyComponent implements OnInit {
   selectBody(filterVal: any) {
     let x = 0;
     console.log("selectBody");
-  //  this.body$ = this.gBService.getGovbody(this.selectedLocation.id);
+    this.bodyDetails$ = this.gBService.getGovbody(this.selectedBody.id);
   }
 
 
