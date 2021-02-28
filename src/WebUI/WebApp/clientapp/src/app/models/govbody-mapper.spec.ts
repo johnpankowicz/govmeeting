@@ -21,4 +21,8 @@ describe('GovbodyMapper', () => {
     expect(service.testGovbodyDetailsMapper()).toBeTruthy();
   });
 
+
+  it('testGovbodyMapper should equal true', () => {
+    expect(service.testGovbodyMapper()).toBeTruthy();
+  });
 });

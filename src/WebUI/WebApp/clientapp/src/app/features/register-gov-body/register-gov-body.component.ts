@@ -20,9 +20,11 @@ export class RegisterGovBodyComponent implements OnInit {
   gBService: RegisterGovBodyService;
 
   locations$: Observable<IGovLocation_Vm[]> = null;
-  govbodies$: Observable<IGovbody_Vm[]> = null;
+  bodies$: Observable<IGovbody_Vm[]> = null;
+  body$: Observable<IGovbody_Vm> = null;
 
   selectedLocation: IGovLocation_Vm;
+  selectedBody: IGovbody_Vm;
 
   constructor(fb: FormBuilder, _gBService: RegisterGovBodyService) {
   
@@ -43,7 +45,13 @@ export class RegisterGovBodyComponent implements OnInit {
   selectLocation(filterVal: any) {
     let x = 0;
     console.log("selectLocation");
-    this.govbodies$ = this.gBService.getGovbodies(this.selectedLocation.id);
+    this.bodies$ = this.gBService.getGovbodies(this.selectedLocation.id);
+  }
+
+  selectBody(filterVal: any) {
+    let x = 0;
+    console.log("selectBody");
+  //  this.body$ = this.gBService.getGovbody(this.selectedLocation.id);
   }
 
 

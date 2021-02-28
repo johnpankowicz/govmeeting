@@ -31,7 +31,7 @@ export class RegisterGovBodyService {
   //returnofcall: any;
 
   constructor(
-    public http: HttpClient,
+    //public http: HttpClient,
     _govbodyClient: GovbodyClient,
     _govLocationClient: GovLocationClient
   ) {

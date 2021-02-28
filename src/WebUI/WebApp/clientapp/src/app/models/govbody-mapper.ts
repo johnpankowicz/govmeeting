@@ -17,6 +17,7 @@ import {
 
 import {
   GovLocation_Dto,
+  Govbody_Dto,
   GovbodyDetails_Dto,
   GovlocTypes,
   Official_Dto,
@@ -53,15 +54,22 @@ export class GovbodyMapper{
     this.mapGovLocationArray();
 
     this.mapGovbodyDetails();
+
+    this.mapGovbody();
   }
 
   mapOfficial() {
+    // Add metadata to members of IOfficial_Vm
     createMetadataMap<IOfficial_Vm>("Official_Vm", {
       name: String,
       title: String
     });
 
-    createMetadataMap<Official_Dto>("Official_Dto", "Official_Vm")
+    // Add metadata to members of Official_Dto. Currently the members are the same as IOfficial_Vm.
+    createMetadataMap<Official_Dto>("Official_Dto", "Official_Vm");
+
+    // Create the mapping.
+    this.mapper.createMap<Official_Dto, IOfficial_Vm>("GovOfficial_Dto", "IGovOfficial_Vm");
   }
 
   mapGovLocation(){
@@ -78,19 +86,30 @@ export class GovbodyMapper{
   }
 
   mapGovbodyDetails() {
-      createMetadataMap<IGovbodyDetails_Vm>("IGovbodyDetails_Vm", {
-        name: String,
-        parentLocationId: Number,
-        officials: "IOfficial_Vm",
-        officers: "IOfficial_Vm",
-        recordingsUrl: String,
-        transcriptsUrl: String
-      });
+    createMetadataMap<IGovbodyDetails_Vm>("IGovbodyDetails_Vm", {
+      name: String,
+      parentLocationId: Number,
+      officials: "IOfficial_Vm",
+      officers: "IOfficial_Vm",
+      recordingsUrl: String,
+      transcriptsUrl: String
+    });
 
     createMetadataMap<GovbodyDetails_Dto>("GovbodyDetails_Dto", "IGovbodyDetails_Vm");
 
     this.mapper.createMap<GovbodyDetails_Dto, IGovbodyDetails_Vm>("GovbodyDetails_Dto", "IGovbodyDetails_Vm");
-}
+  }
+
+  mapGovbody() {
+    createMetadataMap<IGovbody_Vm>("IGovbody_Vm", {
+      name: String,
+      parentLocationId: Number,
+    });
+
+    createMetadataMap<GovbodyDetails_Dto>("Govbody_Dto", "IGovbody_Vm");
+
+    this.mapper.createMap<Govbody_Dto, IGovbody_Vm>("Govbody_Dto", "IGovbody_Vm");
+  }
 
   mapGovLocationArray() {
     createMetadataMap<IGovLocationArray_Dto>("IGovLocationArray_Dto", {
@@ -123,4 +142,10 @@ export class GovbodyMapper{
     let g2: IGovbodyDetails_Vm = this.mapper.map(g1, "IGovbodyDetails_Vm", "GovbodyDetails_Dto");
     return true;
     };
+
+  testGovbodyMapper(): boolean {
+    let g1: Govbody_Dto = { name: "me", parentLocationId: 2 };
+    let g2: IGovbody_Vm = this.mapper.map(g1, "IGovbody_Vm", "Govbody_Dto");
+    return true;
   }
+}
