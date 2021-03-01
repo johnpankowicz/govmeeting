@@ -73,9 +73,8 @@ export class RegisterGovBodyService {
 
   public registerGovbody(govbody: IGovbodyDetails_Vm) {
     // API: register(command: RegisterGovbody_Cmd): Observable<number> {
-
-  //  let govbodyRegCmd: RegisterGovbody_Cmd;
-  //  // TODO map vm to cmd
-  //  this.govbodyClient.register(govbodyRegCmd);
+    //  let govbodyRegCmd: RegisterGovbody_Cmd;
+    //  // TODO map vm to cmd
+    //  this.govbodyClient.register(govbodyRegCmd);
   }
 }
