@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { GovbodyMapper} from '../../models/govbody-mapper';
+import { GovbodyMapper } from '../../models/govbody-mapper';
 import { GovbodyClient, GovLocationClient } from '../../apis/api.generated.clients';
 import { GovbodyDetails_Dto, GovLocation_Dto, Official_Dto } from '../../apis/api.generated.clients';
 import { RegisterGovbody_Cmd } from '../../apis/api.generated.clients';
