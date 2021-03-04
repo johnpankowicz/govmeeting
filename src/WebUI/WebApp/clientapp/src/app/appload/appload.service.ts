@@ -7,7 +7,7 @@ import { APP_SETTINGS } from './settings';
 @Injectable()
 export class AppLoadService {
   static isServerRunning() {
-      throw new Error('Method not implemented.');
+      return this.isRunning;
   }
 
   constructor(private httpClient: HttpClient) { }
@@ -37,29 +37,14 @@ export class AppLoadService {
     const promise = this.httpClient.get('https://localhost:44333/weatherforecast')
       .toPromise()
       .then(settings => {
-        console.log("get succeeded")
+        console.log("Server running")
         AppLoadService.isRunning = true;
         return APP_SETTINGS;
       }).catch((err) => {
-        console.log("get failed")
+        console.log("Server not running")
         AppLoadService.isRunning = false;
         err
       });
-
-    //const promise = this.httpClient.get('https://private-1ad25-initializeng.apiary-mock.com/settings')
-    //  .toPromise()
-    //  .then(settings => {
-    //    console.log(`Settings from API: `, settings);
-
-    //    APP_SETTINGS.connectionString = settings[0].value;
-    //    APP_SETTINGS.defaultImageUrl = settings[1].value;
-
-    //    console.log(`APP_SETTINGS: `, APP_SETTINGS);
-
-    //    return settings;
-    //  }).catch((err) => {
-    //    err
-    //  });
 
     return promise;
   }
