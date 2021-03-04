@@ -6,13 +6,14 @@ import { APP_SETTINGS } from './settings';
 
 @Injectable()
 export class AppLoadService {
-  static isServerRunning() {
-      return this.isRunning;
-  }
+  static isServerRunning: boolean;
+  //static isServerRunning() {
+  //    return this.isRunning;
+  //}
 
   constructor(private httpClient: HttpClient) { }
 
-  static isRunning: boolean;
+  //isRunning: boolean;
 
   //isServerRunning(): boolean {
   //  return AppLoadService.isRunning;
@@ -38,11 +39,11 @@ export class AppLoadService {
       .toPromise()
       .then(settings => {
         console.log("Server running")
-        AppLoadService.isRunning = true;
+        AppLoadService.isServerRunning = true;
         return APP_SETTINGS;
       }).catch((err) => {
         console.log("Server not running")
-        AppLoadService.isRunning = false;
+        AppLoadService.isServerRunning = false;
         err
       });
 

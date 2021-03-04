@@ -12,30 +12,6 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 
 
-import { AppLoadService } from './appload/appload.service';
-
-//export function init_app(appLoadService: AppLoadService) {
-//  return () => appLoadService.initializeApp();
-//}
-
-function UseServerStubs() {
-  // Use value if specified in environment file.
-  if (environment.useServerStubs != null) {
-    return environment.useServerStubs;
-  }
-  // Otherwise use stubs if server is not running.
-  return !(AppLoadService.isServerRunning)
-}
-
-export function pingServer(appLoadService: AppLoadService) {
-  return () => appLoadService.checkIfServerRunning();
-}
-
-//function isServerRunning() {
-//  console.log("No, it's not running");
-//  return AppLoadService.isServerRunning();
-//}
-
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 
 // APP
@@ -79,6 +55,7 @@ import { ViewTranscriptServiceStub } from './features/viewtranscript/viewtranscr
 import { ChatService } from './features/chat/chat.service';
 import { DataFactoryService } from './work_experiments/datafake/data-factory.service';
 import { RegisterGovBodyService } from './features/register-gov-body/register-gov-body.service'
+import { AppLoadService } from './appload/appload.service';
 
 // Swagger API
 // import { ViewMeetingClient, EditMeetingClient, GovLocationClient, GovbodyClient } from './apis/swagger-api';
@@ -90,11 +67,29 @@ import { DataFakeService } from './work_experiments/datafake/data-fake.service';
 //import { loadConfiguration } from './work_experiments/configuration/loadConfiguration';
 //import { ConfigService } from './work_experiments/configuration/config.service';
 import { ShoutoutsComponent } from './work_experiments/shoutouts/shoutouts';
-import { RegisterComponent } from './work_experiments/register/register';
 
 const isAspServerRunning = false; // Is the Asp.Net server running?
 const isBeta = false; // Is this the beta release version?
 const isLargeEditData = false; // Are we using the large data for EditTranscript? (Little Falls, etc.)
+
+
+//export function init_app(appLoadService: AppLoadService) {
+//  return () => appLoadService.initializeApp();
+//}
+
+function UseServerStubs() {
+  // Use value if specified in environment file.
+  if (environment.useServerStubs != null) {
+    return environment.useServerStubs;
+  }
+  // Or use stubs if server is not running.
+  return !(AppLoadService.isServerRunning)
+}
+
+export function pingServer(appLoadService: AppLoadService) {
+  return () => appLoadService.checkIfServerRunning();
+}
+
 
 @NgModule({
   imports: [
@@ -131,7 +126,6 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
     AppComponent,
     DashMainComponent,
     ShoutoutsComponent,
-    RegisterComponent,
     PopupComponent,
     FetchDataComponent,
   ],
@@ -159,6 +153,7 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
     {
       provide: EdittranscriptService,
       //useClass: UseServerStubs() ? EdittranscriptService : EdittranscriptServiceStub,
+
       //useClass: EdittranscriptService
       useClass: EdittranscriptServiceStub
     },
