@@ -5,7 +5,7 @@ import 'rxjs/add/operator/toPromise';
 import { APP_SETTINGS } from './settings';
 
 @Injectable()
-export class AppLoadService {
+export class AppInitService {
   static isServerRunning: boolean;
   //static isServerRunning() {
   //    return this.isRunning;
@@ -39,11 +39,11 @@ export class AppLoadService {
       .toPromise()
       .then(settings => {
         console.log("Server running")
-        AppLoadService.isServerRunning = true;
+        AppInitService.isServerRunning = true;
         return APP_SETTINGS;
       }).catch((err) => {
         console.log("Server not running")
-        AppLoadService.isServerRunning = false;
+        AppInitService.isServerRunning = false;
         err
       });
 

@@ -46,6 +46,7 @@ import { SharedModule } from './common/common.module';
 import { ErrorHandlingService } from './common/error-handling/error-handling.service';
 import { UserSettingsService, UserSettings, LocationType } from './common/user-settings.service';
 import { DemoMaterialModule } from './common/material';
+import { AppInitModule } from './appload/appinit.module';
 
 // services
 import { EdittranscriptService } from './features/edittranscript/edittranscript.service';
@@ -55,7 +56,7 @@ import { ViewTranscriptServiceStub } from './features/viewtranscript/viewtranscr
 import { ChatService } from './features/chat/chat.service';
 import { DataFactoryService } from './work_experiments/datafake/data-factory.service';
 import { RegisterGovBodyService } from './features/register-gov-body/register-gov-body.service'
-import { AppLoadService } from './appload/appload.service';
+import { AppInitService } from './appload/appinit.service';
 
 // Swagger API
 // import { ViewMeetingClient, EditMeetingClient, GovLocationClient, GovbodyClient } from './apis/swagger-api';
@@ -83,10 +84,10 @@ function UseServerStubs() {
     return environment.useServerStubs;
   }
   // Or use stubs if server is not running.
-  return !(AppLoadService.isServerRunning)
+  return !(AppInitService.isServerRunning)
 }
 
-export function pingServer(appLoadService: AppLoadService) {
+export function pingFactory(appLoadService: AppInitService) {
   return () => appLoadService.checkIfServerRunning();
 }
 
@@ -121,6 +122,7 @@ export function pingServer(appLoadService: AppLoadService) {
     HeaderModule,
     AmchartsModule,
     FeaturesModule,
+    AppInitModule
   ],
   declarations: [
     AppComponent,
@@ -169,9 +171,9 @@ export function pingServer(appLoadService: AppLoadService) {
       provide: RegisterGovBodyService,
       useClass: RegisterGovBodyService, deps: [GovbodyClient, GovLocationClient]
     },
-    AppLoadService,
+    AppInitService,
     //{ provide: APP_INITIALIZER, useFactory: init_app, deps: [AppLoadService], multi: true },
-    { provide: APP_INITIALIZER, useFactory: pingServer, deps: [AppLoadService], multi: true },
+    //{ provide: APP_INITIALIZER, useFactory: pingFactory, deps: [AppInitService], multi: true },
 
     ChatService,
     DataFactoryService,
