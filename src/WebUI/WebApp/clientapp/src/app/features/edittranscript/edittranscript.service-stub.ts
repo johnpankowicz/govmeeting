@@ -17,7 +17,7 @@ const addtagsUrl = 'https://jsonplaceholder.typicode.com/posts'; // Use  jsonpla
 const NoLog = true; // set to false for console logging
 
 @Injectable()
-export class EdittranscriptServiceStub {
+export class EditTranscriptServiceStub {
   private ClassName: string = this.constructor.name + ': ';
   postId;
   observable: Observable<EditTranscript>;

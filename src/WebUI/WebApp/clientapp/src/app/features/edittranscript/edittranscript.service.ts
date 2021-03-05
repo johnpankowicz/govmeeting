@@ -11,7 +11,7 @@ import { EditTranscript, Talk, Word } from '../../models/edittranscript-view';
 const NoLog = true; // set to false for console logging
 
 @Injectable()
-export class EdittranscriptService {
+export class EditTranscriptService {
   private ClassName: string = this.constructor.name + ': ';
 
   private addtagsUrl = 'api/edittranscript';

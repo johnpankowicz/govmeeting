@@ -49,8 +49,8 @@ import { DemoMaterialModule } from './common/material';
 import { AppInitModule } from './appinit/appinit.module';
 
 // services
-import { EdittranscriptService } from './features/edittranscript/edittranscript.service';
-import { EdittranscriptServiceStub } from './features/edittranscript/edittranscript.service-stub';
+import { EditTranscriptService } from './features/edittranscript/edittranscript.service';
+import { EditTranscriptServiceStub } from './features/edittranscript/edittranscript.service-stub';
 import { ViewTranscriptService } from './features/viewtranscript/viewtranscript.service';
 import { ViewTranscriptServiceStub } from './features/viewtranscript/viewtranscript.service-stub';
 import { ChatService } from './features/chat/chat.service';
@@ -151,9 +151,9 @@ function UseServerStubs() {
     // but will instead return static data.
 
     {
-      provide: EdittranscriptService,
+      provide: EditTranscriptService,
       //useClass: UseServerStubs() ? EdittranscriptService : EdittranscriptServiceStub,
-      useClass: EdittranscriptServiceStub
+      useClass: EditTranscriptServiceStub
     },
     {
       provide: ViewTranscriptService,
