@@ -78,13 +78,15 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
 //  return () => appLoadService.initializeApp();
 //}
 
-function UseServerStubs() {
+function isServerRunning() {
   // Use value if specified in environment file.
   if (environment.useServerStubs != null) {
     return environment.useServerStubs;
   }
   // Use stubs if server is not running.
-  return !(AppInitService.isServerRunning)
+  let running = AppInitService.isServerRunning;
+  console.log("init: server running = " + String(running));
+  return running;
 }
 
 @NgModule({
@@ -152,12 +154,12 @@ function UseServerStubs() {
 
     {
       provide: EditTranscriptService,
-      //useClass: UseServerStubs() ? EdittranscriptService : EdittranscriptServiceStub,
-      useClass: EditTranscriptServiceStub
+      useClass: isServerRunning() ? EditTranscriptService : EditTranscriptServiceStub,
+    //  useClass: EditTranscriptServiceStub
     },
     {
       provide: ViewTranscriptService,
-      //  useClass: ViewTranscriptService: UseServerStubs() ? ViewTranscriptService : ViewTranscriptServiceStub
+      //  useClass: ViewTranscriptService: isServerRunning() ? ViewTranscriptService : ViewTranscriptServiceStub
       useClass: ViewTranscriptServiceStub
     },
     {
