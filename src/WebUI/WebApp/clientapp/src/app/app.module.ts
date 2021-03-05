@@ -78,14 +78,24 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
 //  return () => appLoadService.initializeApp();
 //}
 
-function isServerRunning() {
+function delay(ms: number) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function isServerRunning() {
   // Use value if specified in environment file.
   if (environment.useServerStubs != null) {
     return environment.useServerStubs;
   }
   // Use stubs if server is not running.
+
+  const delay = ms => new Promise(res => setTimeout(res, ms));
+
+  await delay(1000);
+
   let running = AppInitService.isServerRunning;
   console.log("init: server running = " + String(running));
+
   return running;
 }
 

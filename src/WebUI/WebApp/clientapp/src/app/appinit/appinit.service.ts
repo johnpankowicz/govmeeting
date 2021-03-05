@@ -25,18 +25,37 @@ export class AppInitService {
   checkIfServerRunning(): Promise<any> {
     console.log(`getSettings:: before http.get call`);
 
-    const promise = this.httpClient.get('https://localhost:44333/weatherforecast')
-      .toPromise()
-      .then(settings => {
-        console.log("Server running")
-        AppInitService.isServerRunning = true;
-        return APP_SETTINGS;
-      }).catch((err) => {
-        console.log("Server not running")
-        AppInitService.isServerRunning = false;
-        err
+    let promise = new Promise<void>((resolve, reject) => {
+      let apiURL = 'https://localhost:44333/weatherforecast';
+      this.httpClient.get(apiURL)
+        .toPromise()
+        .then(
+          res => {
+            console.log("got response");
+            AppInitService.isServerRunning = true;
+            resolve();
+          }
+        )
+        .catch((err) => {
+          console.log("no response");
+          AppInitService.isServerRunning = false;
+          reject();
+        }
+        )
       });
-
     return promise;
   }
+
+    //const promise = this.httpClient.get('https://localhost:44333/weatherforecast')
+    //  .toPromise()
+    //  .then(settings => {
+    //    console.log("Server running")
+    //    AppInitService.isServerRunning = true;
+    //  //  resolve();
+    //    return APP_SETTINGS;
+    //  }).catch((err) => {
+    //    console.log("Server not running")
+    //    AppInitService.isServerRunning = false;
+    //    err
+    //  });
 }
