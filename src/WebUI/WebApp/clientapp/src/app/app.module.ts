@@ -46,7 +46,7 @@ import { SharedModule } from './common/common.module';
 import { ErrorHandlingService } from './common/error-handling/error-handling.service';
 import { UserSettingsService, UserSettings, LocationType } from './common/user-settings.service';
 import { DemoMaterialModule } from './common/material';
-import { AppInitModule } from './appload/appinit.module';
+import { AppInitModule } from './appinit/appinit.module';
 
 // services
 import { EdittranscriptService } from './features/edittranscript/edittranscript.service';
@@ -56,7 +56,7 @@ import { ViewTranscriptServiceStub } from './features/viewtranscript/viewtranscr
 import { ChatService } from './features/chat/chat.service';
 import { DataFactoryService } from './work_experiments/datafake/data-factory.service';
 import { RegisterGovBodyService } from './features/register-gov-body/register-gov-body.service'
-import { AppInitService } from './appload/appinit.service';
+import { AppInitService } from './appinit/appinit.service';
 
 // Swagger API
 // import { ViewMeetingClient, EditMeetingClient, GovLocationClient, GovbodyClient } from './apis/swagger-api';
@@ -83,20 +83,14 @@ function UseServerStubs() {
   if (environment.useServerStubs != null) {
     return environment.useServerStubs;
   }
-  // Or use stubs if server is not running.
+  // Use stubs if server is not running.
   return !(AppInitService.isServerRunning)
 }
-
-export function pingFactory(appLoadService: AppInitService) {
-  return () => appLoadService.checkIfServerRunning();
-}
-
 
 @NgModule({
   imports: [
     // /////////////// external //////////////
     RouterModule.forRoot([]),
-    // RouterModule,
     CommonModule,
     BrowserAnimationsModule,
     DemoMaterialModule,
@@ -152,29 +146,24 @@ export function pingFactory(appLoadService: AppInitService) {
       // useValue: window['APP_DATA']    // Get settings from html
       useValue: { isAspServerRunning, isBeta, isLargeEditData },
     },
+
+    // If you use the stubs for the following services, they will not call the Asp.Net server,
+    // but will instead return static data.
+
     {
       provide: EdittranscriptService,
       //useClass: UseServerStubs() ? EdittranscriptService : EdittranscriptServiceStub,
-
-      //useClass: EdittranscriptService
       useClass: EdittranscriptServiceStub
     },
-
-    // If you use the stubs for these services, they will not call the Asp.Net server,
-    // but will instead return static data.
     {
       provide: ViewTranscriptService,
-      //  useClass: ViewTranscriptService
+      //  useClass: ViewTranscriptService: UseServerStubs() ? ViewTranscriptService : ViewTranscriptServiceStub
       useClass: ViewTranscriptServiceStub
     },
     {
       provide: RegisterGovBodyService,
       useClass: RegisterGovBodyService, deps: [GovbodyClient, GovLocationClient]
     },
-    AppInitService,
-    //{ provide: APP_INITIALIZER, useFactory: init_app, deps: [AppLoadService], multi: true },
-    //{ provide: APP_INITIALIZER, useFactory: pingFactory, deps: [AppInitService], multi: true },
-
     ChatService,
     DataFactoryService,
     DataFakeService,

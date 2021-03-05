@@ -7,26 +7,16 @@ import { APP_SETTINGS } from './settings';
 @Injectable()
 export class AppInitService {
   static isServerRunning: boolean;
-  //static isServerRunning() {
-  //    return this.isRunning;
-  //}
 
   constructor(private httpClient: HttpClient) { }
 
-  //isRunning: boolean;
-
-  //isServerRunning(): boolean {
-  //  return AppLoadService.isRunning;
-  //}
-
+  // Example of using APP_INITIALIZER twice.
   //initializeApp(): Promise<any> {
   //  return new Promise<void>((resolve, reject) => {
   //    console.log(`initializeApp:: inside promise`);
-
   //    setTimeout(() => {
   //      console.log(`initializeApp:: inside setTimeout`);
   //      // doing something
-
   //      resolve();
   //    }, 3000);
   //  });
