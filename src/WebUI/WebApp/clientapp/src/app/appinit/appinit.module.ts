@@ -8,7 +8,7 @@ import { AppInitService } from './appinit.service';
 //}
 
 export function pingFactory(appInitService: AppInitService) {
-  return () => appInitService.checkIfServerRunning();
+  return () => appInitService.pingServer();
 }
 
 @NgModule({

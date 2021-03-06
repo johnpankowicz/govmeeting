@@ -90,12 +90,18 @@ async function isServerRunning() {
   // Use stubs if server is not running.
 
   const delay = ms => new Promise(res => setTimeout(res, ms));
+  let running = null;
+  let i = 0;
+  while (true) {
+    running = AppInitService.isServerRunning;
+    if (running !== null) {
+      break;
+    }
+    await delay(100);
+    i++;
+  }
 
-  await delay(1000);
-
-  let running = AppInitService.isServerRunning;
-  console.log("init: server running = " + String(running));
-
+  console.log("isServerRunning=" + String(running) + " time=" + i);
   return running;
 }
 
