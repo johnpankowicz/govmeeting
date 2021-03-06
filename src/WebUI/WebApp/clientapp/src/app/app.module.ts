@@ -11,7 +11,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 
-
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 
 // APP
@@ -55,7 +54,7 @@ import { ViewTranscriptService } from './features/viewtranscript/viewtranscript.
 import { ViewTranscriptServiceStub } from './features/viewtranscript/viewtranscript.service-stub';
 import { ChatService } from './features/chat/chat.service';
 import { DataFactoryService } from './work_experiments/datafake/data-factory.service';
-import { RegisterGovBodyService } from './features/register-gov-body/register-gov-body.service'
+import { RegisterGovBodyService } from './features/register-gov-body/register-gov-body.service';
 import { AppInitService } from './appinit/appinit.service';
 
 // Swagger API
@@ -65,22 +64,14 @@ import { GovLocationClient, GovbodyClient } from './apis/api.generated.clients';
 // EXPERIMENTS
 import { PopupComponent } from './work_experiments/popup/popup.component';
 import { DataFakeService } from './work_experiments/datafake/data-fake.service';
-//import { loadConfiguration } from './work_experiments/configuration/loadConfiguration';
-//import { ConfigService } from './work_experiments/configuration/config.service';
+// import { loadConfiguration } from './work_experiments/configuration/loadConfiguration';
+// import { ConfigService } from './work_experiments/configuration/config.service';
 import { ShoutoutsComponent } from './work_experiments/shoutouts/shoutouts';
 
+// const isAspServerRunning = AppInitService.isWebServerRunning();
 const isAspServerRunning = false; // Is the Asp.Net server running?
 const isBeta = false; // Is this the beta release version?
 const isLargeEditData = false; // Are we using the large data for EditTranscript? (Little Falls, etc.)
-
-
-//export function init_app(appLoadService: AppLoadService) {
-//  return () => appLoadService.initializeApp();
-//}
-
-//function delay(ms: number) {
-//  return new Promise(resolve => setTimeout(resolve, ms));
-//}
 
 function useServerStubs() {
   // Use value if specified in environment file.
@@ -88,7 +79,7 @@ function useServerStubs() {
     return environment.useServerStubs;
   }
   // Otherwise use stubs if server is NOT running.
-  return !(AppInitService.isWebServerRunning());
+  return !AppInitService.isWebServerRunning();
 }
 
 @NgModule({
@@ -120,15 +111,9 @@ function useServerStubs() {
     HeaderModule,
     AmchartsModule,
     FeaturesModule,
-    AppInitModule
+    AppInitModule,
   ],
-  declarations: [
-    AppComponent,
-    DashMainComponent,
-    ShoutoutsComponent,
-    PopupComponent,
-    FetchDataComponent,
-  ],
+  declarations: [AppComponent, DashMainComponent, ShoutoutsComponent, PopupComponent, FetchDataComponent],
   exports: [
     DemoMaterialModule,
 
@@ -146,9 +131,9 @@ function useServerStubs() {
     AppData,
     {
       provide: AppData,
+      useValue: { isAspServerRunning, isBeta, isLargeEditData },
       // The window method works for reading config setting from index.html. We can define APP_DATA in index.html.
       // useValue: window['APP_DATA']    // Get settings from html
-      useValue: { isAspServerRunning, isBeta, isLargeEditData },
     },
 
     // If you use the stubs for the following services, they will not call the Asp.Net server,
@@ -156,17 +141,18 @@ function useServerStubs() {
 
     {
       provide: EditTranscriptService,
-    //  useClass: useServerStubs() ? EditTranscriptServiceStub : EditTranscriptService,
-      useClass: EditTranscriptServiceStub
+      //  useClass: useServerStubs() ? EditTranscriptServiceStub : EditTranscriptService,
+      useClass: EditTranscriptServiceStub,
     },
     {
       provide: ViewTranscriptService,
       //  useClass: ViewTranscriptService: useServerStubs() ? ViewTranscriptServiceStub : ViewTranscriptService
-      useClass: ViewTranscriptServiceStub
+      useClass: ViewTranscriptServiceStub,
     },
     {
       provide: RegisterGovBodyService,
-      useClass: RegisterGovBodyService, deps: [GovbodyClient, GovLocationClient]
+      useClass: RegisterGovBodyService,
+      deps: [GovbodyClient, GovLocationClient],
     },
     ChatService,
     DataFactoryService,

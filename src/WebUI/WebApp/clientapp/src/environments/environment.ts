@@ -8,16 +8,14 @@ const apiHost = 'localhost:44333';
 const apiUrl = `https://${apiHost}`;
 const useServerStubs = null;
 
-
 export const environment: IEnvironment = {
   production: false,
   enableDebugTools: true,
   logLevel: 'debug',
   apiHost,
   apiUrl,
-  useServerStubs: useServerStubs
-}
-
+  useServerStubs,
+};
 
 /*
  * In development mode, to ignore zone related error stack frames such as

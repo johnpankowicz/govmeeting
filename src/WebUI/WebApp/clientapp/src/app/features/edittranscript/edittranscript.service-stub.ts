@@ -7,8 +7,6 @@ import { EditTranscriptSample } from '../../models/sample-data/edittranscript-sa
 import { ErrorHandlingService } from '../../common/error-handling/error-handling.service';
 import { AppData } from '../../appdata';
 
-// import { EditMeetingClient } from '../../apis/api.generated.clients';
-
 const UseImportData = false; // If true, get data from sample in EditTranscriptSample.ts, else from assets folder
 const urlTest = 'assets/stubdata/ToEdit.json';
 const urlTestLarge = 'assets/stubdata/LARGE/USA_NJ_Passaic_LittleFalls_TownshipCouncil_en_2020-06-20.json';
