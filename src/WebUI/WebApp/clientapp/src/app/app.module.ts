@@ -82,29 +82,13 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
 //  return new Promise(resolve => setTimeout(resolve, ms));
 //}
 
-function isServerRunning() {
+function useServerStubs() {
   // Use value if specified in environment file.
   if (environment.useServerStubs != null) {
     return environment.useServerStubs;
   }
-  let running = AppInitService.isWebServerRunning();
-
-//  // Use stubs if server is not running.
-
-//  const delay = ms => new Promise(res => setTimeout(res, ms));
-//  let running = null;
-//  let i = 0;
-//  while (true) {
-//    running = AppInitService.isServerRunning;
-//    if (running !== null) {
-//      break;
-//    }
-//    await delay(100);
-//    i++;
-//  }
-
-//  console.log("isServerRunning=" + String(running) + " time=" + i);
-  return running;
+  // Otherwise use stubs if server is NOT running.
+  return !(AppInitService.isWebServerRunning());
 }
 
 @NgModule({
@@ -172,12 +156,12 @@ function isServerRunning() {
 
     {
       provide: EditTranscriptService,
-      useClass: isServerRunning() ? EditTranscriptService : EditTranscriptServiceStub,
-    //  useClass: EditTranscriptServiceStub
+    //  useClass: useServerStubs() ? EditTranscriptServiceStub : EditTranscriptService,
+      useClass: EditTranscriptServiceStub
     },
     {
       provide: ViewTranscriptService,
-      //  useClass: ViewTranscriptService: isServerRunning() ? ViewTranscriptService : ViewTranscriptServiceStub
+      //  useClass: ViewTranscriptService: useServerStubs() ? ViewTranscriptServiceStub : ViewTranscriptService
       useClass: ViewTranscriptServiceStub
     },
     {
