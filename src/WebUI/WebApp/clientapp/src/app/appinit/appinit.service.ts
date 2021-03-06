@@ -23,7 +23,7 @@ export class AppInitService {
   //}
 
   pingServer(): Promise<any> {
-    console.log(`pingServers:: before ping`);
+    console.log(`pingServer:: before ping`);
 
     const promise = this.httpClient.get('https://localhost:44333/weatherforecast')
       .toPromise()
@@ -39,6 +39,35 @@ export class AppInitService {
 
     return promise;
   }
+
+//  delay(ms: number) {
+//  return new Promise(resolve => setTimeout(resolve, ms));
+//}
+
+static async isWebServerRunning() {
+  // Use value if specified in environment file.
+  //if (environment.useServerStubs != null) {
+  //  return environment.useServerStubs;
+  //}
+  // Use stubs if server is not running.
+
+  const delay = ms => new Promise(res => setTimeout(res, ms));
+  let running = null;
+  let i = 0;
+  while (true) {
+    //running = AppInitService.isServerRunning;
+    running = this.isServerRunning;
+    if (running !== null) {
+      break;
+    }
+    await delay(100);
+    i++;
+  }
+
+  console.log("isServerRunning=" + String(running) + " time=" + i);
+  return running;
+}
+
 
   fetchDataAsPromise() {
     return this.httpClient
