@@ -6,7 +6,7 @@ export interface IEnvironment {
   logLevel: LogLevel;
   apiHost: string;
   apiUrl: string;
-  useServerStubs: boolean;
+  useServer: boolean;
 }
 
 // Idea for using IEnvironment: https://seangwright.medium.com/the-best-way-to-use-angulars-environment-files-a0c098551abc

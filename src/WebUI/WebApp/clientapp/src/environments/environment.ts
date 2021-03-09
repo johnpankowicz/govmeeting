@@ -6,7 +6,7 @@ import { IEnvironment } from './ienvironment';
 
 const apiHost = 'localhost:44333';
 const apiUrl = `https://${apiHost}`;
-const useServerStubs = null;
+const useServer = null;
 
 export const environment: IEnvironment = {
   production: false,
@@ -14,7 +14,7 @@ export const environment: IEnvironment = {
   logLevel: 'debug',
   apiHost,
   apiUrl,
-  useServerStubs,
+  useServer,
 };
 
 /*

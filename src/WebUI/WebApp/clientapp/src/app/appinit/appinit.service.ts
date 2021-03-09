@@ -8,6 +8,7 @@ export class AppInitService {
   static isServerRunning: boolean = null;
 
   static async isWebServerRunning() {
+    console.log("isWebServerRunning - enter");
     const delay = (ms) => new Promise((res) => setTimeout(res, ms));
     let i = 0;
     // check every 100 milliseconds
