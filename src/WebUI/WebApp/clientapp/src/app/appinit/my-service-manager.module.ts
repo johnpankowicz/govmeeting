@@ -1,5 +1,5 @@
 import { ModuleWithProviders, NgModule } from "@angular/core";
-import { AppInitService } from "../services/appinit.service";
+import { AppInitService } from "./appinit.service";
 import { MyServiceLoader } from "./my-service-loader";
 import { MyService } from "./myservice";
 import { MyServiceStub } from "./myservice-stub";

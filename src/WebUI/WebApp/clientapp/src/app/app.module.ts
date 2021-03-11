@@ -45,7 +45,7 @@ import { SharedModule } from './common/common.module';
 import { ErrorHandlingService } from './common/error-handling/error-handling.service';
 import { UserSettingsService, UserSettings, LocationType } from './common/user-settings.service';
 import { DemoMaterialModule } from './common/material';
-import { AppInitModule } from './appinit/appinit.module';
+//import { AppInitModule } from './appinit/appinit.module';
 
 // services
 import { EditTranscriptService } from './features/edittranscript/edittranscript.service';
@@ -55,7 +55,6 @@ import { ViewTranscriptServiceStub } from './features/viewtranscript/viewtranscr
 import { ChatService } from './features/chat/chat.service';
 import { DataFactoryService } from './work_experiments/datafake/data-factory.service';
 import { RegisterGovBodyService } from './features/register-gov-body/register-gov-body.service';
-import { AppInitService } from './appinit/appinit.service';
 
 // Swagger API
 // import { ViewMeetingClient, EditMeetingClient, GovLocationClient, GovbodyClient } from './apis/swagger-api';
@@ -68,42 +67,50 @@ import { DataFakeService } from './work_experiments/datafake/data-fake.service';
 // import { ConfigService } from './work_experiments/configuration/config.service';
 import { ShoutoutsComponent } from './work_experiments/shoutouts/shoutouts';
 
+////////////////////////////////////
+import { AppInitService } from './appinit/appinit.service';
+import { MyServiceManagerModule } from "./appinit/my-service-manager.module";
+export function pingFactory(appInitService: AppInitService) {
+  return () => appInitService.pingServer();
+}
+////////////////////////////////////
+
 // const isAspServerRunning = AppInitService.isWebServerRunning();
 let isAspServerRunning = true; // Is the Asp.Net server running?
 const isBeta = false; // Is this the beta release version?
 const isLargeEditData = false; // Are we using the large data for EditTranscript? (Little Falls, etc.)
 
-function useServer() {
-  // Use value if specified in environment file.
-  if (environment.useServer != null) {
-    return environment.useServer;
-  }
-  // Otherwise use server if it is running.
-  let x = AppInitService.isWebServerRunning();
+//function useServer() {
+//  // Use value if specified in environment file.
+//  if (environment.useServer != null) {
+//    return environment.useServer;
+//  }
+//  // Otherwise use server if it is running.
+//  let x = AppInitService.isWebServerRunning();
 
-  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+//  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  function failureCallback() {
-    console.log('This is failure callback');
-  }
+//  function failureCallback() {
+//    console.log('This is failure callback');
+//  }
 
-  wait(4 * 1000)
-    .then(() => {
-      console.log('waited for 4 seconds');
-      throw new Error('error occurred');
-    })
-    .catch(() => {
-      failureCallback();
-    });
+//  wait(4 * 1000)
+//    .then(() => {
+//      console.log('waited for 4 seconds');
+//      throw new Error('error occurred');
+//    })
+//    .catch(() => {
+//      failureCallback();
+//    });
 
-  wait(2 * 1000).then(() => console.log('waited for 2 seconds'));
+//  wait(2 * 1000).then(() => console.log('waited for 2 seconds'));
 
-  isAspServerRunning = !!x;
-  //let y = !x;
-  //isAspServerRunning = !y;
-  console.log('useServer=' + isAspServerRunning);
-  return isAspServerRunning;
-}
+//  isAspServerRunning = !!x;
+//  //let y = !x;
+//  //isAspServerRunning = !y;
+//  console.log('useServer=' + isAspServerRunning);
+//  return isAspServerRunning;
+//}
 
 @NgModule({
   imports: [
@@ -117,6 +124,9 @@ function useServer() {
     ReactiveFormsModule,
     NgMaterialMultilevelMenuModule,
     HttpClientModule,
+    //////////////////////////////////////////
+    MyServiceManagerModule.forRoot(),
+    //////////////////////////////////////////
 
     // /////////////// internal //////////////
     ViewTranscriptModule,
@@ -133,8 +143,8 @@ function useServer() {
     VirtualMeetingModule,
     HeaderModule,
     AmchartsModule,
-    FeaturesModule,
-    AppInitModule,
+    FeaturesModule
+  //  AppInitModule,
   ],
   declarations: [AppComponent, DashMainComponent, ShoutoutsComponent, PopupComponent, FetchDataComponent],
   exports: [
@@ -152,6 +162,15 @@ function useServer() {
   providers: [
     ErrorHandlingService,
     AppData,
+    ////////////////////////////////////////////////////
+    // our APP_INITIALIZER must be imported on our root module too
+    {
+      provide: APP_INITIALIZER,
+      useFactory: pingFactory,
+      deps: [AppInitService],
+      multi: true
+    },
+    //////////////////////////////////////////////////////
     {
       provide: AppData,
       useValue: { isAspServerRunning, isBeta, isLargeEditData },

@@ -1,55 +1,58 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import 'rxjs/add/operator/toPromise';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 
-@Injectable()
+let server = "http://no-such-web-server.org";
+//
+// let server = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=perl&site=stackoverflow";
+
+// I remove some static methods here only
+@Injectable({ providedIn: "root" })
 export class AppInitService {
   constructor(private httpClient: HttpClient) {}
-  static isServerRunning: boolean = null;
 
-  static async isWebServerRunning() {
-    console.log("isWebServerRunning - enter");
-    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
-    let i = 0;
-    // check every 100 milliseconds
-    while (AppInitService.isServerRunning === null) {
-      await delay(100);
-      i++;
-    }
-    const running = AppInitService.isServerRunning;
-    console.log('isWebServerRunning=' + String(running) + ' time=' + i);
-    return running;
-  }
+  isRunning: boolean | null = null;
+
+  //async isWebServerRunning() {
+  //  logMsg("isWebServerRunning Enter");
+  //  const delay = ms => new Promise(res => setTimeout(res, ms));
+
+  //  // check every 50 milliseconds for change in "isRunning" status
+  //  while (this.isRunning === null) {
+  //    logMsg("isWebServerRunning in delay loop");
+  //    await delay(50);
+  //  }
+  //  let isrunning = this.isRunning;
+  //  logMsg("isWebServerRunning Exit -isRunnning = " + String(isrunning));
+  //  return isrunning;
+  //}
 
   pingServer(): Promise<any> {
-    console.log(`pingServer:: before ping`);
+    logMsg("pingServer. Enter");
 
     const promise = this.httpClient
-      .get('https://localhost:44333/weatherforecast')
+      .get(server)
       .toPromise()
-      .then((settings) => {
-        console.log('Got server response');
-        AppInitService.isServerRunning = true;
+      .then(settings => {
+        logMsg("pingServer Got server response");
+        this.isRunning = true;
         return true;
       })
-      .catch((err) => {
-        console.log('No server Response');
-        AppInitService.isServerRunning = false;
+      .catch(err => {
+        logMsg("pingServer No server Response");
+        this.isRunning = false;
         err;
       });
-
     return promise;
   }
+}
 
-  // Example of using APP_INITIALIZER twice.
-  // initializeApp(): Promise<any> {
-  //  return new Promise<void>((resolve, reject) => {
-  //    console.log(`initializeApp:: inside promise`);
-  //    setTimeout(() => {
-  //      console.log(`initializeApp:: inside setTimeout`);
-  //      // doing something
-  //      resolve();
-  //    }, 3000);
-  //  });
-  // }
+function logMsg(msg: string) {
+  console.log("AppInitService:", msg, getNow());
+}
+
+function getNow() {
+  let now = Date.now();
+  let sec = Math.floor(now / 1000) % 100;
+  let ms = now % 1000;
+  return sec.toString() + ":" + ms.toString();
 }
