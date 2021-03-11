@@ -69,7 +69,7 @@ import { DataFakeService } from './work_experiments/datafake/data-fake.service';
 import { ShoutoutsComponent } from './work_experiments/shoutouts/shoutouts';
 
 // const isAspServerRunning = AppInitService.isWebServerRunning();
-let isAspServerRunning = false; // Is the Asp.Net server running?
+let isAspServerRunning = true; // Is the Asp.Net server running?
 const isBeta = false; // Is this the beta release version?
 const isLargeEditData = false; // Are we using the large data for EditTranscript? (Little Falls, etc.)
 
@@ -164,13 +164,15 @@ function useServer() {
 
     {
       provide: EditTranscriptService,
-      useClass: useServer() ? EditTranscriptService : EditTranscriptServiceStub,
+      useClass: isAspServerRunning ? EditTranscriptService : EditTranscriptServiceStub,
+      // useClass: useServer() ? EditTranscriptService : EditTranscriptServiceStub,
       //  useClass: EditTranscriptServiceStub,
     },
     {
       provide: ViewTranscriptService,
-      //useClass: useServer() ? ViewTranscriptService: ViewTranscriptServiceStub
-      useClass: ViewTranscriptServiceStub,
+      useClass: isAspServerRunning ? ViewTranscriptService: ViewTranscriptServiceStub
+      // useClass: useServer() ? ViewTranscriptService: ViewTranscriptServiceStub
+      //  useClass: ViewTranscriptServiceStub,
     },
     {
       provide: RegisterGovBodyService,
