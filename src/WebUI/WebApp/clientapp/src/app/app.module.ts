@@ -76,7 +76,7 @@ export function pingFactory(appInitService: AppInitService) {
 ////////////////////////////////////
 
 // const isAspServerRunning = AppInitService.isWebServerRunning();
-let isAspServerRunning = true; // Is the Asp.Net server running?
+let isAspServerRunning = false; // Is the Asp.Net server running?
 const isBeta = false; // Is this the beta release version?
 const isLargeEditData = false; // Are we using the large data for EditTranscript? (Little Falls, etc.)
 

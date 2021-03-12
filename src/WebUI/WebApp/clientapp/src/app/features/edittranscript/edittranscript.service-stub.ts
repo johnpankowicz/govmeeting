@@ -27,7 +27,7 @@ export class EditTranscriptServiceStub {
     private http: HttpClient,
     private errHandling: ErrorHandlingService //  private editTranscript: EditMeetingClient
   ) {
-    console.log("STUB");
+    console.log("EditTranscriptServiceStub:constructor");
     NoLog || console.log(this.ClassName + 'constructor');
     this.isLargeEditData = appData.isLargeEditData;
   }

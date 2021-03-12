@@ -26,7 +26,7 @@ export class EditTranscriptService {
   private meetingId = 2;
 
   constructor(private http: HttpClient, private errHandling: ErrorHandlingService) {
-    console.log("REAL");
+    console.log("EditTranscriptService:constructor");
     NoLog || console.log(this.ClassName + 'constructor');
   }
 
