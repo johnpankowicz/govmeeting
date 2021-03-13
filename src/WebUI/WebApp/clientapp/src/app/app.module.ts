@@ -80,38 +80,6 @@ let isAspServerRunning = false; // Is the Asp.Net server running?
 const isBeta = false; // Is this the beta release version?
 const isLargeEditData = false; // Are we using the large data for EditTranscript? (Little Falls, etc.)
 
-//function useServer() {
-//  // Use value if specified in environment file.
-//  if (environment.useServer != null) {
-//    return environment.useServer;
-//  }
-//  // Otherwise use server if it is running.
-//  let x = AppInitService.isWebServerRunning();
-
-//  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-//  function failureCallback() {
-//    console.log('This is failure callback');
-//  }
-
-//  wait(4 * 1000)
-//    .then(() => {
-//      console.log('waited for 4 seconds');
-//      throw new Error('error occurred');
-//    })
-//    .catch(() => {
-//      failureCallback();
-//    });
-
-//  wait(2 * 1000).then(() => console.log('waited for 2 seconds'));
-
-//  isAspServerRunning = !!x;
-//  //let y = !x;
-//  //isAspServerRunning = !y;
-//  console.log('useServer=' + isAspServerRunning);
-//  return isAspServerRunning;
-//}
-
 @NgModule({
   imports: [
     // /////////////// external //////////////
