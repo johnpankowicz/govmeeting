@@ -48,7 +48,7 @@ import { DemoMaterialModule } from './common/material';
 //import { AppInitModule } from './appinit/appinit.module';
 
 // services
-import { EditTranscriptService } from './features/edittranscript/edittranscript.service';
+import { EditTranscriptServiceReal } from './features/edittranscript/edittranscript.service-real';
 import { EditTranscriptServiceStub } from './features/edittranscript/edittranscript.service-stub';
 import { ViewTranscriptService } from './features/viewtranscript/viewtranscript.service';
 import { ViewTranscriptServiceStub } from './features/viewtranscript/viewtranscript.service-stub';
@@ -69,16 +69,16 @@ import { ShoutoutsComponent } from './work_experiments/shoutouts/shoutouts';
 
 ////////////////////////////////////
 import { AppInitService } from './appinit/appinit.service';
-import { MyServiceManagerModule } from "./appinit/my-service-manager.module";
+import { ServiceManagerModule } from "./appinit/service-manager.module";
 export function pingFactory(appInitService: AppInitService) {
   return () => appInitService.pingServer();
 }
 ////////////////////////////////////
 
-// const isAspServerRunning = AppInitService.isWebServerRunning();
+//// const isAspServerRunning = AppInitService.isWebServerRunning();
 let isAspServerRunning = false; // Is the Asp.Net server running?
-const isBeta = false; // Is this the beta release version?
-const isLargeEditData = false; // Are we using the large data for EditTranscript? (Little Falls, etc.)
+//const isBeta = false; // Is this the beta release version?
+//const isLargeEditData = false; // Are we using the large data for EditTranscript? (Little Falls, etc.)
 
 @NgModule({
   imports: [
@@ -93,7 +93,7 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
     NgMaterialMultilevelMenuModule,
     HttpClientModule,
     //////////////////////////////////////////
-    MyServiceManagerModule.forRoot(),
+    ServiceManagerModule.forRoot(),
     //////////////////////////////////////////
 
     // /////////////// internal //////////////
@@ -129,32 +129,32 @@ const isLargeEditData = false; // Are we using the large data for EditTranscript
   ],
   providers: [
     ErrorHandlingService,
-    AppData,
-    ////////////////////////////////////////////////////
-    // our APP_INITIALIZER must be imported on our root module too
+    //AppData,
+    // The APP_INITIALIZER runs before application start.
+    // It checks if the server is running. ServiceManager uses its result
+    // to decide whether to provide real or stub API services.
     {
       provide: APP_INITIALIZER,
       useFactory: pingFactory,
       deps: [AppInitService],
       multi: true
     },
-    //////////////////////////////////////////////////////
-    {
-      provide: AppData,
-      useValue: { isAspServerRunning, isBeta, isLargeEditData },
-      // The window method works for reading config setting from index.html. We can define APP_DATA in index.html.
-      // useValue: window['APP_DATA']    // Get settings from html
-    },
+    //{
+    //  provide: AppData,
+    //  useValue: { isAspServerRunning, isBeta, isLargeEditData },
+    //  // The window method works for reading config setting from index.html. We can define APP_DATA in index.html.
+    //  // useValue: window['APP_DATA']    // Get settings from html
+    //},
 
     // If you use the stubs for the following services, they will not call the Asp.Net server,
     // but will instead return static data.
 
-    {
-      provide: EditTranscriptService,
-      useClass: isAspServerRunning ? EditTranscriptService : EditTranscriptServiceStub,
-      // useClass: useServer() ? EditTranscriptService : EditTranscriptServiceStub,
-      //  useClass: EditTranscriptServiceStub,
-    },
+    //{
+    //  provide: EditTranscriptServiceReal,
+    //  useClass: isAspServerRunning ? EditTranscriptServiceReal : EditTranscriptServiceStub,
+    //  // useClass: useServer() ? EditTranscriptService : EditTranscriptServiceStub,
+    //  //  useClass: EditTranscriptServiceStub,
+    //},
     {
       provide: ViewTranscriptService,
       useClass: isAspServerRunning ? ViewTranscriptService: ViewTranscriptServiceStub

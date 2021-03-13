@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 import { UserSettingsService, UserSettings, LocationType } from './common/user-settings.service';
 
 ///////////////////////////////////////////////////////////////
-import { MyServiceLoader } from "./appinit/my-service-loader";
+import { MyService } from "./appinit/my-service";
 ////////////////////////////////////////////////////////////////
 
 const NoLog = true; // set to false for console logging
@@ -37,7 +37,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     //////////////////////////////////////////////
-    private myService: MyServiceLoader,
+    private myService: MyService,
     /////////////////////////////////////////////
     private userSettingsService: UserSettingsService,
     private router: Router,

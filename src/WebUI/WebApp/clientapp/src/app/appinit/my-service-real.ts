@@ -1,10 +1,10 @@
 import { Injectable } from "@angular/core";
-import { MyServiceLoader } from "./my-service-loader";
+import { MyService } from "./my-service";
 import { HttpClient } from "@angular/common/http"
 
-// must extend MyServiceLoader which is an abstract class
+// must extend MyService which is an abstract class
 @Injectable()
-export class MyService extends MyServiceLoader {
+export class MyServiceReal extends MyService {
   http: HttpClient;
   constructor(private _http: HttpClient) {
     super();
