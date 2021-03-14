@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -12,18 +12,33 @@ import { NavService } from './sidenav/nav.service';
 import { Router } from '@angular/router';
 import { UserSettingsService, UserSettings, LocationType } from './common/user-settings.service';
 
+//import { observableLog } from './logger-service';
+import { replaySubjectLog } from './logger-service';
+//import { Observable } from 'rxjs/Observable';
+//let observableLog = Observable.create((observer: any) => {
+//  observer.next('Hey guys!')
+//})
+
 ///////////////////////////////////////////////////////////////
 import { MyService } from "./appinit/my-service";
 ////////////////////////////////////////////////////////////////
 
+
 const NoLog = true; // set to false for console logging
+
+function addItem(val: any) {
+  var node = document.createElement("li");
+  var textnode = document.createTextNode(val);
+  node.appendChild(textnode);
+  document.getElementById("output").appendChild(node);
+}
 
 @Component({
   selector: 'gm-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements AfterViewInit, OnDestroy {
+export class AppComponent implements AfterViewInit, OnDestroy, OnInit {
   private ClassName: string = this.constructor.name + ': ';
   @ViewChild('sidenav', { static: false }) sidenav: ElementRef;
 
@@ -69,6 +84,26 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     /////////////////////////////////////////////////////
 
   }
+
+  ngOnInit() {
+    let msg = "AppComponent:ngOnInit";
+    this.addFullItem(msg);
+
+    //observableLog.subscribe((x: any) => {
+    //  console.log(x);
+
+    replaySubjectLog.subscribe(
+      data => this.addFullItem("" + data)
+    );
+
+    replaySubjectLog.next("Talking to myself.")
+  }
+
+  addFullItem(msg: string) {
+    let fullmsg = msg + " " + this.getNow();
+    addItem(fullmsg);
+  }
+
 
   ///////////////////////////////////////////
   getNow(): string {

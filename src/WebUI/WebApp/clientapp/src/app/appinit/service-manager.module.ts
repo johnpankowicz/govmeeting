@@ -26,9 +26,9 @@ export function editMeetingServiceFactory(
   httpClient: HttpClient,
   errHandling: ErrorHandlingService,
 ): EditTranscriptServiceReal | EditTranscriptServiceStub {
-  //return appInitService.isRunning ? new EditTranscriptServiceReal(httpClient, errHandling) :
-  //  new EditTranscriptServiceStub(appData, httpClient, errHandling);
-  return new EditTranscriptServiceStub(appData, httpClient, errHandling);
+  return appInitService.isRunning ? new EditTranscriptServiceReal(httpClient, errHandling) :
+    new EditTranscriptServiceStub(appData, httpClient, errHandling);
+//  return new EditTranscriptServiceStub(appData, httpClient, errHandling);
 }
 
 let isAspServerRunning = false; // Is the Asp.Net server running?
