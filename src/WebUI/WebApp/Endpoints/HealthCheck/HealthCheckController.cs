@@ -2,20 +2,17 @@
 
 namespace GM.WebUI.WebApp.Endpoints.HealthCheck
 {
+    //[Route("api/[controller]/[action]")]
     public class HealthCheckController : ApiController
     {
-
         /// <summary>
         /// Get Health Check
         /// </summary>
-        /// <returns> "Healthy" </returns>
+        /// <returns> { status = "healthy"} </returns>
         [HttpGet]
-        public string Get()
+        public object Get()
         {
-            return "Healthy";
+            return new { status = "healthy"};
         }
-
-
     }
 }
-

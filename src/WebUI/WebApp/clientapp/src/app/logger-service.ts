@@ -17,4 +17,4 @@ import { Subject } from "rxjs/Subject";
 
 
 export var replaySubjectLog = new ReplaySubject(99);
-replaySubjectLog.next("The first replay msg sent.")
+replaySubjectLog.next("logger-service. The first replay msg sent.")

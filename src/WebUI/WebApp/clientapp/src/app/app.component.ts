@@ -21,7 +21,14 @@ import { replaySubjectLog } from './logger-service';
 
 ///////////////////////////////////////////////////////////////
 import { MyService } from "./appinit/my-service";
+import { HttpClient } from '@angular/common/http';
 ////////////////////////////////////////////////////////////////
+
+//let server = "https://localhost:44333/api/WeatherForecast/Get";
+let server = "https://localhost:44333/api/HealthCheck/Get";
+//let server = "https://localhost:44333/api/GovLocation/GetMyGovLocations";
+//let server = "http://no-such-web-server.org";
+//let server = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=perl&site=stackoverflow";
 
 
 const NoLog = true; // set to false for console logging
@@ -49,8 +56,10 @@ export class AppComponent implements AfterViewInit, OnDestroy, OnInit {
   options: FormGroup;
   mediaQueryList: MediaQueryList;
   private mediaQueryListener: () => void;
+  httpClient: HttpClient;
 
   constructor(
+    private _httpClient: HttpClient,
     //////////////////////////////////////////////
     private myService: MyService,
     /////////////////////////////////////////////
@@ -83,10 +92,11 @@ export class AppComponent implements AfterViewInit, OnDestroy, OnInit {
     this.myService.printTime();
     /////////////////////////////////////////////////////
 
+    this.httpClient = _httpClient;
   }
 
   ngOnInit() {
-    let msg = "AppComponent:ngOnInit";
+    let msg = "AppComponent:ngOnInit. Enter";
     this.addFullItem(msg);
 
     //observableLog.subscribe((x: any) => {
@@ -96,7 +106,9 @@ export class AppComponent implements AfterViewInit, OnDestroy, OnInit {
       data => this.addFullItem("" + data)
     );
 
-    replaySubjectLog.next("Talking to myself.")
+    replaySubjectLog.next("AppComponent:ngOnInit. Talking to myself after subscribing.")
+
+
   }
 
   addFullItem(msg: string) {
@@ -154,5 +166,21 @@ export class AppComponent implements AfterViewInit, OnDestroy, OnInit {
 
   routeDash() {
     this.router.navigateByUrl('dash');
+  }
+
+  startPing() {
+    this.addFullItem("AppComponent:startPing. Enter");
+    const promise = this.httpClient
+      .get(server)
+      .toPromise()
+      .then(settings => {
+        this.addFullItem("AppComponent:pingServer Got server response");
+        return true;
+      })
+      .catch(err => {
+        this.addFullItem("AppComponent:pingServer. No server Response");
+        //this.startAnotherPing();
+        err;
+      });
   }
 }
