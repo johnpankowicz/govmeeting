@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 // import { sample } from 'rxjs/operators';
-import { RegisterGovBodyService } from './register-gov-body.service';
+import { RegisterGovBodyServiceReal } from './register-gov-body.service-real';
 import { IGovbody_Vm, IGovbodyDetails_Vm, IGovLocation_Vm, IOfficial_Vm } from '../../models/govbody-view';
 import { Observable, of } from 'rxjs';
 
@@ -17,7 +17,7 @@ export class RegisterGovBodyComponent implements OnInit {
   @Output() register = new EventEmitter<IGovbodyDetails_Vm>();
 
   form: FormGroup;
-  gBService: RegisterGovBodyService;
+  gBService: RegisterGovBodyServiceReal;
 
   locations$: Observable<IGovLocation_Vm[]> = null;
   bodies$: Observable<IGovbody_Vm[]> = null;
@@ -28,7 +28,7 @@ export class RegisterGovBodyComponent implements OnInit {
   selectedLocation: IGovLocation_Vm;
   selectedBody: IGovbody_Vm;
 
-  constructor(fb: FormBuilder, _gBService: RegisterGovBodyService) {
+  constructor(fb: FormBuilder, _gBService: RegisterGovBodyServiceReal) {
     this.form = fb.group({
       name: [null, [Validators.required]],
       officials: [null, [Validators.required]],

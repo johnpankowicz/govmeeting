@@ -12,33 +12,9 @@ import { NavService } from './sidenav/nav.service';
 import { Router } from '@angular/router';
 import { UserSettingsService, UserSettings, LocationType } from './common/user-settings.service';
 
-//import { observableLog } from './logger-service';
 import { replaySubjectLog } from './logger-service';
-//import { Observable } from 'rxjs/Observable';
-//let observableLog = Observable.create((observer: any) => {
-//  observer.next('Hey guys!')
-//})
-
-///////////////////////////////////////////////////////////////
-import { MyService } from "./appinit/my-service";
-import { HttpClient } from '@angular/common/http';
-////////////////////////////////////////////////////////////////
-
-//let server = "https://localhost:44333/api/WeatherForecast/Get";
-let server = "https://localhost:44333/api/HealthCheck/Get";
-//let server = "https://localhost:44333/api/GovLocation/GetMyGovLocations";
-//let server = "http://no-such-web-server.org";
-//let server = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=perl&site=stackoverflow";
-
 
 const NoLog = true; // set to false for console logging
-
-function addItem(val: any) {
-  var node = document.createElement("li");
-  var textnode = document.createTextNode(val);
-  node.appendChild(textnode);
-  document.getElementById("output").appendChild(node);
-}
 
 @Component({
   selector: 'gm-root',
@@ -56,13 +32,8 @@ export class AppComponent implements AfterViewInit, OnDestroy, OnInit {
   options: FormGroup;
   mediaQueryList: MediaQueryList;
   private mediaQueryListener: () => void;
-  httpClient: HttpClient;
 
   constructor(
-    private _httpClient: HttpClient,
-    //////////////////////////////////////////////
-    private myService: MyService,
-    /////////////////////////////////////////////
     private userSettingsService: UserSettingsService,
     private router: Router,
     public navService: NavService,
@@ -86,45 +57,7 @@ export class AppComponent implements AfterViewInit, OnDestroy, OnInit {
       // this.checkDeviceType();
     };
     this.mediaQueryList.addEventListener('change', this.mediaQueryListener);
-
-    /////////////////////////////////////////////////////
-    console.log("AppComponent:ngOnInit", this.getNow());
-    this.myService.printTime();
-    /////////////////////////////////////////////////////
-
-    this.httpClient = _httpClient;
   }
-
-  ngOnInit() {
-    let msg = "AppComponent:ngOnInit. Enter";
-    this.addFullItem(msg);
-
-    //observableLog.subscribe((x: any) => {
-    //  console.log(x);
-
-    replaySubjectLog.subscribe(
-      data => this.addFullItem("" + data)
-    );
-
-    replaySubjectLog.next("AppComponent:ngOnInit. Talking to myself after subscribing.")
-
-
-  }
-
-  addFullItem(msg: string) {
-    let fullmsg = msg + " " + this.getNow();
-    addItem(fullmsg);
-  }
-
-
-  ///////////////////////////////////////////
-  getNow(): string {
-    let now = Date.now();
-    let sec = Math.floor(now / 1000) % 100;
-    let ms = now % 1000;
-    return sec.toString() + ":" + ms.toString();
-  }
-  ////////////////////////////////////////////
 
   ngAfterViewInit() {
     this.navService.sidenav = this.sidenav;
@@ -150,7 +83,7 @@ export class AppComponent implements AfterViewInit, OnDestroy, OnInit {
     }
   }
 
-  ///      For testng ///////
+  //////  For debugging ///////
 
   sendSettings() {
     const userSettings: UserSettings = new UserSettings('en', 'Totowa', 'Council');
@@ -168,19 +101,51 @@ export class AppComponent implements AfterViewInit, OnDestroy, OnInit {
     this.router.navigateByUrl('dash');
   }
 
-  startPing() {
-    this.addFullItem("AppComponent:startPing. Enter");
-    const promise = this.httpClient
-      .get(server)
-      .toPromise()
-      .then(settings => {
-        this.addFullItem("AppComponent:pingServer Got server response");
-        return true;
-      })
-      .catch(err => {
-        this.addFullItem("AppComponent:pingServer. No server Response");
-        //this.startAnotherPing();
-        err;
-      });
+  //////////////////////////////////////////////////
+  // This code is for debugging timing issues.
+  // In app.component.html, uncomment:     <ul id="replaySubjectLogOutput"></ul>
+  //    and comment out:                   <router-outlet></router-outlet>
+  // This will replace most of the normal UI with the single <ul> element.
+  // In ngOnInit, we subscribe to the replaySubjectLog service.
+  // When any code calls "replaySubjectLog.next", we write their message as an item in
+  //      <ul> list.
+  // This lets us avoid running Chrome Dev tools (which may affect out timing issues)
+  // in order to see console output messages.
+
+  ngOnInit() {
+  //  let msg = 'AppComponent:ngOnInit. Enter';
+  //  this.addFullItem(msg);
+  //  replaySubjectLog.subscribe((data) => this.addFullItem('' + data));
+  //  replaySubjectLog.next('AppComponent:ngOnInit. Talking to myself after subscribing.');
   }
+
+  addFullItem(msg: string) {
+    let fullmsg = msg + ' ' + this.getNow();
+    this.addItem(fullmsg);
+  }
+
+  addItem(val: any) {
+    var node = document.createElement('li');
+    var textnode = document.createTextNode(val);
+    node.appendChild(textnode);
+    document.getElementById('output').appendChild(node);
+  }
+
+  getNow(): string {
+    let now = Date.now();
+    let sec = Math.floor(now / 1000) % 100;
+    let ms = now % 1000;
+    return sec.toString() + ':' + ms.toString();
+  }
+  ////////////////////////////////////////////
+} // closing brace for the AppComponent class.
+
+////////////////////////////////////////////
+//// This code is also for debugging timing issues.
+function addItem(val: any) {
+  var node = document.createElement('li');
+  var textnode = document.createTextNode(val);
+  node.appendChild(textnode);
+  document.getElementById('output').appendChild(node);
 }
+////////////////////////////////////////////

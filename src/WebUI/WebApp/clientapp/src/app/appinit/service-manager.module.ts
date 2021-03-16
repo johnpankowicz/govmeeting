@@ -8,11 +8,16 @@ import { EditTranscriptServiceStub } from '../features/edittranscript/edittransc
 import { HttpClient } from "@angular/common/http";
 import { ErrorHandlingService } from "../common/error-handling/error-handling.service";
 import { AppData } from "../appdata";
+import { RegisterGovBodyService } from "../features/register-gov-body/register-gov-body.service";
+import { RegisterGovBodyServiceStub } from "../features/register-gov-body/register-gov-body.service-stub";
+import { RegisterGovBodyServiceReal } from "../features/register-gov-body/register-gov-body.service-real";
+import { GovbodyMapper } from "../models/govbody-mapper";
+import { GovbodyClient, GovLocationClient } from "../apis/api.generated.clients";
 
 // The factories need AppInitService to know if our web server is running
 // in order to select our services.
 
-// This is a service just used for testing ServiceManagerModule
+// This is a sample service factory for developing this module
 function myServiceFactory(
   appInitService: AppInitService,
   httpClient: HttpClient
@@ -28,8 +33,17 @@ export function editMeetingServiceFactory(
 ): EditTranscriptServiceReal | EditTranscriptServiceStub {
   return appInitService.isRunning ? new EditTranscriptServiceReal(httpClient, errHandling) :
     new EditTranscriptServiceStub(appData, httpClient, errHandling);
-//  return new EditTranscriptServiceStub(appData, httpClient, errHandling);
 }
+
+//export function RegisterGovBodyServiceFactory(
+//  appInitService: AppInitService,
+//  govbodyClient: GovbodyClient,
+//  govLocationClient: GovLocationClient
+//): RegisterGovBodyServiceReal | RegisterGovBodyServiceStub {
+//  return appInitService.isRunning ? new RegisterGovBodyServiceReal(govbodyClient, govLocationClient) :
+//    new RegisterGovBodyServiceStub();
+//}
+
 
 let isAspServerRunning = false; // Is the Asp.Net server running?
 const isBeta = false; // Is this the beta release version?
@@ -60,6 +74,11 @@ export class ServiceManagerModule {
           useFactory: editMeetingServiceFactory,
           deps: [AppInitService, AppData, HttpClient, ErrorHandlingService]
       }
+     //   , {
+     //     provide: RegisterGovBodyService,
+     //     useFactory: RegisterGovBodyServiceFactory,
+     //     deps: [AppInitService, GovbodyClient, GovLocationClient]
+     //   }
      ]
     };
   }

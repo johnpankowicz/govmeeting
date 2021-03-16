@@ -48,13 +48,13 @@ import { DemoMaterialModule } from './common/material';
 //import { AppInitModule } from './appinit/appinit.module';
 
 // services
-import { EditTranscriptServiceReal } from './features/edittranscript/edittranscript.service-real';
-import { EditTranscriptServiceStub } from './features/edittranscript/edittranscript.service-stub';
+//import { EditTranscriptServiceReal } from './features/edittranscript/edittranscript.service-real';
+//import { EditTranscriptServiceStub } from './features/edittranscript/edittranscript.service-stub';
 import { ViewTranscriptService } from './features/viewtranscript/viewtranscript.service';
 import { ViewTranscriptServiceStub } from './features/viewtranscript/viewtranscript.service-stub';
 import { ChatService } from './features/chat/chat.service';
 import { DataFactoryService } from './work_experiments/datafake/data-factory.service';
-import { RegisterGovBodyService } from './features/register-gov-body/register-gov-body.service';
+//import { RegisterGovBodyServiceReal } from './features/register-gov-body/register-gov-body.service-real';
 
 // Swagger API
 // import { ViewMeetingClient, EditMeetingClient, GovLocationClient, GovbodyClient } from './apis/swagger-api';
@@ -69,7 +69,9 @@ import { ShoutoutsComponent } from './work_experiments/shoutouts/shoutouts';
 
 ////////////////////////////////////
 import { AppInitService } from './appinit/appinit.service';
-import { ServiceManagerModule } from "./appinit/service-manager.module";
+import { ServiceManagerModule } from './appinit/service-manager.module';
+import { RegisterGovBodyServiceReal } from './features/register-gov-body/register-gov-body.service-real';
+import { RegisterGovBodyService } from './features/register-gov-body/register-gov-body.service';
 export function pingFactory(appInitService: AppInitService) {
   return () => appInitService.pingServer();
 }
@@ -111,8 +113,8 @@ let isAspServerRunning = false; // Is the Asp.Net server running?
     VirtualMeetingModule,
     HeaderModule,
     AmchartsModule,
-    FeaturesModule
-  //  AppInitModule,
+    FeaturesModule,
+    //  AppInitModule,
   ],
   declarations: [AppComponent, DashMainComponent, ShoutoutsComponent, PopupComponent, FetchDataComponent],
   exports: [
@@ -137,7 +139,7 @@ let isAspServerRunning = false; // Is the Asp.Net server running?
       provide: APP_INITIALIZER,
       useFactory: pingFactory,
       deps: [AppInitService],
-      multi: true
+      multi: true,
     },
     //{
     //  provide: AppData,
@@ -157,13 +159,13 @@ let isAspServerRunning = false; // Is the Asp.Net server running?
     //},
     {
       provide: ViewTranscriptService,
-      useClass: isAspServerRunning ? ViewTranscriptService: ViewTranscriptServiceStub
+      useClass: isAspServerRunning ? ViewTranscriptService : ViewTranscriptServiceStub,
       // useClass: useServer() ? ViewTranscriptService: ViewTranscriptServiceStub
       //  useClass: ViewTranscriptServiceStub,
     },
     {
-      provide: RegisterGovBodyService,
-      useClass: RegisterGovBodyService,
+      provide: RegisterGovBodyServiceReal,
+      useClass: RegisterGovBodyServiceReal,
       deps: [GovbodyClient, GovLocationClient],
     },
     ChatService,

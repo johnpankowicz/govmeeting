@@ -3,7 +3,6 @@ import { HttpClient } from "@angular/common/http";
 import { replaySubjectLog } from '../logger-service';
 
 let server = "https://localhost:44333/api/HealthCheck/Get";
-//let server = "https://localhost:44333/api/GovLocation/GetMyGovLocations";
 //let server = "http://no-such-web-server.org";
 //let server = "https://api.stackexchange.com/2.2/search?order=desc&sort=activity&intitle=perl&site=stackoverflow";
 
