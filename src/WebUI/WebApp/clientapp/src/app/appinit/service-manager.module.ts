@@ -35,14 +35,14 @@ export function editMeetingServiceFactory(
     new EditTranscriptServiceStub(appData, httpClient, errHandling);
 }
 
-//export function RegisterGovBodyServiceFactory(
-//  appInitService: AppInitService,
-//  govbodyClient: GovbodyClient,
-//  govLocationClient: GovLocationClient
-//): RegisterGovBodyServiceReal | RegisterGovBodyServiceStub {
-//  return appInitService.isRunning ? new RegisterGovBodyServiceReal(govbodyClient, govLocationClient) :
-//    new RegisterGovBodyServiceStub();
-//}
+export function RegisterGovBodyServiceFactory(
+  appInitService: AppInitService,
+  govbodyClient: GovbodyClient,
+  govLocationClient: GovLocationClient
+): RegisterGovBodyServiceReal | RegisterGovBodyServiceStub {
+//  return appInitService.isRunning ? new RegisterGovBodyServiceReal(govbodyClient, //govLocationClient) :
+return new RegisterGovBodyServiceStub();
+}
 
 
 let isAspServerRunning = false; // Is the Asp.Net server running?
@@ -74,11 +74,11 @@ export class ServiceManagerModule {
           useFactory: editMeetingServiceFactory,
           deps: [AppInitService, AppData, HttpClient, ErrorHandlingService]
       }
-     //   , {
-     //     provide: RegisterGovBodyService,
-     //     useFactory: RegisterGovBodyServiceFactory,
-     //     deps: [AppInitService, GovbodyClient, GovLocationClient]
-     //   }
+        , {
+          provide: RegisterGovBodyServiceReal,
+          useFactory: RegisterGovBodyServiceFactory,
+          deps: [AppInitService, GovbodyClient, GovLocationClient]
+        }
      ]
     };
   }

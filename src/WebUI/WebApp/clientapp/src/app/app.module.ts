@@ -163,11 +163,11 @@ let isAspServerRunning = false; // Is the Asp.Net server running?
       // useClass: useServer() ? ViewTranscriptService: ViewTranscriptServiceStub
       //  useClass: ViewTranscriptServiceStub,
     },
-    {
-      provide: RegisterGovBodyServiceReal,
-      useClass: RegisterGovBodyServiceReal,
-      deps: [GovbodyClient, GovLocationClient],
-    },
+    //{
+    //  provide: RegisterGovBodyServiceReal,
+    //  useClass: RegisterGovBodyServiceReal,
+    //  deps: [GovbodyClient, GovLocationClient],
+    //},
     ChatService,
     DataFactoryService,
     DataFakeService,
