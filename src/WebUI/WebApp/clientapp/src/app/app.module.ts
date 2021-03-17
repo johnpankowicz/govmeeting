@@ -154,12 +154,12 @@ let isAspServerRunning = false; // Is the Asp.Net server running?
     //  // useClass: useServer() ? EditTranscriptService : EditTranscriptServiceStub,
     //  //  useClass: EditTranscriptServiceStub,
     //},
-    {
-      provide: ViewTranscriptService,
-      useClass: isAspServerRunning ? ViewTranscriptService : ViewTranscriptServiceStub,
-      // useClass: useServer() ? ViewTranscriptService: ViewTranscriptServiceStub
-      //  useClass: ViewTranscriptServiceStub,
-    },
+    //{
+    //  provide: ViewTranscriptService,
+    //  useClass: isAspServerRunning ? ViewTranscriptService : ViewTranscriptServiceStub,
+    //  // useClass: useServer() ? ViewTranscriptService: ViewTranscriptServiceStub
+    //  //  useClass: ViewTranscriptServiceStub,
+    //},
     ChatService,
     DataFactoryService,
     DataFakeService,

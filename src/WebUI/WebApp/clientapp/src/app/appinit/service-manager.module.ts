@@ -13,6 +13,8 @@ import { RegisterGovBodyServiceStub } from '../features/register-gov-body/regist
 import { RegisterGovBodyServiceReal } from '../features/register-gov-body/register-gov-body.service-real';
 import { GovbodyMapper } from '../models/govbody-mapper';
 import { GovbodyClient, GovLocationClient } from '../apis/api.generated.clients';
+import { ViewTranscriptService } from '../features/viewtranscript/viewtranscript.service';
+import { ViewTranscriptServiceStub } from '../features/viewtranscript/viewtranscript.service-stub';
 
 // The factories need AppInitService to know if our web server is running
 // in order to select our services.
@@ -69,6 +71,12 @@ export class ServiceManagerModule {
           provide: EditTranscriptServiceReal,
           useFactory: editMeetingServiceFactory,
           deps: [AppInitService, AppData, HttpClient, ErrorHandlingService],
+        },
+        {
+          provide: ViewTranscriptService,
+          useClass: isAspServerRunning ? ViewTranscriptService : ViewTranscriptServiceStub,
+          // useClass: useServer() ? ViewTranscriptService: ViewTranscriptServiceStub
+          //  useClass: ViewTranscriptServiceStub,
         },
         {
           provide: RegisterGovBodyService,
