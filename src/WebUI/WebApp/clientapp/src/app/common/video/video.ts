@@ -17,7 +17,7 @@ class VideoSource {
 // https://www.npmjs.com/package/videogular2
 // https://videogular.github.io/videogular2/docs/getting-started/
 
-const NoLog = true; // set to false for console logging
+const NoLog = false; // set to false for console logging
 
 @Component({
   selector: 'gm-video',
@@ -27,7 +27,6 @@ const NoLog = true; // set to false for console logging
 export class VideoComponent {
   private ClassName: string = this.constructor.name + ': ';
 
-  videoService: VideoService;
   sources: Array<VideoSource>;
   // api: VgAPI;
   api: VgApiService;
@@ -40,33 +39,19 @@ export class VideoComponent {
 
   //constructor(private appData: AppData) {
   constructor(private appData: AppData, private _videoService: VideoService) {
-    //this.videoService = _videoService;
 
-    //let xxx = _videoService.getLocation();
-    //console.log("video service location = ", xxx);
+    NoLog || console.log(this.ClassName + 'constructor - AppData=', appData);
 
-    let location: string;
+    let location: string = _videoService.getLocation();
+    let fileBasename = _videoService.getFileBasename();
 
-    NoLog || console.log(this.ClassName + 'constructor');
-    NoLog || console.log(this.ClassName + 'AppData=', appData);
-    NoLog || console.log(this.ClassName + 'appData.isAspServerRunning=' + appData.isAspServerRunning);
-
-    // TODO - Use the server API to return the video. Until then we need to specify the full path of the video file.
-    // var location: string = 'api/video/3/1';  // This would be for MeetingID=3 Part=1
-
-    // If WebApp is running, use DATAFILES folder
-    location = 'datafiles/PROCESSING/USA_ME_LincolnCounty_BoothbayHarbor_Selectmen_en/2017-02-15/Edit/part01/';
-    let fileBasename = 'ToEdit';
-
-    // else use clientapp stubdata folder
-    if (!appData.isAspServerRunning) {
-      location = 'assets/stubdata/';
-      if (appData.isLargeEditData) {
-        location = 'assets/stubdata/LARGE/';
-        fileBasename = 'USA_NJ_Passaic_LittleFalls_TownshipCouncil_en_2020-06-20';
-      }
+    if (appData.isLargeEditData) {
+      location = 'assets/stubdata/LARGE/';
+      fileBasename = 'USA_NJ_Passaic_LittleFalls_TownshipCouncil_en_2020-06-20';
     }
+
     NoLog || console.log(this.ClassName + 'location=' + location);
+    NoLog || console.log(this.ClassName + 'fileBasename=' + fileBasename);
 
     this.sources = [
       {
@@ -74,7 +59,8 @@ export class VideoComponent {
         src: location + fileBasename + '.mp4',
         type: 'video/mp4',
       },
-      /*            // TODO - provide .ogg and .webm versions of the videos
+
+      /*   // TODO - provide .ogg and .webm versions of the videos
           {
             src: location + location + fileBasename + '.ogg',
             type: 'video/ogg'
@@ -83,7 +69,7 @@ export class VideoComponent {
             src: location + location + fileBasename + '.webm',
             type: 'video/webm'
           }
-*/
+      */
     ];
   }
 

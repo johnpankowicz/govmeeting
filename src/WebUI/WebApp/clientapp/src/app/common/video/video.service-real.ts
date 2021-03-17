@@ -3,6 +3,11 @@ import { VideoService } from './video.service';
 
 const NoLog = true; // set to false for console logging
 
+// TODO - Use the server API to return the video.
+// Until then we need to specify the full path of the video file.
+// var location: string = 'api/video/3/1';  // This would be for MeetingID=3 Part=1
+
+
 @Injectable()
 export class VideoServiceReal implements VideoService {
   private ClassName: string = this.constructor.name + ': ';
