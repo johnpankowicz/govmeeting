@@ -6,4 +6,5 @@ import { EditTranscript } from "../../models/edittranscript-view";
 @Injectable()
 export abstract class EditTranscriptService {
   abstract getTalks(): Observable<EditTranscript>;
+  abstract postChanges(addtags: EditTranscript);
 }

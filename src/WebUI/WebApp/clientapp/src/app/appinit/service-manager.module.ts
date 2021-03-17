@@ -18,6 +18,7 @@ import { ViewTranscriptServiceStub } from '../features/viewtranscript/viewtransc
 import { VideoService } from '../common/video/video.service';
 import { VideoServiceReal } from '../common/video/video.service-real';
 import { VideoServiceStub } from '../common/video/video.service-stub';
+import { EditTranscriptService } from '../features/edittranscript/edittranscript.service';
 
 // The factories need AppInitService to know if our web server is running
 // in order to select our services.
@@ -32,7 +33,7 @@ export function editMeetingServiceFactory(
   appData: AppData,
   httpClient: HttpClient,
   errHandling: ErrorHandlingService
-): EditTranscriptServiceReal | EditTranscriptServiceStub {
+): EditTranscriptService {
   return appInitService.isRunning
     ? new EditTranscriptServiceReal(httpClient, errHandling)
     : new EditTranscriptServiceStub(appData, httpClient, errHandling);
@@ -77,7 +78,7 @@ export class ServiceManagerModule {
           useValue: { isAspServerRunning, isBeta, isLargeEditData },
         },
         {
-          provide: EditTranscriptServiceReal,
+          provide: EditTranscriptService,
           useFactory: editMeetingServiceFactory,
           deps: [AppInitService, AppData, HttpClient, ErrorHandlingService],
         },
