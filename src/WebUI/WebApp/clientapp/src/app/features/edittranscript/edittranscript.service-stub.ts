@@ -6,6 +6,7 @@ import { EditTranscript, Talk, Word } from '../../models/edittranscript-view';
 import { EditTranscriptSample } from '../../models/sample-data/edittranscript-sample';
 import { ErrorHandlingService } from '../../common/error-handling/error-handling.service';
 import { AppData } from '../../appdata';
+import { EditTranscriptService } from './edittranscript.service';
 
 const UseImportData = false; // If true, get data from sample in EditTranscriptSample.ts, else from assets folder
 const urlTest = 'assets/stubdata/ToEdit.json';
@@ -15,7 +16,7 @@ const addtagsUrl = 'https://jsonplaceholder.typicode.com/posts'; // Use  jsonpla
 const NoLog = false; // set to false for console logging
 
 @Injectable()
-export class EditTranscriptServiceStub {
+export class EditTranscriptServiceStub implements EditTranscriptService {
   private ClassName: string = this.constructor.name + ': ';
   postId;
   observable: Observable<EditTranscript> = null;

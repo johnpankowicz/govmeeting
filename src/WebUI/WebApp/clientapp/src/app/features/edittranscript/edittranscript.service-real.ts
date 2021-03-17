@@ -7,11 +7,12 @@ import { catchError } from 'rxjs/operators';
 // import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { ErrorHandlingService } from '../../common/error-handling/error-handling.service';
 import { EditTranscript, Talk, Word } from '../../models/edittranscript-view';
+import { EditTranscriptService } from './edittranscript.service';
 
 const NoLog = true; // set to false for console logging
 
 @Injectable()
-export class EditTranscriptServiceReal {
+export class EditTranscriptServiceReal implements EditTranscriptService {
   private ClassName: string = this.constructor.name + ': ';
 
   private addtagsUrl = 'api/edittranscript';
