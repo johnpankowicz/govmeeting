@@ -64,8 +64,6 @@ export class ServiceManagerModule {
         {
           provide: AppData,
           useValue: { isAspServerRunning, isBeta, isLargeEditData },
-          // The window method works for reading config setting from index.html. We can define APP_DATA in index.html.
-          // useValue: window['APP_DATA']    // Get settings from html
         },
         {
           provide: EditTranscriptServiceReal,
@@ -74,9 +72,7 @@ export class ServiceManagerModule {
         },
         {
           provide: ViewTranscriptService,
-          useClass: isAspServerRunning ? ViewTranscriptService : ViewTranscriptServiceStub,
-          // useClass: useServer() ? ViewTranscriptService: ViewTranscriptServiceStub
-          //  useClass: ViewTranscriptServiceStub,
+          useClass: isAspServerRunning ? ViewTranscriptService : ViewTranscriptServiceStub
         },
         {
           provide: RegisterGovBodyService,

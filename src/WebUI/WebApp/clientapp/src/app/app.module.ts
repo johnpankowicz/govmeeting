@@ -17,7 +17,6 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AboutProjectModule } from './about-project/about-project.module';
 import { AppComponent } from './app.component';
-import { AppData } from './appdata';
 
 // dashboard
 import { DashboardModule } from './dashboard/dashboard.module';
@@ -45,18 +44,12 @@ import { SharedModule } from './common/common.module';
 import { ErrorHandlingService } from './common/error-handling/error-handling.service';
 import { UserSettingsService, UserSettings, LocationType } from './common/user-settings.service';
 import { DemoMaterialModule } from './common/material';
-//import { AppInitModule } from './appinit/appinit.module';
 
 // services
-//import { EditTranscriptServiceReal } from './features/edittranscript/edittranscript.service-real';
-//import { EditTranscriptServiceStub } from './features/edittranscript/edittranscript.service-stub';
-import { ViewTranscriptService } from './features/viewtranscript/viewtranscript.service';
-import { ViewTranscriptServiceStub } from './features/viewtranscript/viewtranscript.service-stub';
 import { ChatService } from './features/chat/chat.service';
 import { DataFactoryService } from './work_experiments/datafake/data-factory.service';
 
 // Swagger API
-// import { ViewMeetingClient, EditMeetingClient, GovLocationClient, GovbodyClient } from './apis/swagger-api';
 import { GovLocationClient, GovbodyClient } from './apis/api.generated.clients';
 
 // EXPERIMENTS
@@ -66,18 +59,13 @@ import { DataFakeService } from './work_experiments/datafake/data-fake.service';
 // import { ConfigService } from './work_experiments/configuration/config.service';
 import { ShoutoutsComponent } from './work_experiments/shoutouts/shoutouts';
 
-////////////////////////////////////
+///// Initialization service and ServiceManager Module
 import { AppInitService } from './appinit/appinit.service';
 import { ServiceManagerModule } from './appinit/service-manager.module';
 export function pingFactory(appInitService: AppInitService) {
   return () => appInitService.pingServer();
-}
-////////////////////////////////////
 
-//// const isAspServerRunning = AppInitService.isWebServerRunning();
-let isAspServerRunning = false; // Is the Asp.Net server running?
-//const isBeta = false; // Is this the beta release version?
-//const isLargeEditData = false; // Are we using the large data for EditTranscript? (Little Falls, etc.)
+}
 
 @NgModule({
   imports: [
@@ -138,36 +126,12 @@ let isAspServerRunning = false; // Is the Asp.Net server running?
       deps: [AppInitService],
       multi: true,
     },
-    //{
-    //  provide: AppData,
-    //  useValue: { isAspServerRunning, isBeta, isLargeEditData },
-    //  // The window method works for reading config setting from index.html. We can define APP_DATA in index.html.
-    //  // useValue: window['APP_DATA']    // Get settings from html
-    //},
-
-    // If you use the stubs for the following services, they will not call the Asp.Net server,
-    // but will instead return static data.
-
-    //{
-    //  provide: EditTranscriptServiceReal,
-    //  useClass: isAspServerRunning ? EditTranscriptServiceReal : EditTranscriptServiceStub,
-    //  // useClass: useServer() ? EditTranscriptService : EditTranscriptServiceStub,
-    //  //  useClass: EditTranscriptServiceStub,
-    //},
-    //{
-    //  provide: ViewTranscriptService,
-    //  useClass: isAspServerRunning ? ViewTranscriptService : ViewTranscriptServiceStub,
-    //  // useClass: useServer() ? ViewTranscriptService: ViewTranscriptServiceStub
-    //  //  useClass: ViewTranscriptServiceStub,
-    //},
     ChatService,
     DataFactoryService,
     DataFakeService,
     UserSettingsService,
 
     // Swagger API
-    // ViewMeetingClient,
-    // EditMeetingClient,
     GovLocationClient,
     GovbodyClient,
   ],
