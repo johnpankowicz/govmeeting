@@ -49,15 +49,12 @@ export function RegisterGovBodyServiceFactory(
     : new RegisterGovBodyServiceStub();
 }
 
-export function VideoServiceFactory(
-  appInitService: AppInitService,
-): VideoService {
+export function VideoServiceFactory(appInitService: AppInitService): VideoService {
   return appInitService.isRunning ? new VideoServiceReal() : new VideoServiceStub();
 }
 
-
 // TODO "isAspServerRunning" should be removed and we should reley only on what AppInitService finds.
-let isAspServerRunning = false; // Is the Asp.Net server running?
+const isAspServerRunning = false; // Is the Asp.Net server running?
 const isBeta = false; // Is this the beta release version?
 const isLargeEditData = false; // Are we using the large data for EditTranscript? (Little Falls, etc.)
 
@@ -84,7 +81,7 @@ export class ServiceManagerModule {
         },
         {
           provide: ViewTranscriptServiceReal,
-          useClass: isAspServerRunning ? ViewTranscriptServiceReal : ViewTranscriptServiceStub
+          useClass: isAspServerRunning ? ViewTranscriptServiceReal : ViewTranscriptServiceStub,
         },
         {
           provide: RegisterGovBodyService,
@@ -95,7 +92,7 @@ export class ServiceManagerModule {
           provide: VideoService,
           useFactory: VideoServiceFactory,
           deps: [AppInitService],
-        }
+        },
       ],
     };
   }

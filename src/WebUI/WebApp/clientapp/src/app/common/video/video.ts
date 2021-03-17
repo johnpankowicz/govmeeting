@@ -37,9 +37,8 @@ export class VideoComponent {
     // api.play();
   }
 
-  //constructor(private appData: AppData) {
+  // constructor(private appData: AppData) {
   constructor(private appData: AppData, private _videoService: VideoService) {
-
     NoLog || console.log(this.ClassName + 'constructor - AppData=', appData);
 
     let location: string = _videoService.getLocation();

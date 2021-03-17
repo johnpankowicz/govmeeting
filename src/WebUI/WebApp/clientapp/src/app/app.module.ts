@@ -67,7 +67,6 @@ import { VideoServiceStub } from './common/video/video.service-stub';
 import { VideoServiceReal } from './common/video/video.service-real';
 export function pingFactory(appInitService: AppInitService) {
   return () => appInitService.pingServer();
-
 }
 
 @NgModule({
@@ -119,7 +118,7 @@ export function pingFactory(appInitService: AppInitService) {
   ],
   providers: [
     ErrorHandlingService,
-    //AppData,
+    // AppData,
     // The APP_INITIALIZER runs before application start.
     // It checks if the server is running. ServiceManager uses its result
     // to decide whether to provide real or stub API services.
@@ -136,7 +135,7 @@ export function pingFactory(appInitService: AppInitService) {
 
     // Swagger API
     GovLocationClient,
-    GovbodyClient
+    GovbodyClient,
   ],
   bootstrap: [AppComponent],
 })

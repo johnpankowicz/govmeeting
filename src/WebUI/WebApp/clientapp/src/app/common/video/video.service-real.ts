@@ -7,16 +7,15 @@ const NoLog = true; // set to false for console logging
 // Until then we need to specify the full path of the video file.
 // var location: string = 'api/video/3/1';  // This would be for MeetingID=3 Part=1
 
-
 @Injectable()
 export class VideoServiceReal implements VideoService {
   private ClassName: string = this.constructor.name + ': ';
 
   getLocation(): string {
-    //throw new Error('Method not implemented.');
+    // throw new Error('Method not implemented.');
 
-    let location = 'datafiles/PROCESSING/USA_ME_LincolnCounty_BoothbayHarbor_Selectmen_en/2017-02-15/Edit/part01/';
-    let fileBasename = 'ToEdit';
+    const location = 'datafiles/PROCESSING/USA_ME_LincolnCounty_BoothbayHarbor_Selectmen_en/2017-02-15/Edit/part01/';
+    const fileBasename = 'ToEdit';
 
     NoLog || console.log(this.ClassName + 'location=' + location);
 
@@ -24,7 +23,7 @@ export class VideoServiceReal implements VideoService {
   }
 
   getFileBasename(): string {
-    let fileBasename = 'ToEdit';
+    const fileBasename = 'ToEdit';
     return fileBasename;
   }
 }

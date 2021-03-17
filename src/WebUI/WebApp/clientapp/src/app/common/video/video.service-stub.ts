@@ -8,27 +8,24 @@ export class VideoServiceStub implements VideoService {
   private ClassName: string = this.constructor.name + ': ';
 
   getLocation(): string {
-    //throw new Error('Method not implemented.');
+    // throw new Error('Method not implemented.');
 
-    let location = 'assets/stubdata/';
+    const location = 'assets/stubdata/';
 
-    //if (appData.isLargeEditData) {
+    // if (appData.isLargeEditData) {
     //  location = 'assets/stubdata/LARGE/';
-    //}
+    // }
 
     NoLog || console.log(this.ClassName + 'location=' + location);
-   return location;
-
+    return location;
   }
 
   getFileBasename() {
-
-    //if (appData.isLargeEditData) {
+    // if (appData.isLargeEditData) {
     //  fileBasename = 'USA_NJ_Passaic_LittleFalls_TownshipCouncil_en_2020-06-20';
-    //}
+    // }
 
-    let fileBasename = 'ToEdit';
+    const fileBasename = 'ToEdit';
     return fileBasename;
-
   }
 }
