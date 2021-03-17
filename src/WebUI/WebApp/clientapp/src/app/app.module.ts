@@ -54,7 +54,6 @@ import { ViewTranscriptService } from './features/viewtranscript/viewtranscript.
 import { ViewTranscriptServiceStub } from './features/viewtranscript/viewtranscript.service-stub';
 import { ChatService } from './features/chat/chat.service';
 import { DataFactoryService } from './work_experiments/datafake/data-factory.service';
-//import { RegisterGovBodyServiceReal } from './features/register-gov-body/register-gov-body.service-real';
 
 // Swagger API
 // import { ViewMeetingClient, EditMeetingClient, GovLocationClient, GovbodyClient } from './apis/swagger-api';
@@ -70,8 +69,6 @@ import { ShoutoutsComponent } from './work_experiments/shoutouts/shoutouts';
 ////////////////////////////////////
 import { AppInitService } from './appinit/appinit.service';
 import { ServiceManagerModule } from './appinit/service-manager.module';
-import { RegisterGovBodyServiceReal } from './features/register-gov-body/register-gov-body.service-real';
-import { RegisterGovBodyService } from './features/register-gov-body/register-gov-body.service';
 export function pingFactory(appInitService: AppInitService) {
   return () => appInitService.pingServer();
 }
@@ -163,11 +160,6 @@ let isAspServerRunning = false; // Is the Asp.Net server running?
       // useClass: useServer() ? ViewTranscriptService: ViewTranscriptServiceStub
       //  useClass: ViewTranscriptServiceStub,
     },
-    //{
-    //  provide: RegisterGovBodyServiceReal,
-    //  useClass: RegisterGovBodyServiceReal,
-    //  deps: [GovbodyClient, GovLocationClient],
-    //},
     ChatService,
     DataFactoryService,
     DataFakeService,
