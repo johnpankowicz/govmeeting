@@ -5,6 +5,7 @@ import { VgApiService } from '@videogular/ngx-videogular/core';
 import { Observable } from 'rxjs';
 import { timer } from 'rxjs/observable/timer';
 import { AppData } from '../../appdata';
+import { VideoService } from './video.service';
 
 class VideoSource {
   src: string;
@@ -25,6 +26,8 @@ const NoLog = true; // set to false for console logging
 })
 export class VideoComponent {
   private ClassName: string = this.constructor.name + ': ';
+
+  videoService: VideoService;
   sources: Array<VideoSource>;
   // api: VgAPI;
   api: VgApiService;
@@ -36,11 +39,18 @@ export class VideoComponent {
   }
 
   constructor(private appData: AppData) {
+  //constructor(private appData: AppData, private _videoService: VideoService) {
+    //this.videoService = _videoService;
+
+    //let xxx = _videoService.getLocation();
+    //console.log("video service location = ", xxx);
+
     let location: string;
 
     NoLog || console.log(this.ClassName + 'constructor');
     NoLog || console.log(this.ClassName + 'AppData=', appData);
     NoLog || console.log(this.ClassName + 'appData.isAspServerRunning=' + appData.isAspServerRunning);
+
     // TODO - Use the server API to return the video. Until then we need to specify the full path of the video file.
     // var location: string = 'api/video/3/1';  // This would be for MeetingID=3 Part=1
 

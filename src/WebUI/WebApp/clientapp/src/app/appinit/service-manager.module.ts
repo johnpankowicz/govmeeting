@@ -15,6 +15,9 @@ import { GovbodyMapper } from '../models/govbody-mapper';
 import { GovbodyClient, GovLocationClient } from '../apis/api.generated.clients';
 import { ViewTranscriptServiceReal } from '../features/viewtranscript/viewtranscript.service-real';
 import { ViewTranscriptServiceStub } from '../features/viewtranscript/viewtranscript.service-stub';
+import { VideoService } from '../common/video/video.service';
+import { VideoServiceReal } from '../common/video/video.service-real';
+import { VideoServiceStub } from '../common/video/video.service-stub';
 
 // The factories need AppInitService to know if our web server is running
 // in order to select our services.
@@ -39,13 +42,20 @@ export function RegisterGovBodyServiceFactory(
   appInitService: AppInitService,
   govbodyClient: GovbodyClient,
   govLocationClient: GovLocationClient
-//): RegisterGovBodyServiceReal | RegisterGovBodyServiceStub {
 ): RegisterGovBodyService {
   return appInitService.isRunning
     ? new RegisterGovBodyServiceReal(govbodyClient, govLocationClient)
     : new RegisterGovBodyServiceStub();
 }
 
+export function VideoServiceFactory(
+  appInitService: AppInitService,
+): VideoService {
+  return appInitService.isRunning ? new VideoServiceReal() : new VideoServiceStub();
+}
+
+
+// TODO "isAspServerRunning" should be removed and we should reley only on what AppInitService finds.
 let isAspServerRunning = false; // Is the Asp.Net server running?
 const isBeta = false; // Is this the beta release version?
 const isLargeEditData = false; // Are we using the large data for EditTranscript? (Little Falls, etc.)
@@ -80,6 +90,11 @@ export class ServiceManagerModule {
           useFactory: RegisterGovBodyServiceFactory,
           deps: [AppInitService, GovbodyClient, GovLocationClient],
         },
+        {
+          provide: VideoService,
+          useFactory: VideoServiceFactory,
+          deps: [],
+        }
       ],
     };
   }
