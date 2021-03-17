@@ -90,12 +90,12 @@ export class ServiceManagerModule {
           provide: RegisterGovBodyService,
           useFactory: RegisterGovBodyServiceFactory,
           deps: [AppInitService, GovbodyClient, GovLocationClient],
-        },
-        {
-          provide: VideoService,
-          useFactory: VideoServiceFactory,
-          deps: [],
         }
+      //  {
+      //    provide: VideoService,
+      //    useFactory: VideoServiceFactory,
+      //    deps: [],
+      //  }
       ],
     };
   }

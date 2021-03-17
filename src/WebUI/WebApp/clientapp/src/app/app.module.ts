@@ -62,6 +62,8 @@ import { ShoutoutsComponent } from './work_experiments/shoutouts/shoutouts';
 ///// Initialization service and ServiceManager Module
 import { AppInitService } from './appinit/appinit.service';
 import { ServiceManagerModule } from './appinit/service-manager.module';
+import { VideoService } from './common/video/video.service';
+import { VideoServiceStub } from './common/video/video.service-stub';
 export function pingFactory(appInitService: AppInitService) {
   return () => appInitService.pingServer();
 
@@ -134,6 +136,12 @@ export function pingFactory(appInitService: AppInitService) {
     // Swagger API
     GovLocationClient,
     GovbodyClient,
+    {
+      provide: VideoService,
+      useClass: VideoServiceStub,
+      deps: [],
+    }
+
   ],
   bootstrap: [AppComponent],
 })

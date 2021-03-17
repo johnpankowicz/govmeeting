@@ -38,8 +38,8 @@ export class VideoComponent {
     // api.play();
   }
 
-  constructor(private appData: AppData) {
-  //constructor(private appData: AppData, private _videoService: VideoService) {
+  //constructor(private appData: AppData) {
+  constructor(private appData: AppData, private _videoService: VideoService) {
     //this.videoService = _videoService;
 
     //let xxx = _videoService.getLocation();
