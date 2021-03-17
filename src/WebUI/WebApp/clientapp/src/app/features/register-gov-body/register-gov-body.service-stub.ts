@@ -48,8 +48,41 @@ export class RegisterGovBodyServiceStub implements RegisterGovBodyService {
   ]
 
   govbody: IGovbodyDetails_Vm[] = [
+    {
+      name: "Board of Selectmen",
+      parentLocationId: 8,
+      officials: [
+        { name: "Wendy Wolf", title: "Selectperson" },
+        { name: "Michael Tomko", title: "Chair" },
+        { name: "Denise Griffin ", title: "Councilman" },
+        { name: "Tricia Warren ", title: "Vice Chair" }
+       ],
+      officers: [
 
+        { name: "Charles Cuccia", title: "Township Administrator" },
+        { name: "Cynthia Kraus, RMC", title: "Township Clerk" },
+        { name: "Steven Post", title: "Chief of Police" },
+        { name: "Richard Hamilton", title: "Tax Assessor" },
+        { name: "James Di Maria", title: "Construction Official" },
+        { name: "Charles Cuccia", title: "CMFO/Treasurer" },
+        { name: "John E. Biegel III", title: "Health Officer" },
+        { name: "Ronald Campbell", title: "DPW Superintendent" }
+
+      ],
+      recordingsUrl: "www.youtube.com/xxxxx",
+      transcriptsUrl: "www.bbh.org/documents"
+    },
+    {
+      name: "Zoning Board",
+      parentLocationId: 8,
+      officials: [],
+      officers: [],
+      recordingsUrl: "",
+      transcriptsUrl: ""
+    }
   ]
+
+
 
   // get my locations
   public getMyGovLocations(): Observable<IGovLocation_Vm[]> {

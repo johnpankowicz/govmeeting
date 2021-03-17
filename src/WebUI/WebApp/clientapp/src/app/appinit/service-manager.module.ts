@@ -40,8 +40,9 @@ export function RegisterGovBodyServiceFactory(
   govbodyClient: GovbodyClient,
   govLocationClient: GovLocationClient
 ): RegisterGovBodyServiceReal | RegisterGovBodyServiceStub {
-//  return appInitService.isRunning ? new RegisterGovBodyServiceReal(govbodyClient, //govLocationClient) :
-return new RegisterGovBodyServiceStub();
+  return appInitService.isRunning ? new RegisterGovBodyServiceReal(govbodyClient, govLocationClient) :
+    new RegisterGovBodyServiceStub();
+//  return new RegisterGovBodyServiceReal(govbodyClient, govLocationClient);
 }
 
 
