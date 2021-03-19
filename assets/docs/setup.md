@@ -175,7 +175,7 @@ This standalone performs batch jobs such as downloading, processing and transcri
 ## Notes
 
 - The first time that the .NET projects are built, the NuGet packages are installed. If errors occur, re-run the build. NuGet packages are installed aysnchronously and there is a known race condition bug.
-- During development, ClientApp is served by webpack-dev-server. WebApp uses the Kestrel server for API calls. Kestrel proxies all non-API requests to webpack-dev-server.
+- During development, ClientApp is served by webpack-dev-server. WebApp API calls are served by the Kestrel server. Kestrel proxies all non-API requests to webpack-dev-server.
 
 ---
 
