@@ -50,3 +50,9 @@ jobs:
 
       - name: Cypress Tests
         run: npm run ci:cypress
+
+      # Use angular-cli-ghpages to deploy app
+      - name: Deploy to github pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.ALL_ACCESS_TOKEN }}
+        run: npm run deploy
