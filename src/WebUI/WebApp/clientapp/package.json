@@ -8,7 +8,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build:prod": "ng build --prod",
-    "deploy": "ng deploy --base-href=/govmeeting/ --name='John Pankowicz' --email='johnpankowicz@hotmail.com' --no-silent",
+    "deploy": "ng deploy --base-href=/govmeeting/ --no-silent",
     "prettier": "prettier src --check",
     "lint": "ng lint",
     "format": "run-s prettier lint",
