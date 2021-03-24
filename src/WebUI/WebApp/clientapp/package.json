@@ -8,7 +8,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build:prod": "ng build --prod",
-    "build:ghp": "ng build --prod --base-href /ghpages/",
+    "build:ghp": "ng build --prod --base-href /govmeeting/",
     "deploy": "ng deploy --base-href=/govmeeting/ --no-silent",
     "prettier": "prettier src --check",
     "lint": "ng lint",
