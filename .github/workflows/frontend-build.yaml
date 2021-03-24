@@ -57,7 +57,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
           branch: gh-pages # The branch the action should deploy to.
-          folder: dist # The folder the action should deploy.
+          folder: src/WebUI/WebApp/clientapp/dist # The folder the action should deploy.
 
 
       # Use angular-cli-ghpages to deploy app
