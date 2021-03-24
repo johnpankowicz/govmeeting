@@ -8,6 +8,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build:prod": "ng build --prod",
+    "build:ghp": "ng build --prod --base-href /ghpages/",
     "deploy": "ng deploy --base-href=/govmeeting/ --no-silent",
     "prettier": "prettier src --check",
     "lint": "ng lint",
@@ -22,7 +23,7 @@
     "protractor": "ng e2e",
     "ci:test": "ng test --sourceMap=false --browsers=ChromeHeadless --watch=false",
     "ci:format": "run-s prettier lint",
-    "ci:build": "run-s clean build:prod",
+    "ci:build": "run-s clean build:ghp",
     "ci:cypress": "start-server-and-test ci:start-server 4200 cypress",
     "ci:start-server": "angular-http-server --path ./dist -p 4200"
   },

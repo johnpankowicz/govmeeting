@@ -2,9 +2,11 @@ name: Build frontend
 
 on:
   push:
-    paths: ["src/WebUI/WebApp/clientapp/**", ".github/workflows/frontend-build.yaml"]
+    paths:
+      ["src/WebUI/WebApp/clientapp/**", ".github/workflows/frontend-build.yaml"]
   pull_request:
-    paths: ["src/WebUI/WebApp/clientapp/**", ".github/workflows/frontend-build.yaml"]
+    paths:
+      ["src/WebUI/WebApp/clientapp/**", ".github/workflows/frontend-build.yaml"]
 
 defaults:
   run:
@@ -14,7 +16,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     # Build master for Govmeeting owner. But all but master for others.
-    if: (github.repository_owner == 'Govmeeting' && github.ref == 'refs/heads/master') || (github.repository_owner != 'Govmeeting' && github.ref != 'refs/heads/master') 
+    if: (github.repository_owner == 'Govmeeting' && github.ref == 'refs/heads/master') || (github.repository_owner != 'Govmeeting' && github.ref != 'refs/heads/master')
 
     strategy:
       matrix:
@@ -45,17 +47,24 @@ jobs:
       #- name: Unit Tests
       #  run: npm run ci:test
 
-      #- name: Clean Build
-      #  run: npm run ci:build
+      - name: Clean Build
+        run: npm run ci:build
 
       #- name: Cypress Tests
       #  run: npm run ci:cypress
 
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: dist # The folder the action should deploy.
+
+
       # Use angular-cli-ghpages to deploy app
-      - name: Deploy to github pages
-        #env:
-        #  GITHUB_TOKEN: ${{secrets.ALL_ACCESS_TOKEN}}
-        run:
-            git config --global user.name {{secrets.USERNAME}};
-            git config --global user.email {{secrets.EMAIL}};
-            npm run deploy
+      # - name: Deploy to github pages
+      #env:
+      #  GITHUB_TOKEN: ${{secrets.ALL_ACCESS_TOKEN}}
+      # run:
+      # git config --global user.name {{secrets.USERNAME}};
+      # git config --global user.email {{secrets.EMAIL}};
+      # npm run deploy
